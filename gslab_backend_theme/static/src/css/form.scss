@@ -1,0 +1,68 @@
+.o_form_view {
+    @mixin o-form-sheet-negative-margin() {
+        margin-left: -$o-horizontal-padding;
+        margin-right: -$o-horizontal-padding;
+        margin-top: -#{$o-horizontal-padding + 1};
+    }
+
+    .o_form_uri {
+        color: $link-color !important;
+
+        &:hover {
+            color: darken($link-color, 15%) !important;
+        }
+
+        >span {
+            color: $o-main-text-color !important;
+
+            &:hover {
+                color: $o-main-text-color !important;
+            }
+        }
+
+        >span:first-child {
+            color: $link-color !important;
+
+            &:hover {
+                color: darken($link-color, 15%) !important;
+            }
+        }
+    }
+
+    .oe_button_box {
+        .o_stat_info .o_stat_value {
+            color: $o-brand-odoo !important;
+        }
+    }
+
+    .o_notebook .tab-content>.tab-pane {
+        padding: 0px 0px !important;
+    }
+}
+
+// Kanban Record - Utility classes
+.oe_kanban_global_click,
+.oe_kanban_global_click_edit {
+
+    &:focus,
+    &:focus-within {
+        outline: thin solid mix($o-brand-odoo, gray("400")) !important;
+    }
+}
+
+
+@media (max-width: 575.98px) {
+    .modal.o_technical_modal.o_modal_full .modal-dialog .modal-content .modal-header {
+        background: $o-brand-primary;
+    }
+}
+
+div.o_boolean_toggle.custom-control.custom-checkbox {
+
+    >input.custom-control-input:checked+label.custom-control-label {
+        &::before {
+            background-color: $o-brand-primary !important;
+            border-color: $o-brand-primary !important;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+// Listview
+.table-responsive {
+  overflow-x: initial;
+
+  .o_list_view {
+    // th & td are here for compatibility with chrome
+    thead,
+    thead tr:nth-child(1) th {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    thead tr:nth-child(1) th {
+      background-color: white;
+    }
+
+    thead tr:nth-child(1) th:hover {
+      background-color: $o-list-footer-bg-color-lighter;
+    }
+
+    tfoot,
+    tfoot tr:nth-child(1) td {
+      font-weight: bold;
+      position: sticky;
+      bottom: 0;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    tfoot tr:nth-child(1) td {
+      background-color: white;
+    }
+  }
+
+  .o_list_view.table {
+    border: none;
+  }
+
+  .o_list_view.table th {
+    border: none;
+  }
+}
+
+.o_purchase_dashboard .table > thead,
+.o_purchase_dashboard .table tbody {
+  > tr > td {
+    background-color: $o-list-footer-bg-color-lighter;
+
+    &.o_main {
+      background-color: $o-brand-primary;
+      &:hover {
+        background-color: $o-brand-primary-dark;
+      }
+    }
+  }
+}
+
+.o_cp_bottom_left {
+  min-width: 200px !important;
+}
