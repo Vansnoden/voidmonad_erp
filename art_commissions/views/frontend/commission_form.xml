@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    
+    <template id="commission_request_form" name="Commission Request Form">
+        <t t-call="website.layout">
+            <div class="container m-auto py-3">
+            This is the commission request form -- <t t-esc="data"/>
+            </div>
+        </t>
+    </template>
 
 </odoo>
