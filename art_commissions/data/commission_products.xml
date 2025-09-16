@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fanart_product" model="product.template">
+        <field name="name">Fan Art</field>
+        <field name="detailed_type">service</field>
+        <field name="list_price">20</field>
+    </record>
+
+    <record id="original_product" model="product.template">
+        <field name="name">Original Art</field>
+        <field name="detailed_type">service</field>
+        <field name="list_price">50</field>
+    </record>
+
+</odoo>

@@ -27,7 +27,9 @@
         'security/ir.model.access.csv',
         'views/backend/commission_views.xml',
         'views/backend/menu.xml',
-        'views/frontend/commission_form.xml'
+        'views/frontend/commission_form.xml',
+        'data/commission_products.xml',
+        'data/commission_sequence.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

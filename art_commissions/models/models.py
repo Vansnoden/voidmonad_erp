@@ -29,16 +29,34 @@ class Commission(models.Model):
     sketch_start_date = fields.Datetime("Sketch started on")
     rendering_start_date = fields.Datetime("Rendering started on")
     completion_date = fields.Datetime("Completed on")
-    product_id = fields.Many2one("product.product", "Related Product", required=True)
-    order_id = fields.Many2one("sale.order", "Related Order", required=True)
+    product_id = fields.Many2one("product.template", "Related Product", required=True)
+    order_id = fields.Many2one("sale.order", "Related Order", ondelete="cascade")
 
+    
+    def unlink(self):
+        for rec in self:
+            # delete related attachments too
+            rec.reference_ids.unlink()
+        return super().unlink()
 
     @api.model
     def create(self, vals):
         if vals.get('code', 'New') == 'New':
             vals['code'] = self.env['ir.sequence'].next_by_code('art.commission') or 'New'
-        result = super(Commission, self).create(vals)
-        return result
+        rec = super(Commission, self).create(vals)
+        product = rec.product_id
+        partner = rec.client_id
+        if partner and product:
+            order = self.env['sale.order'].create({
+                'partner_id': partner.id,
+                'order_line': [(0, 0, {
+                    'product_id': product.product_variant_id.id, 
+                    'product_uom_qty': 1,
+                    'price_unit': product.list_price,
+                })]
+            })
+            rec.order_id = order.id
+        return rec
     
 
     def action_accept(self):

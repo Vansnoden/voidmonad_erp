@@ -3,8 +3,50 @@
 
     <template id="commission_request_form" name="Commission Request Form">
         <t t-call="website.layout">
-            <div class="container m-auto py-3">
-            This is the commission request form -- <t t-esc="data"/>
+            <div class="row p-4">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    
+                </div>
+                <div class="col-md-8 col-sm-6 col-xs-12 border-left">
+                    <form action="/commission/submit" method="post" class="p-4" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="form-group">
+                            <label class="mr-2">What type of commission are you looking for ?</label>
+                            <label for="fanart" class="ml-3" > 
+                                Fan Art <input type="radio" id="fanart" name="category" value="fanart" required="true"/> 
+                            </label>
+                            <label for="original" class="ml-3" > 
+                                Original Art <input type="radio" id="original" name="category" value="original"/> 
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-2">Describe your request here:</label>
+                            <textarea rows="5" cols="50" class="form-control" name="description" required="true"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="mr-2">
+                                Do you have any references picture that could help
+                                in realizing your vision ? (upload them here)
+                            </label>
+                            <input type="file" 
+                                class="form-control" name="images[]" 
+                                accept="image/png, image/jpeg" multiple="True"/>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end align-items-center mt-3 border-top py-2">
+                            <button type="submit" class="btn btn-success mr-3">Submit</button>
+                            <button type="cancel" class="btn btn-warning">Cancel</button>
+                        </div>
+                        <div t-if="success" class="mt-4 alert alert-success" role="alert">
+                            Thank you for your submission, your request has been received successfully.
+                        </div>
+                        <div t-if="error" class="mt-4 alert alert-danger" role="alert">
+                            Sorry, an error occurred: 
+                            <p>
+                                <t t-esc="error"/>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </t>
     </template>

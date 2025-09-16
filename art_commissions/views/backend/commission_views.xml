@@ -38,8 +38,8 @@
           <group>
             <group cols="6">
               <field name="code" readonly="1"/>
-              <field name="client_id" />
-              <field name="category" />
+              <field name="client_id" readonly="1"/>
+              <field name="category" readonly="1" />
             </group>
             <group cols="6">
               <field name="accept_date" readonly="1"/>
@@ -49,18 +49,18 @@
             </group>
           </group>
           <notebook>
-            <page name="description" string="Description">
+            <page name="description" string="Description" readonly="1">
               <group>
                 <field name="description" />
               </group>
             </page>
             <page name="references" string="References">
-              <field name="reference_ids" />
+              <field name="reference_ids" readonly="1"/>
             </page>
             <page name="payment" string="Payment">
               <group>
-                <field name="product_id" />
-                <field name="order_id" />
+                <field name="product_id" readonly="1"/>
+                <field name="order_id" readonly="1"/>
               </group>
             </page>
           </notebook>
@@ -75,10 +75,11 @@
     <field name="name">Art Commissions Tree</field>
     <field name="model">art.commission</field>
     <field name="arch" type="xml">
-      <tree>
+      <tree default_order="create_date desc">
         <field name="code" />
         <field name="client_id" />
         <field name="status" />
+        <field name="order_id" />
       </tree>
     </field>
   </record>
