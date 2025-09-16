@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <menuitem
+    id="art_commission_root_menu"
+    name="Art Commissions"
+    web_icon="art_commissions,static/description/icon.png"
+    sequence="10"/>
+
+  <menuitem
+    id="all_commissions_menu"
+    name="Commissions"
+    action="art_commission_action"
+    parent="art_commission_root_menu"
+    sequence="1"/>
+
+</odoo>

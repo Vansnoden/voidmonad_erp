@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- art.commission form view -->
+  <record id="art_commission_view_form" model="ir.ui.view">
+    <field name="name">Art Commission Form</field>
+    <field name="model">art.commission</field>
+    <field name="arch" type="xml">
+      <form string="">
+        <header>
+          <button string="Accept"
+                  name="action_accept"
+                  type="object"
+                  confirm="Are you sure you want to do this?"
+                  class="oe_highlight"
+                  attrs="{'invisible':[('status','!=','submitted')]}"/>
+          <button string="Start Sketching"
+                  name="action_start_sketching"
+                  confirm="Are you sure you want to do this?"
+                  type="object"
+                  class="oe_highlight"
+                  attrs="{'invisible':[('status','!=','accepted')]}"/>
+          <button string="Start Rendering"
+                  name="action_start_rendering"
+                  type="object"
+                  class="oe_highlight"
+                  confirm="Are you sure you want to do this?"
+                  attrs="{'invisible':[('status','!=','sketching')]}"/>
+          <button string="Complete"
+                  name="action_complete_commission"
+                  type="object"
+                  class="oe_highlight"
+                  confirm="Are you sure you want to do this?"
+                  attrs="{'invisible':[('status','!=','rendering')]}"/>          
+          <field name="status" widget="statusbar" statusbar_visible=" "/>
+        </header>
+        <sheet>
+          <group>
+            <group cols="6">
+              <field name="code" readonly="1"/>
+              <field name="client_id" />
+              <field name="category" />
+            </group>
+            <group cols="6">
+              <field name="accept_date" readonly="1"/>
+              <field name="sketch_start_date" readonly="1"/>
+              <field name="rendering_start_date" readonly="1"/>
+              <field name="completion_date" readonly="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="description" string="Description">
+              <group>
+                <field name="description" />
+              </group>
+            </page>
+            <page name="references" string="References">
+              <field name="reference_ids" />
+            </page>
+            <page name="payment" string="Payment">
+              <group>
+                <field name="product_id" />
+                <field name="order_id" />
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+  <!-- art.commission tree view -->
+  <record id="art_commission_view_tree" model="ir.ui.view">
+    <field name="name">Art Commissions Tree</field>
+    <field name="model">art.commission</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="code" />
+        <field name="client_id" />
+        <field name="status" />
+      </tree>
+    </field>
+  </record>
+
+
+  <!-- art.commission action window -->
+  <record id="art_commission_action" model="ir.actions.act_window">
+    <field name="name">Art Commissions</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">art.commission</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+
+</odoo>
