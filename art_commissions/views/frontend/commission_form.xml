@@ -3,9 +3,18 @@
 
     <template id="commission_request_form" name="Commission Request Form">
         <t t-call="website.layout">
-            <div class="row p-4">
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    
+            <div class="row p-0">
+                <div class="d-flex flex-column justify-content-center align-items-center 
+                    col-md-4 col-sm-6 col-xs-12 bg-primary p-4 text-justify" style="min-height:60vh">
+                    <h1 class="text-center mb-4">Commission request Submission</h1>
+                    <p class="mt-2 p-4">
+                        Welcome to the commission submission page. <br/>
+                        Here you can submit your project requests for review and processing. <br/>
+                        Before proceeding, please take a moment to consult the submission policy 
+                        (<a href="/commission-policy" target="_blank"> <i class="fa fa-link"></i> here </a>.), 
+                        which outlines the requirements, guidelines, and conditions for acceptance. <br/>
+                        This will help ensure that your request is complete and can be handled smoothly.
+                    </p>
                 </div>
                 <div class="col-md-8 col-sm-6 col-xs-12 border-left">
                     <form action="/commission/submit" method="post" class="p-4" enctype="multipart/form-data">
@@ -20,13 +29,13 @@
                             </label>
                         </div>
                         <div class="form-group">
-                            <label class="mr-2">Describe your request here:</label>
+                            <label class="mr-2">Describe your request bellow:</label>
                             <textarea rows="5" cols="50" class="form-control" name="description" required="true"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="mr-2">
                                 Do you have any references picture that could help
-                                in realizing your vision ? (upload them here)
+                                in realizing your vision ? (upload them bellow)
                             </label>
                             <input type="file" 
                                 class="form-control" name="images[]" 
