@@ -22,7 +22,7 @@ class ArtCommissionsController(http.Controller):
                     'client_id': client.id,
                     'category': category,
                     'description': description,   
-                    'status': 'draft', # become submitted only when the user pays 50 % of the amount
+                    'status': 'submitted',
                     'product_id': product.id
                 })
                 uploaded_files = request.httprequest.files.getlist('images[]')
@@ -42,9 +42,19 @@ class ArtCommissionsController(http.Controller):
                     new_commission.sudo().write({
                         "reference_ids": [(4, attachment_rec.id)]
                     })
-                return request.render("art_commissions.commission_request_form", {
-                    "success": True
-                })
+                # confirm sale order:
+                new_commission.order_id.sudo().action_confirm()
+                # create invoices:
+                invoice = new_commission.order_id.sudo()._create_invoices()
+                # confirm invoice:
+                invoice.action_post()
+                # get payment url:
+                payment_url = invoice.get_portal_url()
+                new_commission.action_acknowledge_commission_request_receipt()
+                return request.redirect(f"{payment_url}")
+                # return request.render("art_commissions.commission_request_form", {
+                #     "success": True
+                # })
             except Exception as e:
                 print("EXCEPTION: ", e)
                 return request.render("art_commissions.commission_request_form", {

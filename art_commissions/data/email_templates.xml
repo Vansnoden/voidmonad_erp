@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+
+		<record id="commission_request_acknowledgment" model="mail.template">
+            <field name="name">Commission Request Acknowledgment</field>
+            <field name="model_id" ref="art_commissions.model_art_commission"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.client_id.email}}</field>
+            <field name="subject">Your Commission Request: #{{object.code}}</field>
+            <field name="body_html" type="html">
+            	<div>
+            		Dear <t t-out="object.client_id.name"/>,<br/>
+
+            		Thank you for you commission request to the voidmonad platform.
+                    Your commission will be treated promptly and your will be notified at
+                    each stages. Commissions usually takes 1 -to 5 days to be completed.
+                    <br/>
+                    <br/>
+                    Commission Number: <t t-out="object.code"/>
+                    <br/>
+                    
+                    <p style="font-size:0.75rem">
+                        Regards,
+                        <br/>
+                        <br/>
+                        Monad Admin<br/>
+                    </p>
+                    <p style="font-size:11px">
+                        This communication is strictly for the intended recipient and contains confidential information; unauthorized duplication is forbidden. 
+                        The content may reflect the sender's personal opinions, which do not necessarily align with those of Monad Wordls .Inc 
+                        Consequently, Monad Wordls .Inc cannot be held responsible for any damages resulting from the accuracy of the information provided, 
+                        unless explicitly stated otherwise. If this message has reached you by mistake, please inform us at once and delete the original message.
+                        <br/>
+                    </p>
+            	</div>
+            </field>
+            <field name="lang">${object.client_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+	</data>
+
+</odoo>

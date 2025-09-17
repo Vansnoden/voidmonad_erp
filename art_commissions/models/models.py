@@ -86,6 +86,11 @@ class Commission(models.Model):
             # TODO: add email notification and background processes
             rec.completion_date = datetime.now()
 
+    
+    def action_acknowledge_commission_request_receipt(self):
+        commission_request_acknowledgment_template = self.env.ref('art_commissions.commission_request_acknowledgment')
+        commission_request_acknowledgment_template.send_mail(self.id, force_send=True)
+
 
 
 

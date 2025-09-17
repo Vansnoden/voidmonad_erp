@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['sale_management', 'website'],
+    'depends': ['sale_management', 'website', 'payment', 'website_sale'],
 
     # always loaded
     'data': [
@@ -29,7 +29,8 @@
         'views/backend/menu.xml',
         'views/frontend/commission_form.xml',
         'data/commission_products.xml',
-        'data/commission_sequence.xml'
+        'data/commission_sequence.xml',
+        'data/email_templates.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
