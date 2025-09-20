@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="review_comments_template" name="Review Comments">
+        <t t-call="web.html_container">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+            <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"/>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+            <t t-set="base_url" t-value="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <style>
+                        :root {
+                            --primary: rgb(223, 76, 46);
+                            --primary-light: rgb(253, 70, 38);
+                            --primary-dark: rgb(181, 61, 39);
+                            --secondary: rgb(8, 3, 4);
+                            --secondary-dark: rgb(8, 3, 4);
+                            --secondary-light: rgb(184, 184, 184);
+                            --accent: rgb(255,255,255);
+                            --default: rgb(211, 211, 212);
+                        }
+
+                        .text-primary{
+                            color: rgb(223, 76, 46)!important;
+                        }
+
+                        .mtable{
+                            min-width: 100%!important;
+                        }
+
+                        .mtable tr{
+                            border: 1px solid rgb(8, 3, 4)!important;
+                        }
+
+                        .mtable td{
+                            border: 1px solid rgb(8, 3, 4)!important;
+                        }
+
+                        .mtable th{
+                            border: 1px solid rgb(8, 3, 4)!important;
+                            background-color: lightgrey!important;
+                        }
+
+                        .nav-item, .btn, .form-control, .nav-link, .nav-tabs{
+                            border-radius: 0px!important;
+                        }
+
+                        .nav-link{
+                            text-decoration: none!important;
+                            font-weight: bolder;
+                            color: rgb(223, 76, 46);
+                        }
+
+                        .nav-link:hover{
+                            color: rgb(223, 76, 46);  
+                        }
+
+                        .pdf-ctn{
+                            .header{
+                                background: rgb(223, 76, 46)!important;
+                                font-weight: 900;
+                                font-size: 1.1rem;
+                                color: #fff;
+                            }
+                        }
+                    </style>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container p-0">
+                                <div class="" style="margin-top:-200px!important">
+                                    <div class="row p-0">
+                                        <div class="col-md-4 col-sm-12">
+                                            <h1 class="text-primary">
+                                                <strong>Review Summary: <t t-esc="o.code"/>
+                                                </strong>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-0">
+                                    <div class="m-auto">
+                                        <t t-foreach="o.assignments_ids" t-as="assignment">
+                                            <div style="border-left: 1px solid grey; margin-bottom:50px; padding-left:1.5em">
+                                                <t t-if="assignment.allow_me_to_author">
+                                                    <b>
+                                                        Reviewer: <t t-esc="assignment.reviewer_id.name"/>
+                                                    </b>
+                                                </t>
+                                                <t t-else="">
+                                                    <b>
+                                                        Reviewer: #<t t-esc="assignment_index + 1"/>
+                                                    </b>
+                                                </t>
+                                                
+                                                <br/>
+                                                <span>Decision : <b><t t-esc="assignment.decision"/></b></span>
+                                                <br/>
+                                                <span>Changes : <b><t t-esc="assignment.comment_severity"/></b></span>
+                                                <br/>
+                                                <div>
+                                                    <span>General comment:</span><br/>
+                                                    <p>
+                                                        <t t-esc="o.html_to_text(assignment.general_comment)"/>
+                                                    </p>
+                                                </div>
+                                                <div class="marks">
+                                                    <span>Marks:</span>
+                                                    <table class="table  mtable">
+                                                    <tr>
+                                                        <th>
+                                                            <label>English flow</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.english_flow"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label>Statistic</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.statistic"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label>Scientific rigor</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.scientific_rigor"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label>Impact and relevance</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.impact_relevance"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label>Structure &amp; content</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.structure_and_content"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            <label>References</label>
+                                                        </th>
+                                                        <td>
+                                                            <span t-out="assignment.references"/>
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="container p-0" style="margin-top:200px">
+                                <div class="" style="margin-top:-200px!important">
+                                    <div class="row p-0">
+                                        <div class="col-md-4 col-sm-12">
+                                            <h4 class="text-primary">
+                                                <strong>About marks</strong>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-0">
+                                    <div class="m-auto">
+                                        <p>
+                                            <b>English flow</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Clarity and Coherence (0-20): How logically structured and coherent is the narrative?
+                                                </li>
+                                                <li>
+                                                    Grammar and Syntax (0-20): Are there grammatical or syntactical errors?
+                                                </li>
+                                                <li>
+                                                    Vocabulary and Style (0-30): Is the vocabulary appropriate and the style consistent?
+                                                </li>
+                                                <li>
+                                                    Vocabulary and Style (0-30): Is the vocabulary appropriate and the style consistent? 
+                                                </li>
+                                                <li>
+                                                    Engagement and Readability (0-30): Is the manuscript engaging and well-paced?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            <b>Statistic</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Relevance and Appropriateness (0-25): Are the statistical methods suitable for the research question?
+                                                </li>
+                                                <li>
+                                                    Accuracy and Precision (0-25): Are the statistical calculations correct and precise?
+                                                </li>
+                                                <li>
+                                                    Data Presentation (0-25): Are the data and findings presented clearly and accurately?
+                                                </li>
+                                                <li>
+                                                    Interpretation and Discussion (0-25): Are the statistical results interpreted correctly and discussed appropriately?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            <b>Scientific rigor</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Originality (0-25): Does the manuscript contribute new insights or findings?
+                                                </li>
+                                                <li>
+                                                    Methodology (0-25): Is the research design and methodology robust and well-explained?
+                                                </li>
+                                                <li>
+                                                    Validity (0-25): Is the study design sound and free from biases?
+                                                </li>
+                                                <li>
+                                                    Ethical Considerations (0-25): Are there any ethical issues, and are they addressed?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            <b>Impact and relevance</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Significance (0-50): What is the potential impact of the findings on the field?
+                                                </li>
+                                                <li>
+                                                    Audience (0-50): Is the manuscript of interest to the journal's readership?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            <b>Structure &amp; content</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Abstract and Keywords (0-20): Are the abstract and keywords effective and accurate?
+                                                </li>
+                                                <li>
+                                                    Introduction (0-20): Is the problem statement and study's significance clear?
+                                                </li>
+                                                <li>
+                                                    Results (0-30): Are the results presented clearly and supported by data? 
+                                                </li>
+                                                <li>
+                                                    Discussion and Conclusion (0-30): Do the discussion and conclusion effectively interpret the results and summarize the findings?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <p>
+                                            <b>References</b><br/>
+                                            <ul>
+                                                <li>
+                                                    Accuracy and Currency (0-50): Are the references accurate, relevant, and up-to-date?
+                                                </li>
+                                                <li>
+                                                    Comprehensiveness (0-50): Does the reference list comprehensively cover related work?
+                                                </li>
+                                            </ul>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

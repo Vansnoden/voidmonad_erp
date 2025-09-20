@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_article_revision_view_form" model="ir.ui.view">
+        <field name="name">ojm_article_revision.view.form</field>
+        <field name="model">ojm.article.revision</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="code" readonly="1"/>
+                        <field name="title" readonly="1"/>
+                        <field name="article_id" readonly="1"/>
+                        <field name="file_id" />
+                        <field name="submitted_on" />
+                    </group>
+                    <notebook>
+                        <!-- <page name="description" string="Description">
+                            <field name="description" />
+                        </page> -->
+                        <page name="author_report" string="Author report">
+                            <field name="author_report" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_article_revision_view_tree" model="ir.ui.view">
+        <field name="name">ojm_article_revision.view.tree</field>
+        <field name="model">ojm.article.revision</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="code" />
+                <field name="article_id" />
+                <field name="title" />
+                <field name="state" />
+                <field name="submitted_on" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_article_revision_action" model="ir.actions.act_window">
+        <field name="name">Revisions</field>
+        <field name="res_model">ojm.article.revision</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

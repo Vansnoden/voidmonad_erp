@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="author_home" name="OJM Author Home">
+        <t t-set="author_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+            <!-- Preloader -->
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="company-logo-section d-flex flex-column justify-content-center align-items-center py-3">
+                            <img t-attf-src="data:;base64,{{company.logo}}" alt="company logo"
+                                class="p-1 img-circle elevation-0 bg-white" style="opacity: .8"/>
+                            <h3 class="mt-3 text-capitalize">How can we help you today?</h3>
+                        </div>
+                        <div class="">
+                            <!-- <div
+                                class="card-header d-flex flex-row justify-content-between align-items-center">
+                                <a class="btn btn-success"
+                                    t-attf-href='/ojm/{{journal.id}}/submission/step1'>
+                                    Submit new manuscript
+                                </a>
+                            </div> -->
+                            <!-- <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                                <h4>Author's portal</h4>
+                            </div> -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12 phome_card">
+                                        <div class="card card-default color-palette-box">
+
+                                            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                                                <h3 class="card-title text-bold text-alpha">
+                                                    <i class="fas fa-tag mr-3 mm-icon"></i> 
+                                                    New Submissions
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/submission/step1" class="active">
+                                                            <span class="info-box-text">Submit new manuscript</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/btauthor" t-att-class="'active' if len(submissions_sent_back_to_author) > 0 else ''">
+                                                            <span class="info-box-text">Submissions sent back to
+                                                                author</span>
+                                                            <span class="info-box-number">
+                                                                [ <t t-esc='len(submissions_sent_back_to_author)'/> ]
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/insubmissions" t-att-class="'active' if len(submissions_incomplete) > 0 else ''">
+                                                            <span class="info-box-text">Incomplete submissions</span>
+                                                            <span class="info-box-number">
+                                                                [ <t t-esc='len(submissions_incomplete)'/> ]
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/saved" t-att-class="'active' if len(submissions_saved) > 0 else ''">
+                                                            <span class="info-box-text">Submissions saved for later</span>
+                                                            <span class="info-box-number">
+                                                                [ <t t-esc='len(submissions_saved)'/> ]
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/inprocess" t-att-class="'active' if len(submissions_in_process) > 0 else ''">
+                                                            <span class="info-box-text">Submissions being
+                                                                processed</span>
+                                                            <span class="info-box-number">
+                                                                [ <t t-esc='len(submissions_in_process)'/> ]
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 phome_card">
+                                        <div class="card card-default color-palette-box">
+                                            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                                                <h3 class="card-title text-bold text-alpha">
+                                                    <i class="fas fa-tag mr-3 mm-icon"></i> 
+                                                    Revisions
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/to_revise" t-att-class="'active' if len(submissions_to_revise) > 0 else ''">
+                                                            <span class="info-box-text">Submissions needing
+                                                                revision</span>
+                                                            <span class="info-box-number">[ 
+                                                                <t t-esc="len(submissions_to_revise)"/>
+                                                             ]</span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- <li>
+                                                        <a t-attf-href="#">
+                                                            <span class="info-box-text">Revisions sent back to author </span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li> -->
+                                                    <!-- <li>
+                                                        <a href="#">
+                                                            <span class="info-box-text">Incomplete submissions
+                                                                being revised</span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li> -->
+                                                    <!-- <li>
+                                                        <a href="#">
+                                                            <span class="info-box-text">Revisions waiting for
+                                                                author's approval</span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li> -->
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/in_revision" t-att-class="'active' if len(submission_being_revised) > 0 else ''">
+                                                            <span class="info-box-text">Revisions being
+                                                                processed</span>
+                                                            <span class="info-box-number">[ 
+                                                            <t t-esc="len(submission_being_revised)"/>
+                                                            ]</span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- <li>
+                                                        <a href="#">
+                                                            <span class="info-box-text">Declined revisions</span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li> -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 phome_card">
+                                        <div class="card card-default color-palette-box">
+                                            <div class="card-header d-flex flex-row justify-content-between align-items-center">
+                                                <h3 class="card-title text-bold text-alpha">
+                                                    <i class="fas fa-tag mr-3 mm-icon"></i> 
+                                                    Completed
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/btauthor">
+                                                            <span class="info-box-text">Submissions with a
+                                                                decision</span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a t-attf-href="/ojm/{{journal.id}}/insubmissions">
+                                                            <span class="info-box-text">Submissions with
+                                                                production completed</span>
+                                                            <span class="info-box-number">[ 0 ]</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <p class="py-3">
+                                        Welcome to <t t-esc="journal.name"/>, use the <b>author</b> or <b>reviewer</b> menu either in the left main menu or
+                                        in the dropdown menu that appears when you click on your <b>username</b> at the top right corner of the screen, to easily 
+                                        switch between this two roles and carry out required actions.
+                                    </p>
+                                    <!-- <div class="img-ctn"> -->
+                                        <!-- <img t-attf-src="data:;base64,{{journal.cover}}" class="img-fuild img-responsive"/> -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <t t-call='ojm.portal_footer' />
+            <aside class="control-sidebar control-sidebar-dark"></aside>
+        </t>
+    </template>
+
+</odoo>

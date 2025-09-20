@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_sayans" name="Show Articles" customize_show="True" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="style">display:none;</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="after">
+            <section>
+                <div class="card mt-3">
+                    <p class="py-3 px-2">
+                        Click the link bellow to visit our journals and submit your manuscript to any of them.
+                    </p>
+                    <a href="/journals" class="btn btn-primary">
+                        <i class="fa fa-hand-o-right mr-2"></i>
+                        Go to journals
+                    </a>
+                </div>
+            </section>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Submissions</t>
+                <t t-set="url" t-value="'/my/submissions'"/>
+                <t t-set="placeholder_count" t-value="'submission_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Incomplete Submissions </t>
+                <t t-set="url" t-value="'/my/isubmissions'"/>
+                <t t-set="placeholder_count" t-value="'isubmission_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Publications </t>
+                <t t-set="url" t-value="'/my/publications'"/>
+                <t t-set="placeholder_count" t-value="'publication_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_submissions" name="Submissions List">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Submissions</t>
+            </t>
+
+            <t t-if="not grouped_articles">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no submissions.
+                </div>
+            </t>
+            <t t-if="grouped_articles">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_articles" t-as="articles">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">Ref</th>
+                                <th t-if="groupby == 'none'">Title</th>
+                                <th t-if="groupby == 'journal'">
+                                    <em class="font-weight-normal text-muted"><span t-field="articles[0].sudo().volume_id.journal_id.name"/></em></th>
+                                <th t-if="groupby == 'state'">
+                                    <em class="font-weight-normal text-muted">in status:</em>
+                                    <span class="text-truncate" t-field="articles[0].sudo().state"/></th>
+                                <th t-if="groupby != 'journal'">Issue</th>
+                                <th t-if="groupby != 'state'">Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="articles" t-as="article">
+                                <tr>
+                                    <td class="text-left">
+                                        #<span t-esc="article.code"/>
+                                    </td>
+                                    <td t-if="not article_url">
+                                        <a t-attf-href="/my/submission/{{article.id}}"><t t-esc="article.html_to_text(article.name)"/></a>
+                                    </td>
+                                    <td t-else="">
+                                        <a t-attf-href="/journal/{{slug(article.journal_id)}}/article/{{slug(article)}}"><t t-esc="article.html_to_text(article.name)"/></a>
+                                    </td>
+                                    <td t-if="groupby != 'journal'">
+                                        <span class="mw-100" title="Journal Issue" t-esc="article.volume_id.journal_id.name" />
+                                    </td>
+                                    <td t-if="groupby != 'state'">
+                                        <span class="badge badge-pill badge-info mw-100 text-truncate" title="Stage" t-esc="article.state" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <template id="portal_my_submission" name="My Submission">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Submission details</t>
+            </t>
+            <t t-set="o_portal_fullwidth_alert">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=ojm.article&amp;id=%s&amp;view_type=form' % (article.id)"/>
+                </t>
+            </t>
+
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-12">
+                            <h5 class="d-flex mb-1 mb-md-0 row">
+                                <div class="col-3 text-left">
+                                    <small class="text-left">Stage:</small>
+                                    <span t-field="article.state" class=" badge badge-pill badge-info" title="Current stage of this submission"/>
+                                </div>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6">
+                            <strong>Title:</strong> <a t-field="article.name"/>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <strong>IN:</strong> <a t-field="article.volume_id"/>
+                        </div>
+                    </div>
+
+                    <div class="row" t-if="article.abstract">
+                        <div t-if="article.abstract" t-attf-class="col-12 col-lg-7 mb-4 mb-md-0 {{'col-lg-7' if article.file_id else 'col-lg-12'}}">
+                            <hr class="mb-1"/>
+                            <div class="d-flex my-2">
+                                <strong>Abstract</strong>
+                            </div>
+                            <div class="py-1 px-2 bg-100 small" t-field="article.abstract"/>
+                        </div>
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <a t-attf-href="/ojm/{{article.journal_id.id}}/inprocess" class="btn btn-primary">Click here to see more details</a>
+                        </div>
+<!--                        <div t-if="article.file_id" t-attf-class="col-12 col-lg-5 o_project_portal_attachments {{'col-lg-5' if article.abstract else 'col-lg-12'}}">-->
+<!--                            <hr class="mb-1 d-none d-lg-block"/>-->
+<!--                            <strong class="d-block mb-2">Attachments</strong>-->
+<!--                            <div class="row">-->
+<!--                                <div t-attf-class="col {{'col-lg-6' if not article.abstract else 'col-lg-12'}}">-->
+<!--                                    <ul class="list-group">-->
+<!--                                        <t t-set="attachment" t-value="article.file_id"/>-->
+<!--                                        <a class="list-group-item list-group-item-action d-flex align-items-center oe_attachments py-1 px-2" t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}" target="_blank" data-no-post-process="">-->
+<!--                                            <div class='oe_attachment_embedded o_image o_image_small mr-2 mr-lg-3' t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/50x40?access_token=#{attachment.access_token}"/>-->
+<!--                                            <div class='oe_attachment_name text-truncate'><t t-esc='attachment.name'/></div>-->
+<!--                                        </a>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+                    </div>
+
+                    <hr class="mt-3"/>
+
+                    <div class="row mt-3" t-if="article.reviewer_ids">
+                        <div class="col-12 pb-2" t-if="article.reviewer_ids">
+                            <strong>Invited Reviewers</strong>
+                            <span class="ml-2 badge badge-pill badge-primary">
+                                <t t-esc="len(article.reviewer_ids)"/>
+                            </span>
+<!--                            <div class="row d-flex flex-row justify-content-start align-items-center">-->
+<!--                                <t t-foreach="article.assignments_ids" t-as="assignment">-->
+<!--                                    <t t-set="user" t-value="assignment.reviewer_id"/>-->
+<!--                                    <div class="col-md d-flex align-items-center flex-grow-0 pr-3">-->
+<!--                                        <div t-if="user.image_1920">-->
+<!--                                            <img class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(user.image_1920)" alt="Contact"/>-->
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <div t-esc="user" t-options='{"widget": "contact", "fields": ["name"]}'/>-->
+<!--                                            <a t-attf-href="mailto:{{user.email}}" t-if="user.email"><div t-esc="user" t-options='{"widget": "contact", "fields": ["email"]}'/></a>-->
+<!--                                            <a t-attf-href="tel:{{user.phone}}" t-if="user.phone"><div t-esc="user" t-options='{"widget": "contact", "fields": ["phone"]}'/></a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </t>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+
+                </t>
+            </t>
+
+<!--            <div class="mt32">-->
+<!--                <h4><strong>Message and communication history</strong></h4>-->
+<!--                <t t-call="portal.message_thread">-->
+<!--                    <t t-set="object" t-value="article"/>-->
+<!--&lt;!&ndash;                    <t t-set="token" t-value="article.access_token"/>&ndash;&gt;-->
+<!--                    <t t-set="pid" t-value="pid"/>-->
+<!--                    <t t-set="hash" t-value="hash"/>-->
+<!--                </t>-->
+<!--            </div>-->
+        </t>
+    </template>
+
+</odoo>

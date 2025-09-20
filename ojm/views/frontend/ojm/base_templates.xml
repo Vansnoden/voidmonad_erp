@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ojm_base" name="OJM Base template">
+        <!-- <t t-call="web.layout"> -->
+        <html>
+            <head>
+                <!-- <title>
+                        <t t-esc='title'/>
+                    </title> -->
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Editorial Manager</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+                <!-- Google Font: Source Sans Pro -->
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"/>
+                <!-- Font Awesome -->
+                <link rel="stylesheet" href="/ojm/static/plugins/fontawesome-free/css/all.min.css"/>
+                <!-- Ionicons -->
+                <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+                <!-- Tempusdominus Bootstrap 4 -->
+                <link rel="stylesheet" href="/ojm/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>
+                <!-- iCheck -->
+                <link rel="stylesheet" href="/ojm/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
+                <!-- JQVMap -->
+                <link rel="stylesheet" href="/ojm/static/plugins/jqvmap/jqvmap.min.css"/>
+                <!-- Theme style -->
+                <link rel="stylesheet" href="/ojm/static/dist/css/adminlte.min.css"/>
+                <!-- overlayScrollbars -->
+                <link rel="stylesheet" href="/ojm/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
+                <!-- Daterange picker -->
+                <link rel="stylesheet" href="/ojm/static/plugins/daterangepicker/daterangepicker.css"/>
+                <!-- summernote -->
+                <link rel="stylesheet" href="/ojm/static/plugins/summernote/summernote-bs4.min.css"/>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"/>
+                <!-- Font Awesome -->
+                <link rel="stylesheet" href="/ojm/static/plugins/fontawesome-free/css/all.min.css"/>
+                <!-- daterange picker -->
+                <link rel="stylesheet" href="/ojm/static/plugins/daterangepicker/daterangepicker.css"/>
+                <!-- iCheck for checkboxes and radio inputs -->
+                <link rel="stylesheet" href="/ojm/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
+                <!-- Bootstrap Color Picker -->
+                <link rel="stylesheet" href="/ojm/static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"/>
+                <!-- Tempusdominus Bootstrap 4 -->
+                <link rel="stylesheet" href="/ojm/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>
+                <!-- Select2 -->
+                <link rel="stylesheet" href="/ojm/static/plugins/select2/css/select2.min.css"/>
+                <link rel="stylesheet" href="/ojm/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css"/>
+                <!-- Bootstrap4 Duallistbox -->
+                <link rel="stylesheet" href="/ojm/static/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css"/>
+                <!-- BS Stepper -->
+                <link rel="stylesheet" href="/ojm/static/plugins/bs-stepper/css/bs-stepper.min.css"/>
+                <!-- BS Stepper -->
+                <link rel="stylesheet" href="/ojm/static/plugins/bs-stepper/css/bs-stepper.min.css"/>
+                <!-- dropzonejs -->
+                <link rel="stylesheet" href="/ojm/static/plugins/dropzone/min/dropzone.min.css"/>
+                <!-- SweetAlert2 -->
+                <link rel="stylesheet" href="/ojm/static/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css"/>
+                <!-- Toastr -->
+                <link rel="stylesheet" href="/ojm/static/plugins/toastr/toastr.min.css"/>
+                <!-- DataTables -->
+                <link rel="stylesheet" href="/ojm/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>
+                <link rel="stylesheet" href="/ojm/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>
+                <link rel="stylesheet" href="/ojm/static/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"/>
+                <!-- Theme style -->
+                <link rel="stylesheet" href="/ojm/static/dist/css/adminlte.min.css"/>
+                <!-- custom files -->
+
+                <link rel="stylesheet" type="text/css" href="/ojm/static/src/scss/submission_form.css"/>
+
+            </head>
+            <body class="hold-transition sidebar-mini layout-fixed">
+                <div class="wrapper">
+                    <!-- Preloader -->
+                    <!-- <div class="preloader flex-column justify-content-center align-items-center">
+                        <img class="animation__shake" t-attf-src="data:;base64,{{company.logo}}" alt="Loader" height="60" width="60"/>
+                    </div> -->
+
+                    <t t-out="0"/>
+                </div>
+                <footer>
+                    <div id="footer">
+                    </div>
+                    <script src="https://kit.fontawesome.com/2f5e3e1b8c.js" crossorigin="anonymous"></script>
+                    <!-- <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+                    <!-- jQuery -->
+                    <script src="/ojm/static/plugins/jquery/jquery.min.js"></script>
+                    <!-- jQuery UI 1.11.4 -->
+                    <script src="/ojm/static/plugins/jquery-ui/jquery-ui.min.js"></script>
+                    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+                    <script>
+                            $.widget.bridge('uibutton', $.ui.button)
+                    </script>
+                    <!-- Bootstrap 4 -->
+                    <script src="/ojm/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <!-- ChartJS -->
+                    <script src="/ojm/static/plugins/chart.js/Chart.min.js"></script>
+                    <!-- Sparkline -->
+                    <script src="/ojm/static/plugins/sparklines/sparkline.js"></script>
+                    <!-- JQVMap -->
+                    <script src="/ojm/static/plugins/jqvmap/jquery.vmap.min.js"></script>
+                    <script src="/ojm/static/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+                    <!-- jQuery Knob Chart -->
+                    <script src="/ojm/static/plugins/jquery-knob/jquery.knob.min.js"></script>
+                    <!-- daterangepicker -->
+                    <script src="/ojm/static/plugins/moment/moment.min.js"></script>
+                    <script src="/ojm/static/plugins/daterangepicker/daterangepicker.js"></script>
+                    <!-- Tempusdominus Bootstrap 4 -->
+                    <script src="/ojm/static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+                    <!-- Summernote -->
+                    <script src="/ojm/static/plugins/summernote/summernote-bs4.min.js"></script>
+                    <script src="/ojm/static/src/js/summernote-ext-specialchars.js"></script>
+                    <!-- overlayScrollbars -->
+                    <script src="/ojm/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+                    <!-- Select2 -->
+                    <script src="/ojm/static/plugins/select2/js/select2.full.min.js"></script>
+                    <!-- Bootstrap4 Duallistbox -->
+                    <script src="/ojm/static/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+                    <!-- InputMask -->
+                    <script src="/ojm/static/plugins/moment/moment.min.js"></script>
+                    <script src="/ojm/static/plugins/inputmask/jquery.inputmask.min.js"></script>
+                    <!-- date-range-picker -->
+                    <script src="/ojm/static/plugins/daterangepicker/daterangepicker.js"></script>
+                    <!-- bootstrap color picker -->
+                    <script src="/ojm/static/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+                    <!-- Tempusdominus Bootstrap 4 -->
+                    <script src="/ojm/static/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+                    <!-- Bootstrap Switch -->
+                    <script src="/ojm/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+                    <!-- BS-Stepper -->
+                    <script src="/ojm/static/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+                    <!-- dropzonejs -->
+                    <script src="/ojm/static/plugins/dropzone/min/dropzone.min.js"></script>
+                    <!-- SweetAlert2 -->
+                    <script src="/ojm/static/plugins/sweetalert2/sweetalert2.min.js"></script>
+                    <!-- Toastr -->
+                    <script src="/ojm/static/plugins/toastr/toastr.min.js"></script>
+                    <!-- DataTables  & Plugins -->
+                    <script src="/ojm/static/plugins/datatables/jquery.dataTables.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+                    <script src="/ojm/static/plugins/jszip/jszip.min.js"></script>
+                    <script src="/ojm/static/plugins/pdfmake/pdfmake.min.js"></script>
+                    <script src="/ojm/static/plugins/pdfmake/vfs_fonts.js"></script>
+                    <script src="/ojm/static/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+                    <script src="/ojm/static/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+                    <!-- AdminLTE App -->
+                    <script src="/ojm/static/dist/js/adminlte.js"></script>
+                    <!-- AdminLTE for demo purposes -->
+                    <script src="/ojm/static/dist/js/demo.js"></script>
+                    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+                    <!-- <script src="/ojm/static/dist/js/pages/dashboard.js"></script> -->
+                    <!-- custom scripts -->
+                    <script src="/ojm/static/src/js/submission.js"></script>
+                    <!-- Main Quill library -->
+                </footer>
+            </body>
+        </html>
+        <!-- </t> -->
+    </template>
+
+
+    <template id="navigation" name="OJM Navigation">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-widget="pushmenu" role="button">
+                        <!-- data-widget="pushmenu" -->
+                        <i class="fas fa-bars"></i>
+                        <span class="ml-3"><b>mySayans</b></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="navbar-search-block">
+                        <form class="form-inline">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+
+                <!-- Messages Dropdown Menu -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-comments"></i>
+                        <span class="badge badge-danger navbar-badge">3</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="#" class="dropdown-item"> -->
+                <!-- Message Start -->
+                <!-- <div class="media">
+                                <img src="/ojm/static/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle"/>
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title"> Brad Diesel <span class="float-right text-sm text-danger">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                    </h3>
+                                    <p class="text-sm">Call me whenever you can...</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                        4 Hours Ago</p>
+                                </div>
+                            </div> -->
+                <!-- Message End -->
+                <!-- </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item"> -->
+                <!-- Message Start -->
+                <!-- <div class="media">
+                                <img src="/ojm/static/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3"/>
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title"> John Pierce <span class="float-right text-sm text-muted">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                    </h3>
+                                    <p class="text-sm">I got your message bro</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                        4 Hours Ago</p>
+                                </div>
+                            </div> -->
+                <!-- Message End -->
+                <!-- </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item"> -->
+                <!-- Message Start -->
+                <!-- <div class="media">
+                                <img src="/ojm/static/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3"/>
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title"> Nora Silvester <span class="float-right text-sm text-warning">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                    </h3>
+                                    <p class="text-sm">The subject goes here</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                        4 Hours Ago</p>
+                                </div>
+                            </div> -->
+                <!-- Message End -->
+                <!-- </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                    </div>
+                </li> -->
+                <!-- Notifications Dropdown Menu -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"> -->
+                        <!-- <span class="dropdown-item dropdown-header">15 Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> 4 new messages <span class="float-right text-muted text-sm">3 mins</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-users mr-2"></i> 8 awaiting reviews <span class="float-right text-muted text-sm">12 hours</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> 3 accepted publications <span class="float-right text-muted text-sm">2 days</span>
+                        </a> -->
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <!-- <a href="#" class="dropdown-item dropdown-footer">No new notification</a> -->
+                    <!-- </div>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                </li> -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-user"></i>
+                        <span class="">
+                            <t t-esc="user.name"/>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a t-attf-href="/ojm/{{journal.id}}/ahome" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i>
+                            <span>Connect as author</span>
+                        </a>
+                        <a t-attf-href="/ojm/{{journal.id}}/rhome" class="dropdown-item">
+                            <i class="fas fa-comment mr-2"></i>
+                            <span>Connect as reviewer</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/web/session/logout" class="dropdown-item dropdown-footer">
+                            Log out
+                        </a>
+                    </div>
+                </li> -->
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="/" class="brand-link d-flex flex-column align-items-center justify-content-center">
+                <img t-attf-src="data:;base64,{{company.logo}}" alt="Company Logo" class="brand-image p-1 img-circle elevation-3 bg-white" style="opacity: .8"/>
+                <span class="brand-text font-weight-light">
+                    <!-- <t t-esc="company.name"/> -->
+                </span>
+            </a>
+            <a t-attf-href="/journal/{{slug(journal)}}" class="brand-link d-flex flex-column align-items-center justify-content-center">
+                <img t-attf-src="data:;base64,{{journal.logo}}" alt="Journal Logo" class="brand-image p-1 rounded elevation-3 bg-white" style="width:100%; height:auto; opacity: .8;"/>
+                <span class="mx-3 brand-text font-weight-light">
+                    <t t-esc="journal.issn"/>
+                </span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="mycontent">
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">                                    <!--t-attf-href="/ojm/{{journal.id}}/home"-->
+                                    <i class="nav-icon fas fa-home"></i>                                    <!--OLD ICON WAS: fa-th-->
+                                    <p> 
+                                        Home <i class="right fas fa-angle-down"></i>
+                                    </p>
+                                    <!-- <span class="right badge badge-danger">New</span> -->
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/ahome" t-attf-class="nav-link align-items-center {{ 'active' if author_active else ''}}">
+                                            <i class="fas fa-user nav-icon" style="font-size:10px"></i>
+                                            <p>Author</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/rhome" t-attf-class="nav-link align-items-center {{ 'active' if rev_active else ''}}">
+                                            <i class="fas fa-user nav-icon" style="font-size:10px"></i>
+                                            <p>Reviewer</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-info"></i>
+                                    <p> About <i class="right fas fa-angle-down"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/overview" t-attf-class="nav-link align-items-center {{ 'active' if jo_active else ''}}">
+                                            <i class="fas fa-eye nav-icon" style="font-size:10px"></i>
+                                            <p>Journal overview</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/inauthor" t-attf-class="nav-link align-items-center {{ 'active' if ifa_active else ''}}">
+                                            <i class="fas fa-file nav-icon" style="font-size:10px"></i>
+                                            <p>For Authors</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/inreviewer" t-attf-class="nav-link align-items-center {{ 'active' if ifr_active else ''}}">
+                                            <i class="fas fa-file nav-icon" style="font-size:10px"></i>
+                                            <p>For Reviewers</p>
+                                        </a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a t-attf-href="/ojm/{{journal.id}}/contact" t-attf-class="nav-link align-items-center {{ 'active' if c_active else ''}}">
+                                            <i class="fas fa-circle nav-icon" style="font-size:8px"></i>
+                                            <p>Contact</p>
+                                        </a>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a target="_blank" href="https://sayansi.org/privacy" t-attf-class="nav-link d-flex align-items-center {{ 'active' if pp_active else ''}}">
+                                            <i class="fas fa-globe nav-icon" style="font-size:10px"></i>
+                                            <p>Privacy policy</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-question"></i>
+                                    <p> Help <i class="right fas fa-angle-down"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" t-attf-class="nav-link align-items-center {{ 'active' if sh_active else ''}}">
+                                            <i class="fas fa-cog nav-icon" style="font-size:10px"></i>
+                                            <p>System help</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link align-items-center {{ 'active' if vt_active else ''}}">
+                                            <i class="fas fa-play nav-icon" style="font-size:10px"></i>
+                                            <p>Video tutorials</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div id="user_space">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" data-toggle="dropdown" href="#">
+                                    <i class="far fa-user"></i>
+                                    <span class="">
+                                        <t t-esc="user.name"/>
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                    <a t-attf-href="/ojm/{{journal.id}}/ahome" class="dropdown-item">
+                                        <i class="fas fa-user mr-2"></i><span>Connect as author</span>
+                                    </a>
+                                    <a t-attf-href="/ojm/{{journal.id}}/rhome" class="dropdown-item">
+                                        <i class="fas fa-comment mr-2"></i><span>Connect as reviewer</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="far fa-bell mr-2"></i><span>Notifications</span> 
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="/web/session/logout" class="dropdown-item">
+                                        <i class="fa fa-sign-out"></i>
+                                        <span>Log out</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+    </template>
+
+
+    <template id='portal_footer' name='OJM Footer'>
+        <footer class="main-footer">
+            <strong>
+                Copyright &amp;copy; 2023 
+                <a class="company_link" target='_blank' href="https://monadeware.com">monadeware</a>.
+            </strong>
+            All rights reserved. 
+            <div class="d-flex flex-row flex-nowrap justify-content-center align-items-center float-right">
+                <b>Version 1.0.0 </b>
+                <div class="info-footer ml-3" title="Work in progress">
+                    <span class="fa fa-question"/>
+                </div>
+            </div>
+        </footer>
+    </template>
+
+</odoo>

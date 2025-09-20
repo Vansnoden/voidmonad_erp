@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_article_sreviewer_view_form" model="ir.ui.view">
+        <field name="name">ojm_article_sreviewer.view.form</field>
+        <field name="model">ojm.article.sreviewer</field>
+        <field name="arch" type="xml">
+            <form string="Journal reviewer">
+                <sheet>
+                    <group>
+                        <group class="col-6">
+                            <field name="name" readonly="1"/>
+                            <field name="fname" required="1"></field>
+                            <field name="mname"></field>
+                            <field name="lname" required="1"></field>
+                        </group>
+                        <group class='col-6'>
+                            <field name="title"></field>
+                            <field name="email" required="1"></field>
+                            <field name="sequence" required="1"></field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description"></field>
+                        </page>
+                        <page name="affiliations" string="Affiliations">
+                            <field name="affiliation_ids"></field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_article_sreviewer_view_tree" model="ir.ui.view">
+        <field name="name">ojm_article_sreviewer.view.tree</field>
+        <field name="model">ojm.article.sreviewer</field>
+        <field name="arch" type="xml">
+            <tree string="journal reviewer">
+                <field name="title"></field>
+                <field name="name"></field>
+                <field name="email"></field>
+                <field name="affiliation_ids"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_article_sreviewer_action" model="ir.actions.act_window">
+        <field name="name">Reviewers</field>
+        <field name="res_model">ojm.article.sreviewer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

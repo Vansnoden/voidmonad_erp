@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ojm_submission_preview" name="OJM Submission preview">
+        <!-- display each form sections fields and values fulfilled  by the user -->
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+            <div class="content-wrapper" style="height:inherit">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Submission preview</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="content">
+                    <div class="col-md-12">
+                        <div class="card container p-0">
+                            <div class="card-header py-0">
+                                <div class="row p-0">
+                                    <div class="p-3 col-md-4 col-sm-12">
+                                        <h3 class="text-primary">
+                                            <strong>Preview &amp; confirm</strong>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="row m-auto py-3">
+                                    <div class="table-responsive">
+                                        <table class="table preview_table">
+                                            <tr>
+                                                <th>
+                                                    <label>Journal</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="journal.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label>Journal Section</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="submission.section_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label>Article type</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="submission.type_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <h5 class="text-primary">
+                                            <strong>Manuscript data</strong>
+                                        </h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table  preview_table">
+                                                <tr>
+                                                    <th>
+                                                        <label>Title</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Abstract</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.abstract"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Keywords</label>
+                                                    </th>
+                                                    <td>
+                                                        <t t-foreach="submission.keyword_ids" t-as="keyword">
+                                                            <t t-esc="keyword.name"/>,
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Highlights</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.highlights"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <h5 class="text-primary">
+                                                <strong>Authors</strong>
+                                            </h5>
+
+                                            <div class="table-responsive">
+                                                <table class="table  preview_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Email</th>
+                                                            <th>Title</th>
+                                                            <th>First name</th>
+                                                            <th>Middle name</th>
+                                                            <th>Last name</th>
+                                                            <th>Affiliations</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="submission.author_ids" t-as="author">
+                                                            <tr>
+                                                                <td>
+                                                                    <t t-esc="author.email"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="author.title"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.fname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.mname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.lname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-raw="author.get_affiliation_summary(submission.id)"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Corresponding author</label>
+                                                            </th>
+                                                            <td colspan="4">
+                                                                <span t-esc="submission.corresponding_author.name"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <h5 class="text-primary">
+                                            <strong>Proposed reviewers</strong>
+                                        </h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table  preview_table" id="reviewers_table">
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                                <t t-if="submission">
+                                                    <t t-foreach="submission.suggested_reviewer_ids" t-as="reviewer">
+                                                        <tr>
+                                                            <td>
+                                                                <span t-field="reviewer.title" />
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="reviewer.name" />
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="reviewer.email" />
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </table>
+                                        </div>
+
+
+
+                                        <h5 class="text-primary">
+                                            <strong>Documents</strong>
+                                        </h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table  preview_table" id="file_table">
+                                                <tr>
+                                                    <th>
+                                                        <label>Main File</label>
+                                                    </th>
+                                                    <td colspan="4">
+                                                        <t t-if="submission.file_id">
+                                                            <a target="_blank" t-attf-href="/web/content/{{submission.file_id.id}}?download=true" t-attf-id="fd_{{submission.file_id.id}}">
+                                                                <span t-field="submission.file_id"/>
+                                                            </a>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <strong>
+                                                                ???
+                                                            </strong>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Document Type</th>
+                                                    <th>Name</th>
+                                                    <th>Size</th>
+                                                    <th>File type</th>
+                                                    <th>Download file</th>
+                                                </tr>
+                                                <t t-foreach="submission.document_ids" t-as="doc">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="doc.name.split('_')[0]" />
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="' '.join(doc.name.split('_')[1:])" />
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="doc.file_size"/> Kb </td>
+                                                        <td>
+                                                            <t t-esc="doc.mimetype" />
+                                                        </td>
+                                                        <td>
+                                                            <a t-attf-href="/web/content/{{doc.id}}?download=true" t-attf-id="fd_{{doc.id}}" class="btn btn-secondary">
+                                                                <span class="fa fa-download"></span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <form t-attf-action="/ojm/{{journal.id}}/preview/{{submission.id}}" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <input type="hidden" id="journal_id" name="journal_id" t-att-value="journal.id" />
+                                    <div class="form-group">
+                                        <label style="text-transform:none!important;">Choose how to proceed with your submission <span class="field-required">*</span>
+                                        </label>
+                                        <br/>
+                                        <label style="text-transform:none">
+                                            <input class="" type="radio" name="user_decision" value="save" id="save" required="true"/>
+                                                Save &amp; submit later
+                                        </label>
+                                        <label style="text-transform:none">
+                                            <input class="ml-3" type="radio" name="user_decision" value="confirm" id="confirm"/>
+                                                Submit now
+                                        </label>
+                                        <label style="text-transform:none">
+                                            <input class="ml-3" type="radio" name="user_decision" value="cancel" id="cancel"/>
+                                                Cancel submission
+                                        </label>
+                                    </div>
+                                    <a t-attf-href="/ojm/{{journal.id}}/submission/step1?submission_id={{submission.id}}" class="btn btn-secondary mr-3" type="button">
+                                        <span class="fas fa-edit"></span> Edit Submission
+                                    </a>
+                                    <a role="button" id="declaration-toggler" class="btn btn-primary mr-3"
+                                        data-toggle="modal" data-target="#modal-author-dec">
+                                        Proceed
+                                    </a>
+                                    <button class="btn btn-primary d-none" type="submit" id="submit_conf">
+                                            Continue
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div>
+                    <!-- modals -->
+                    <div class="modal fade" id="modal-author-dec">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content container">
+                                <form target="frame" name="authorDeclaration" id="form-author-dec" 
+                                    method="post" t-attf-action="/ojm/author_declarations/{{submission.id}}" 
+                                    enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Author's Declarations</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true" class="fa fa-close"></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="text-primary">
+                                            Sayans Publishers: Manuscript Submission Declarations by Authors
+                                        </h4>
+                                        <p>  
+                                            As part of the submission process, Sayans Publishers requires authors to confirm their
+                                            adherence to the following standards. Please review and tick each of the following
+                                            declarations:
+                                        </p>
+                                        <t t-foreach="author_declarations" t-as="declaration">
+                                            <div class="d-flex flex-row justify-content-start align-items-start" style="gap:1em">
+                                                <input type="checkbox" t-attf-name="dec_{{declaration.id}}" class="mt-2"/>
+                                                <div>
+                                                    <strong>
+                                                        <t t-esc='declaration.name'/>
+                                                    </strong><br/>
+                                                    <p>
+                                                        <t t-esc='declaration.description'/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" id="save_declaration" class="btn btn-primary btn_save_declaration">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <iframe name="frame" id="hidden_frame"></iframe>
+            <t t-call='ojm.portal_footer' />
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,37 @@
+<odoo>
+
+
+	<record id="ojm_editor_position_view_form" model="ir.ui.view">
+        <field name="name">ojm.editor.position.view.form</field>
+        <field name="model">ojm.editor.position</field>
+        <field name="arch" type="xml">
+            <form string="Editor Position">
+            	<sheet>
+            		<group>
+            			<field name="name"/>
+            			<field name="description"/>
+            		</group>
+            	</sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_editor_position_view_tree" model="ir.ui.view">
+        <field name="name">ojm.editor.position.view.tree</field>
+        <field name="model">ojm.editor.position</field>
+        <field name="arch" type="xml">
+            <tree string="Editor Positions" default_order="name asc">
+            	<field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_editor_position_action" model="ir.actions.act_window">
+        <field name="name">Editor Positions</field>
+        <field name="res_model">ojm.editor.position</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

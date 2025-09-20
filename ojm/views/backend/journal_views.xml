@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_journal_view_form" model="ir.ui.view">
+        <field name="name">ojm_journal.view.form</field>
+        <field name="model">ojm.journal</field>
+        <field name="arch" type="xml">
+            <form string="Journal">
+                <header>
+                    <button string="Publish" name="action_publish" type="object" class="oe_highlight" attrs="{'invisible':[('is_published','!=',False)]}"/>
+                    <button string="Unpublish" name="action_unpublish" type="object" class="oe_highlight" attrs="{'invisible':[('is_published','=',False)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="get_volumes" 
+                            type="object"  icon="fa-file">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="volumes_count"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Volumes
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <field name="code" readonly="1"></field>
+                    <group name="details" string="details">
+                        <group>
+                            <field name="periodicity"></field>
+                            <field name="name"></field>
+                            <field name="issn"></field>
+                            <field name="category_id"></field>
+                            <field name="sequence"></field>
+                            <field name="is_published" readonly="1"></field>
+                            <field name="impact" readonly="1"/>
+                            <field name="citescore" readonly="1"></field>
+                        </group>
+                        <group>
+                            <field name="logo" widget="image" height="50" width="50"></field>
+                            <field name="cover" widget="image" height="50" width="200"></field>
+                            <field name="brief_description"/>
+                            <!-- <field name="latest_issue"></field> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="sections" string="Sections">
+                            <field name="section_ids"></field>
+                        </page>
+                        <page name="ms" string="Missions &amp; Scope">
+                            <field name="mission_scope"></field>
+                        </page>
+                        <page name="board" string="Editorial board">
+                            <group>
+                                <!-- <field name="editor_in_chief_id"></field> -->
+                                <field name="editor_ad_board"></field>
+                                <field name="editor_ids">
+                                    <tree create="1" editable="bottom">
+                                        <field name="journal_id"/>
+                                        <field name="editor_id"/>
+                                        <field name="position_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page name="policies" string="Editorial policies">
+                            <field name="editorial_policies"></field>
+                        </page>
+                        <page name="fauthors" string="Information for authors">
+                            <field name="inff_author"></field>
+                        </page>
+                        <page name="freviewers" string="Information for reviewers">
+                            <field name="inff_reviewer"></field>
+                        </page>
+                        <page name="metrics" string="Journal metrics">
+                            <field name="journal_metrics"></field>
+                        </page>
+                        <page name="contact" string="Contact Details">
+                            <field name="journal_contact"></field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow the process to automatically track the events associated to tasks and issues of this Journal." groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_journal_view_tree" model="ir.ui.view">
+        <field name="name">ojm.journal.view.tree</field>
+        <field name="model">ojm.journal</field>
+        <field name="arch" type="xml">
+            <tree string="Journals">
+                <field name="code"></field>
+                <field name="name"></field>
+                <field name="is_published"></field>
+                <field name="create_date"></field>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="ojm_journal_view_kanban" model="ir.ui.view">
+        <field name="name">ojm_journal.view.kanban</field>
+        <field name="model">ojm.journal</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" sample="1">
+                <field name="id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="cover"/>
+                <field name="logo"/>
+                <field name="periodicity"/>
+                <field name="volumes_count"/>
+                <field name="is_published"/>
+                <field name="sequence"/>
+                <templates>
+                    <t t-name="kanban-box">
+                         <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                            <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image: url(#{kanban_image('ojm.journal', 'logo', record.id.raw_value)})" role="img"/>
+                            <!-- </t> -->
+                            <div class="oe_kanban_details d-flex flex-column">
+                                <strong class="o_kanban_record_title oe_partner_heading"><field name="name"/></strong>
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <ul>
+                                    <li t-if="record.periodicity.raw_value"><field name="periodicity"/></li>
+                                    <li t-if="!record.volumes_count.raw_value"><field name="volumes_count"/></li>
+                                </ul>
+                                <div class="o_row" t-if="record.is_published.raw_value">
+                                    <field name="is_published" widget="checkbox"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="ojm_journal_action" model="ir.actions.act_window">
+        <field name="name">Journals</field>
+        <field name="res_model">ojm.journal</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">['|', ('editor_ids.editor_id.user_id', '=', uid), ('create_uid', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

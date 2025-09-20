@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_article_view_form" model="ir.ui.view">
+        <field name="name">ojm.article.view.form</field>
+        <field name="model">ojm.article</field>
+        <field name="arch" type="xml">
+            <form string="Article">
+                <header>
+                    <button string="Send reception email"
+                            name="action_send_email"
+                            type="object"
+                            confirm="Are you sure you want to do this?"
+                            class="oe_highlight"/>
+                    <button string="Reset State"
+                            name="action_reset"
+                            confirm="Are you sure you want to do this?"
+                            type="object"
+                            class="oe_highlight"/>
+                    <button string="Start Review"
+                            name="action_review"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','!=','submitted')]}"/>
+                    <button string="Close Review"
+                            name="action_close_review"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','!=','under_review')]}"/>
+                    <button string="Start TypeSetting"
+                            name="action_typeset"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','!=','revised')]}"/>
+                    <button string="Publish"
+                            name="action_publish"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','not in',['typesetting', 'revoked'])]}"/>
+                    <button string="Revoke"
+                            name="action_revoke"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','!=','published')]}"/>
+                    <button string="Send to revision stage"
+                            name="action_send_for_revision"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','not in', ['reviewed', 'revision_submitted', 'revised'])]}"/>
+                    <button string="Close revisions"
+                            name="action_close_revisions"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','not in', ['under_revision', 'revision_submitted'])]}"/>
+                    <button string="Notify author for revisions"
+                            name="action_notify_revision_start"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure you want to do this?"
+                            attrs="{'invisible':[('state','not in', ['reviewed', 'under_revision'])]}"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible=" "/>
+                    <!-- statusbar_visible="incomplete,back_to_author,author_approved,submitted,under_review,reviewed,typesetting,published,revoked" -->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_invitations" type="object" class="oe_stat_button" icon="fa-group">
+                            <field name="reviewer_invite_count" string="" widget="statinfo"/>
+                        </button>
+                        <!-- attrs="{'invisible': [('active', '=', False)]}" -->
+                        <button name="action_open_assignments" type="object" class="oe_stat_button" icon="fa-group">
+                            <field name="reviewer_assg_count" string="" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_revisions" type="object" class="oe_stat_button" icon="fa-group">
+                            <field name="revision_count" string="" widget="statinfo"/>
+                        </button>
+                        <field name="is_published" widget="website_redirect_button"/>
+                    </div>
+                    <field name="code" readonly="1"/>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="short_title" readonly="1"/>
+                            <field name="journal_id" required="1"/>
+                            <field name="volume_id" required="1"/>
+                            <field name="section_id" required="1"/>
+                            <field name="author_ids" widget="many2many_tags" required="1"/>
+                            <field name="submitted_by"/>
+                            <field name="scope"/>
+                            <field name="sequence"/>
+                            <field name="citations_count" readonly="1"/>
+                            <field name="publish_date" readonly="1"/>
+                            <field name="publish_year" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="is_open"/>
+                            <field name="submission_date" readonly="1"/>
+                            <field name="reviewed_start_date" readonly="1"/>
+                            <field name="reviewed_end_date" readonly="1"/>
+                            <field name="revision_deadline" attrs="{'required':[('state', '=', 'under_revision')]}"/>
+                            <field name="type_setting_start_date" readonly="1"/>
+                            <field name="type_setting_end_date" readonly="1"/>
+                            <field name="publish_date" readonly="1"/>
+                            <field name="online_first_date"/>
+                            <field name="revoked_date" readonly="1"/>
+                            <field name="view_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="abstract" string="Abstract">
+                            <group>
+                                <field name="abstract"/>
+                                <field name="keyword_ids" widget="many2many_tags" required="1"/>
+                                <field name="authors_order_ids">
+                                    <tree create="1" editable="bottom">
+                                        <field name="article_id"/>
+                                        <field name="sequence"/>
+                                        <field name="author_id" domain="[('id', 'in', parent.author_ids)]"/>
+                                    </tree>
+                                </field>
+                                <field name="corresponding_author"/>
+                            </group>
+                        </page>
+                        <page name="affiliations" string="Affiliations">
+                            <field name="affiliation_line_ids">
+                                <tree create="1" editable='bottom'>
+                                    <field name="article_id"/>
+                                    <field name="author_id" domain="[('id', 'in', parent.author_ids)]"/>
+                                    <field name="affiliation_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="highlights" string="Highlights">
+                            <group>
+                                <field name="highlights"/>
+                            </group>
+                        </page>
+                        <page name="funding" string="Funding details">
+                            <group>
+                                <field name="funding_details"/>
+                            </group>
+                        </page>
+                        <page name="data" string="Manuscript &amp; Data">
+                            <group>
+                                <field name="file_id" required="1" readonly="1"/>
+                                <field name="document_ids" readonly="1"/>
+                            </group>
+                        </page>
+                        <page name="declarations" string="Author's Declarations">
+                            <field name="author_declaration_ids">
+                                <tree editable='top' create='1'>
+                                    <field name="declaration_id"/>
+                                    <field name="author_response"/>
+                                    <field name="article_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="reviewer" string="Suggested Reviewers">
+                            <field name="suggested_reviewer_ids"/>
+                        </page>
+                        <page name="rreviewer" string="Invited Reviewers">
+                            <field name="reviewer_ids"/>
+                        </page>
+                        <page name="review_and_decision" string="Review &amp; decision"
+                              attrs="{'invisible': [('state', 'not in', ['reviewed','typesetting','published','revoked'])]}">
+                            <group>
+                                <field name="decision"/>
+                                <!-- <field name="reviewer_comments"></field> -->
+                                <field name="editorial_decision_rationale"/>
+                                <button string="Notify Author"
+                                        name="action_notify_review_end"
+                                        type="object"
+                                        class="oe_highlight"
+                                />
+                                <!-- attrs="{'invisible':[('state','!=','reviewed')]}" -->
+                            </group>
+                        </page>
+                        <page name="typesetting" string="Formatting"
+                              attrs="{'invisible': [('state', 'not in', ['typesetting','published','revoked'])]}">
+                            <group>
+                                <field name="snapshot" options="{'codeview': true}"/>
+                                <field name="content" options="{'codeview': true}"/>
+                                <field name="references" options="{'codeview': true}"/>
+                                <field name="doi"/>
+                                <field name="issn"/>
+                                <field name="typesetted_document"/>
+                                <field name="citation_string"/>
+                                <field name="citation_bib"/>
+                                <field name="citation_ris"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh':True}"
+                           help="Follow the process to automatically track the events associated to tasks and issues of this Article."
+                           groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_article_view_kanban" model="ir.ui.view">
+        <field name="name">ojm.article.view.kanban</field>
+        <field name="model">ojm.article</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column" default_order="create_date desc">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="short_title"/>
+                <field name="state"
+                       options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>
+                <field name="author_ids"/>
+                <field name="volume_id"/>
+                <field name="section_id"/>
+                <!--                <field name="document_ids"/>-->
+                <field name="sequence"/>
+                <field name="submission_date"/>
+                <field name="create_date"/>
+                <field name="reviewed_start_date"/>
+                <field name="type_setting_start_date"/>
+                <field name="publish_date"/>
+                <field name="revoked_date"/>
+                <field name="active"/>
+                <progressbar field="state"
+                             colors="{&quot;done&quot;: &quot;success&quot;, &quot;blocked&quot;: &quot;danger&quot;, &quot;normal&quot;: &quot;muted&quot;}"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click article_kanban_item">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <i>
+                                                <small>
+                                                    <field name="code"/>
+                                                </small>
+                                            </i>
+                                            <br/>
+                                            <field name="short_title"/>
+                                        </strong>
+
+                                        <br/>
+                                        <t t-if="record.author_ids.value">
+                                            <span>
+                                                <field name="author_ids"/>
+                                            </span>
+                                        </t>
+
+                                    </div>
+                                </div>
+
+                                <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                    <field t-if="record.state.raw_value=='submitted'" name="submission_date"/>
+                                    <field t-if="record.state.raw_value=='under_review'" name="reviewed_start_date"/>
+                                    <field t-if="record.state.raw_value=='typesetting'" name="type_setting_start_date"/>
+                                    <field t-if="record.state.raw_value=='published'" name="publish_date"/>
+                                    <field t-if="record.state.raw_value=='revoked'" name="revoked_date"/>
+                                </div>
+                            </div>
+                            <div class="oe_clear"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="ojm_article_view_tree" model="ir.ui.view">
+        <field name="name">ojm.article.view.tree</field>
+        <field name="model">ojm.article</field>
+        <field name="arch" type="xml">
+            <tree string="Articles">
+                <field name="code"/>
+                <field name="short_title"/>
+                <field name="volume_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_article_action" model="ir.actions.act_window">
+        <field name="name">Articles</field>
+        <field name="res_model">ojm.article</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">['|', ('journal_id.editor_ids.editor_id.user_id', '=', uid), ('journal_id.create_uid', '=',
+            uid)]
+        </field>
+        <field name="context">{}</field>
+    </record>
+
+
+    <record id="attachment_custom_view_form" model="ir.ui.view">
+        <field name="name">Document</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='datas']" position="after">
+                <field name="web_title"/>
+                <field name="formatted_description"/>
+                <field name="sequence"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="action_lead_mail_compose" model="ir.actions.act_window">
+        <field name="name">Send email</field>
+        <field name="res_model">mail.compose.message</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context" eval="{
+                'default_composition_mode': 'comment',
+                'default_use_template': True,
+                'default_notify': False
+                }"/>
+        <field name="binding_model_id" ref="model_ojm_article"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+</odoo>

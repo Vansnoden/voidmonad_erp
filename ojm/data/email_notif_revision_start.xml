@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+        <record id="revision_start_notif_email_template" model="mail.template">
+            <field name="name">Journal notification</field>
+            <field name="model_id" ref="ojm.model_ojm_article"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.corresponding_author.email}}</field>
+            <field name="subject">Manuscript Revision Request for Manuscript {{object.code}} in mySayans</field>
+            <field name="report_template" ref="ojm.reviewers_comment_report"/>
+            <field name="report_name">Reviewer Comments Summary PDF</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear <t t-out="object.corresponding_author.name"/>,<br/>
+                    <p>
+                        We would like to thank you for submitting your manuscript, titled "<t t-out="object.short_title"/>" (<t t-out="object.code"/>), to <t t-out="object.journal_id.name"/>. After a thorough review, we are pleased to inform you that the reviewers found your work valuable and recommend it for publication, subject to revisions.
+                    </p>
+                    <p>
+                        Next Steps: Please review the attached feedback and address the comments provided by our reviewers. We kindly ask that you make the necessary revisions and resubmit your updated manuscript through our submission system by <t t-out="object.revision_deadline"/>.
+                    </p>
+                    <p>
+                    Use the following link to upload your revised document: <a t-attf-href="/ojm/{{object.journal_id.id}}/to_revise">CLICK HERE</a>
+                    </p>
+                    <p>
+                        Key points to consider during revision:
+                        <ul>
+                            <li>
+                                Ensure that all reviewer comments are addressed in detail.
+                            </li>
+                            <li>
+                                Highlight any changes made in the revised manuscript (using track changes or similar).
+                            </li>
+                            <li>
+                                Provide a response letter detailing how you have addressed each comment.
+                            </li>
+                        </ul>
+                    </p>
+
+                    <p style="font-size:0.75rem">
+                        Best regards,
+                        <br/>
+                        <br/>
+                        <t t-if="object.journal_id.get_editor_in_chief()">
+                            <t t-out="object.journal_id.get_editor_in_chief().name"/><br/>
+                        </t>
+                        Chief Editor<br/>
+                        <t t-out="object.journal_id.name"/><br/>
+                        Sayans Publishers LLP  <br/>
+                        00100-Nairobi, Kenya <br/>
+                        BN: 2RCYZLDL<br/>
+                        Contact: sayanspublishers@sayansi.org<br/>
+                        <a href="www.sayansi.org">www.sayansi.org</a>
+                    </p>
+
+                    <p style="font-size:11px">
+                        This communication is strictly for the intended recipient and contains confidential information; unauthorized duplication is forbidden. The content may reflect the sender's personal opinions, which do not necessarily align with those of Sayans Publishers, LLP. Consequently, Sayans Publishers cannot be held responsible for any damages resulting from the accuracy of the information provided, unless explicitly stated otherwise. If this message has reached you by mistake, please inform us at once and delete the original message.
+                        <br/>
+                        For questions or assistance, contact the IT Helpdesk via email at asalvador@sayansi.org.
+                    </p>
+
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

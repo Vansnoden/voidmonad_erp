@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="journal_archive" name="Journal Archive">
+        <t t-call="website.layout">
+            <xpath expr="//header/nav" position="inside">
+                <!-- custom header here -->
+                <div class="journal_menu shadow-sm msticky">
+                    <div class="navbar navbar-expand-lg stick_bellow widget js-sticky-widget navbar-light o_colored_level o_cc" id="journal_nav">
+                        <div class="container">
+                            <a class="navbar-brand" t-attf-href="/journal/{{slug(journal)}}">
+                                <t t-if="journal.logo">
+                                    <img class="journal_logo lazy" t-attf-data-src="data:image/*;base64,{{journal.logo}}" alt="logo"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="journal_logo lazy" data-src="/ojm/static/src/img/library/sayans_clean.png" alt="logo"/>
+                                </t>
+                            </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}">
+                                            <span class="fa fa-home"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/current_issue">
+                                            Current issue
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/archive">
+                                            Archive
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            About
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about">Mission &amp; scope</a>
+                                            </t>
+                                            <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#eab">Editorial board</a>
+                                            </t>
+                                            <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#ep">Editorial policies</a>
+                                            </t>
+                                            <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifa">
+                                                    <span class="text-capitalize">Information</span> 
+                                                    for 
+                                                    <span class="text-capitalize">authors</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifr">
+                                                    <span class="text-capitalize">Information</span>
+                                                    for 
+                                                    <span class="text-capitalize">reviewers</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#jm">Journal metrics</a>
+                                            </t>
+                                            <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#contact">Contact us</a>
+                                            </t>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a t-attf-href="/ojm/{{journal.id}}/ahome" target="_blank" class="btn btn-primary text-capitalize">
+                                    Submit manuscript
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <div class="journal_details">
+                <!-- <div class="wip_ctn container m-auto d-flex flex-row justify-content-center align-items-center">
+                    <img class="wip" src="/ojm/static/src/img/library/wip.png"/>
+                </div> -->
+                <div class="container">
+                    <!-- breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mt-2">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a t-attf-href="/journal/{{slug(journal)}}">
+                                    <t t-esc="journal.name"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Archive
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="oe_structure"/>
+                    <div class="">
+                        <div>
+                            <form method="post" action="#" class="form-inline mb-2">
+                                <input type='hidden' name='csrf_token' t-att-value='request.csrf_token()' />
+                                <input class="col-4 mr-2" type="text" placeholder="search by: title, author, year, doi, ..." name="search_text" t-att-value="search"/>
+                                <select id="volumeSelect" class='col-5 mr-2' name="volume">
+                                    <option value="0">--Select Volume--</option>
+                                    <t t-foreach="volumes" t-as="volume_op">
+                                        <t t-if="volume_id == volume_op.id">
+                                            <option t-att-value="volume_op.id" selected="true">
+                                                <t t-esc="volume_op.name"/>
+                                            </option>
+                                        </t>
+                                        <t t-else="">
+                                            <option t-att-value="volume_op.id">
+                                                <t t-esc="volume_op.name"/>
+                                            </option>
+                                        </t>
+                                    </t>
+                                </select>
+                                <button class="btn btn-primary">Search</button>
+                            </form>
+                        </div>
+                        <fieldset>
+                            <legend class="fieldset-label">Publications</legend>
+                            <div class="h-line"/>
+                            <div class="row">
+                                <div class="col-md-9 col-sm-12">
+                                    <t t-foreach="articles" t-as="article">
+                                        <div class="m-2 article-sum-item">
+                                            <a t-attf-href="/journal/{{slug(article.journal_id)}}" class="mb-2">
+                                                <span t-esc="article.journal_id.name"/>
+                                            </a>
+                                            <a class="unlink" t-attf-href="/journal/{{slug(journal)}}/article/{{slug(article)}}"> 
+                                                <span t-raw="article.name"/>
+                                            </a>
+                                            <div class="mt-2 mb-3 d-flex flex-row align-items-center justify-content-start" style="gap:0.5em">
+                                                <span  class="author-names" t-raw="article.author_names"/> 
+                                                <t t-if="article.doi">
+                                                    <span>|</span> 
+                                                    <a t-att-href="article.doi">
+                                                        <span t-raw="article.doi"/>
+                                                    </a>
+                                                </t>
+                                            </div>
+
+                                            <div class="brief-description mb-3" t-raw="article.abstract"/>
+
+                                            <div class="d-flex flex-row justify-content-start align-items-center text-grey" style="gap:1em">
+                                                <span t-raw="article.type_id.name" class="article_type"/>
+                                                <span style="font-size:8px" class="fa fa-circle"/>
+                                                <span> Updated
+                                                    <span class="ml-1" t-raw="article.write_date.strftime('%B %d, %Y')" />
+                                                </span>
+                                                <span style="font-size:8px" class="fa fa-circle"/>
+                                                <span>
+                                                    Versions: Html<span class="" t-if="article.typesetted_document">, PDF</span>
+                                                </span>
+                                            </div>
+                                            <div class="h-line" style="width:96%"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="not articles">
+                                        <p class="p-none-found">
+                                            Sorry no matching document found.
+                                        </p>
+                                    </t>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <t t-call="ojm.journal_pagination"/>
+                    </div>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

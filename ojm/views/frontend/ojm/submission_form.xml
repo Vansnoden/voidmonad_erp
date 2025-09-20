@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sform_base" name="Submission form base">
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+            <div class="content-wrapper" style="height:inherit">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">New submission</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="content sform">
+                    <div class="container-fluid">
+                        <form t-attf-action="{{post_url}}" method="post"
+                            enctype="multipart/form-data" id="baseSubmissionForm">
+                            <input type="hidden" name="csrf_token"
+                                t-att-value="request.csrf_token()" />
+                            <input type="hidden" id="journal_id" name="journal_id"
+                                t-att-value="journal.id" />
+                            <t t-if="submission">
+                                <input type="hidden" id="submission_id" name="submission_id"
+                                    t-att-value="submission.id" />
+                            </t>
+
+                            <div class="sform-header">
+                                <ul
+                                    class="nav d-flex flex-row justify-content-between align-items-center">
+                                    <t t-foreach="steps" t-as="step">
+                                        <li class="nav-item step-header">
+                                            <a t-attf-href="{{step_value['url']}}" class="nav-link" t-att-style="'pointer-events: none' if not step_value['access'] else''">
+                                                <t t-if="step_value['active']">
+                                                    <span class="mr-3 fas fa-arrow-circle-down"
+                                                        style="color:#e88571!important; font-size: 1.5rem; font-weight: bolder;"></span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="mr-3 fas fa-arrow-circle-down" style="color:#c9c9c9!important; font-size: 1.5rem; font-weight: bolder;"></span>
+                                                </t>
+                                                <span style="color:#DF4C2E!important; font-size: 1.5rem;">
+                                                    <t t-esc="step_value['name']" />
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+
+                            <div class="sform-body px-3 py-2">
+                                <t t-out="0" />
+                            </div>
+
+                            <div
+                                class="sform-footer px-3 py-2 d-flex flex-row align-items-center justify-content-start"
+                                style="gap:0.5em">
+                                <a type="button" class="btn btn-primary" t-attf-href="{{backlink}}">back</a>
+                                <button type="submit" class="btn btn-primary">next</button>
+                                <!-- <button type="submit" class="btn btn-success">proceed</button>
+                                <button type="submit" class="btn btn-secondary">save &amp; continue later</button> -->
+                            </div>
+                        </form>
+                        <!-- MODALS -->
+                        <div class="modal fade" id="modal-upload-attachments">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form target="frame" name="uploadForm" id="form-upload"
+                                        method="post" t-attf-action="/ojm/upload_files"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token"
+                                            t-att-value="request.csrf_token()" />
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Upload document</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true" class="fa fa-close"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p> You can add all your files one by one, or you can
+                                                just upload a <b>zip</b> of all your data. </p>
+                                            <t t-if="submission">
+                                                <input type="hidden" id="submission_id_upload"
+                                                    name="submission_id" t-att-value="submission.id" />
+                                            </t>
+                                            <label for="doctype">Select document type</label>
+                                            <br />
+                                            <select id="doctype" name="doctype" required="true">
+                                                <t t-foreach="article_doctypes" t-as="doctype">
+                                                    <option t-att-value="doctype.name">
+                                                        <t t-esc="doctype.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                            <br />
+                                            <label for="other_attachment">Select document</label>
+                                            <br />
+                                            <input type="file" name="other_attachment"
+                                                id="other_attachment" required="true" />
+                                            <br />
+                                            <div class="alert alert-info d-none mt-2" id="info-box">
+                                                Upload another document or close.
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="reset" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" id="upload_data_btn"
+                                                class="btn btn-primary btn_add_file">Upload</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modal-upload-reviewer">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form target="frame" name="addReviewer" id="form_add_reviewer"
+                                        method="post" t-attf-action="/ojm/save_sreviewer"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token"
+                                            t-att-value="request.csrf_token()" />
+                                        <t t-if="submission">
+                                            <input type="hidden" id="submission_id" name="submission_id"
+                                                t-att-value="submission.id" />
+                                        </t>
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Reviewer details</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true" class="fa fa-close"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="reviewers">
+                                                <div class="single-reviewer row" id="reviewer">
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <label for="email">Email <span
+                                                                    class="required-field">*</span></label>
+                                                            <input type="email" class="form-control"
+                                                                id="email" required="true"
+                                                                name="email" />
+                                                        </div>
+                                                        <div
+                                                            class="d-flex flex-row align-items-center justify-content-between"
+                                                            style="gap:0.5em;">
+                                                            <div class="form-group">
+                                                                <label for="fname">First
+                                                                    name <span
+                                                                        class="required-field">*</span></label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="fname"
+                                                                    required="true"
+                                                                    name="fname" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="mname">Middle
+                                                                    name </label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="mname"
+                                                                    name="mname" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="lname">Last
+                                                                    name <span
+                                                                        class="required-field">*</span></label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="lname"
+                                                                    required="true"
+                                                                    name="lname" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <label for="title">Title <span
+                                                                        class="required-field">*</span></label>
+                                                            <select class="form-control"
+                                                                id="title"
+                                                                name="title" required="true">
+                                                                <t t-if="Titles">
+                                                                    <t t-foreach="Titles" t-as="title">
+                                                                        <t t-esc="title"/>
+                                                                        <option t-att-value="title[0]">
+                                                                            <span t-raw="title[1]"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </t> 
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="comment">Comment</label>
+                                                            <textarea  
+                                                                placeholder="Provide reviewer references (orcid for instance)..."
+                                                                class="form-control"
+                                                                id="comment"
+                                                                name="comment" rows="3"
+                                                                cols="55"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="reset" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" id="add_reviewer"
+                                                class="btn btn-primary btn_add_reviewer">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="modal-add-aff" style="z-index:100000">
+                             <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form target="frame" name="addAff" id="form_add_aff"
+                                        method="post" t-attf-action="/ojm/save_aff"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Author details</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true" class="fa fa-close"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="name">
+                                                    Name 
+                                                    <span class="required-field">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" id="aff-name" name="name" required="true"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description">
+                                                    Description 
+                                                </label>
+                                                <textarea rows="5" cols="20" class="form-control" id="aff-desc" name="description"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="reset" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" id="add_aff"
+                                                class="btn btn-primary btn_add_aff">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="modal-add-author">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form target="frame" name="addAuthor" id="form_add_author"
+                                        method="post" t-attf-action="/ojm/save_author"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token"
+                                            t-att-value="request.csrf_token()" />
+                                        <t t-if="submission">
+                                            <input type="hidden" id="submission_id" name="submission_id"
+                                                t-att-value="submission.id" />
+                                        </t>
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Author details</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true" class="fa fa-close"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="authors">
+                                                <div class="single-author row" id="author">
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <label for="email">Email <span
+                                                                    class="required-field">*</span></label>
+                                                            <input type="email" class="form-control"
+                                                                id="email"
+                                                                name="email" required="true"/>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex flex-row align-items-center justify-content-between"
+                                                            style="gap:0.5em;">
+                                                            <div class="form-group">
+                                                                <label for="fname">First name <span
+                                                                        class="required-field">*</span>
+                                                                </label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="fname"
+                                                                    name="fname" required="true"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="mname">Middle
+                                                                    name </label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="mname"
+                                                                    name="mname" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="lname">Last name <span
+                                                                        class="required-field">*</span></label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="lname"
+                                                                    name="lname" required="true"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="orcid">ORCID <span
+                                                                        class="required-field">*</span></label>
+                                                                <input type="text"
+                                                                    class="form-control"
+                                                                    id="orcid"
+                                                                    name="orcid" required="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="form-group">
+                                                            <label for="title">Title <span
+                                                                        class="required-field">*</span></label>
+                                                            <select class="form-control"
+                                                                id="title"
+                                                                name="title">
+                                                                <t t-if="Titles">
+                                                                    <t t-foreach="Titles" t-as="title">
+                                                                        <option t-att-value="title[0]">
+                                                                            <span t-raw="title[1]"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </t> 
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="aff">Select author's affiliation </label>
+                                                            <input type="hidden" name="aff" id="aff"/>
+                                                            <select name="aff_select"  class="form-control js-example-data-ajax affiliations" multiple="multiple" id="affiliations">
+                                                                <!-- <option value="">select author's affiliation</option> -->
+                                                                <t t-foreach="affiliations" t-as="affiliation">
+                                                                    <option t-att-value="affiliation.id">
+                                                                        <t t-esc="affiliation.name"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                            <a role="button" class="btn btn-default mt-3"
+                                                                data-toggle="modal" data-target="#modal-add-aff">
+                                                                Click her to add new affiliation
+                                                            </a>
+                                                        </div>
+                                                        <!-- <div class="form-group">
+                                                            <label for="sequence">Author's order <span
+                                                                    class="required-field">*</span>
+                                                            </label>
+                                                            <div class="mpopup">&#128712;
+                                                                <span class="mpopuptext">
+                                                                    Authors order is defined by numbers.
+                                                                    First author = 1, second author = 2
+                                                                    and so on.
+                                                                </span>
+                                                            </div>
+                                                            <input type="number" min="1" step="1"
+                                                                class="form-control"
+                                                                id="sequence"
+                                                                name="sequence" required="true"/>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="reset" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" id="add_author"
+                                                class="btn btn-primary btn_add_author">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <t t-call='ojm.portal_footer' />
+            <aside class="control-sidebar control-sidebar-dark"></aside>
+            <iframe name="frame" id="hidden_frame"></iframe>
+        </t>
+    </template>
+
+
+    <template id="sform_step1" name="Step 1">
+        <t t-call="ojm.sform_base">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="article_type">Select Article type <span class="required-field">*</span></label>
+
+                    <div class="card  p-2">
+                        <t t-foreach="atypes" t-as="type">
+                            <u>
+                                <b>
+                                    <t t-esc='type.name' />
+                                </b>
+                            </u>
+                            <p class='text-justify'>
+                                <t t-esc='type.description' />
+                            </p>
+                        </t>
+                    </div>
+                    <t t-if="submission">
+                        <select
+                            id="article_type"
+                            class="form-control article_type_selector"
+                            style="width: 100%;" name='atype' required="true">
+                            <t t-foreach="atypes"
+                                t-as="type">
+                                <t t-if="submission.type_id.id == type.id">
+                                    <option
+                                        t-att-value='type.id' selected="true">
+                                        <t t-esc='type.name' />
+                                    </option>
+                                </t>
+                                <t t-else="">
+                                    <option
+                                        t-att-value='type.id'>
+                                        <t t-esc='type.name' />
+                                    </option>
+                                </t>
+                            </t>
+                        </select>
+                    </t>
+                    <t t-else="">
+                        <select
+                            id="article_type"
+                            class="form-control article_type_selector"
+                            style="width: 100%;" name='atype' required="true">
+                            <option value="">
+                                --- YOUR CHOICE HERE ---
+                            </option>
+                            <t t-foreach="atypes"
+                                t-as="type">
+                                <option
+                                    t-att-value='type.id'>
+                                    <t t-esc='type.name' />
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+                    <div class="invalid-feedback">Please select the type of article</div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="sform_step2" name="Step 2">
+        <t t-call="ojm.sform_base">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="form-group mb-3">
+                        <label for="manuscript">
+                            Main manuscript file (.docx,.doc,.pdf,.zip) <span class="required-field">*</span>
+                        </label>
+                        <t t-if="not submission.file_id.name">
+                            <input type="file" name="main_manuscript" accept=".docx,.doc,.pdf,.zip" class="form-control" t-attf-required="true"/>
+                        </t>
+                        <t t-else="">
+                            <br/> Current value is :
+                            <t t-esc="submission.file_id.name"/><br/>
+                            Update by providing new value bellow <br/>
+                            <!-- local_url -->
+                            <input type="file" name="new_main_manuscript" id="new_main_file_input" accept=".docx,.doc,.pdf,.zip" t-att-value="submission.file_id" class="form-control"/>
+                        </t>
+                    </div>
+                    <label for="others">
+                        Additionnal documents
+                    </label>
+                    <br />
+                    <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#fileModal"
+                    class="btn btn-primary">Add file</button> -->
+                    <button type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#modal-upload-attachments">
+                        Add file
+                    </button>
+                    <div id="file_table_ctn" class="table-responsive">
+                        <!-- javascript will add a table at this level -->
+                        <table class="table mt-3 preview_table" id="file_table">
+                            <tr>
+                                <th>Document type</th>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                            <t t-foreach="submission.document_ids" t-as="doc">
+                                <tr>
+                                    <td class="text-capitalize">
+                                        <t t-esc="doc.name.split('_')[0]"/>
+                                    </td>
+                                    <td class="text-capitalize">
+                                        <t t-esc="' '.join(doc.name.split('_')[1:])" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.file_size" /> Kb </td>
+                                    <td>
+                                        <span t-field="doc.create_date"/>
+                                    </td>
+                                    <td>
+                                        <a role='button' tabindex='0' t-att-id="doc.id" t-att-fid="doc.id" t-att-sid="submission.id" class="btn btn-primary" onclick="deleteFile(this);">
+                                            <span class="fa fa-trash"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="sform_step3" name="Step 3">
+        <t t-call="ojm.sform_base">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="journal_section" style="text-transform:none!important"> Select the section or category appropriate to your
+                        manuscript <span class="required-field">*</span>
+                    </label>
+                    <div class="card p-2">
+                        <t t-foreach="journal.section_ids" t-as="section">
+                            <u>
+                                <b>
+                                    <t t-esc='section.name' />
+                                </b>
+                            </u>
+                            <p class='text-justify'>
+                                <t t-raw='section.description' />
+                            </p>
+                        </t>
+                    </div>
+                    <t t-if="submission">
+                        <div class="form-group">
+                            <select
+                                class="form-control journal_section_selector"
+                                style="width: 100%;" name="journal_section" required="true">
+                                <t t-foreach="journal.section_ids"
+                                    t-as="section">
+                                    <t t-if="submission.section_id.id == section.id">
+                                        <option
+                                            t-att-value='section.id' selected="true">
+                                            <t t-esc='section.name' />
+                                        </option>
+                                    </t>
+                                    <t t-else="">
+                                        <option
+                                            t-att-value='section.id'>
+                                            <t t-esc='section.name' />
+                                        </option>
+                                    </t>
+                                </t>
+                            </select>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="form-group">
+                            <select
+                                class="form-control journal_section_selector"
+                                style="width: 100%;" name="journal_section" required="true">
+                                <option value="">
+                                    --- YOUR CHOICE HERE ---
+                                </option>
+                                <t
+                                    t-foreach="journal.section_ids"
+                                    t-as="section">
+                                    <option
+                                        t-att-value='section.id'>
+                                        <t t-esc='section.name' />
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="sform_step4" name="Step 4">
+        <t t-call="ojm.sform_base">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="others">
+                        Reviewer preferences
+                    </label>
+                    <br />
+                    <button type="button" class="btn btn-default" data-toggle="modal"
+                        data-target="#modal-upload-reviewer">
+                        Add reviewer
+                    </button>
+                    <div class="table-responsive">
+                        <table class="table mt-3 preview_table" id="reviewers_table">
+                            <tr>
+                                <th>Title</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th></th>
+                            </tr>
+                            <t t-if="submission">
+                                <t t-foreach="submission.suggested_reviewer_ids" t-as="reviewer">
+                                    <tr>
+                                        <td>
+                                            <span t-field="reviewer.title" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="reviewer.name" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="reviewer.email" />
+                                        </td>
+                                        <td>
+                                            <!-- <a href="#" t-attf-id="fd_{{reviewer.id}}"
+                                                class="btn btn-secondary">
+                                                <span class="fa fa-edit"></span>
+                                            </a> -->
+                                            <a role='button' tabindex='0' t-attf-rid="{{reviewer.id}}"
+                                                class="btn btn-danger delrev" onclick='deleteReviewer(this)'>
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="sform_step5" name="Step 5">
+        <t t-call="ojm.sform_base">
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <t t-if="submission">
+                        <div id="manuscript-data-part" class="content"
+                            role="tabpanel"
+                            aria-labelledby="manuscript-data-part-trigger">
+                            <!-- content here -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Title</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='article_full_title'>Full title <span
+                                            class="required-field">*</span></label>
+                                    <textarea id="article_full_title" name="article_full_title" required="true">
+                                        <t t-raw="submission.name" />
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Abstract</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='article_abstract'>Abstract <span
+                                            class="required-field">*</span></label>
+                                    <textarea id="article_abstract" name="article_abstract" required="true" placeholder='Provide your abstract here'>
+                                        <t t-raw="submission.abstract" />
+                                    </textarea>
+                                </div>
+                                <div class="card-footer">
+                                    <span id="total-characters">0</span> words
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Keywords</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="keywords" style="text-transform:none!important">Provide keywords separated by
+                                            comma (,) <span class="required-field">*</span></label>
+                                        <t t-if="submission.keyword_ids">
+                                            <textarea class="form-control" rows="3" cols="8" id="keywords" name="keywords" required="true">
+                                                <t t-foreach="submission.keyword_ids" t-as="key">
+                                                    <t t-esc="key.name"/>,
+                                                </t>
+                                            </textarea>
+                                        </t>
+                                        <t t-else="">
+                                            <textarea class="form-control" rows="3" cols="8" id="keywords" name="keywords" required="true"></textarea>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Highlights</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='highlights'>Highlights <span
+                                            class="required-field">*</span></label>
+                                    <textarea id="highlights" name="highlights" required="true">
+                                        <t t-raw="submission.highlights" />
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Authors</h3>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-default"
+                                        data-toggle="modal" data-target="#modal-add-author">
+                                        Add author
+                                    </button>
+                                    <div>
+                                        <input type="hidden" name="number_of_authors" value="1" id="number_of_authors_input"/>
+                                        <div class="table-responsive">
+                                            <table class="table mt-3 preview_table" id="authors_table">
+                                                <tr>
+                                                    <th>Order</th>
+                                                    <th>Title</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Affiliations</th>
+                                                    <th></th>
+                                                </tr>
+                                                <t t-if="submission">
+                                                    <t t-foreach="submission.author_ids" t-as="author">
+                                                        <tr>
+                                                            <td>
+                                                                <select class="author_order" t-attf-name="order_{{author.id}}" t-attf-id="author_order_{{author.id}}" required="true">
+                                                                    <option selected="selected" value=''>--</option>
+                                                                    <t t-foreach="list(range(1, 1+len(submission.author_ids.ids)))" t-as="order">
+                                                                        <t t-if="submission.get_author_order(author.id) == order">
+                                                                            <option t-att-aid="author.id" t-att-value="order" selected="selected">
+                                                                                <t t-esc="order"/>
+                                                                            </option>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <option t-att-aid="author.id" t-att-value="order">
+                                                                                <t t-esc="order"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </t>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="author.title" />
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="author.name" />
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="author.email" />
+                                                            </td>
+                                                            <td>
+                                                                <span t-raw="author.get_affiliation_summary(submission.id)" />
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex flex-row flex-wrap justify-content-center align-items-center" 
+                                                                    style="gap:0.5em">
+                                                                    <a role='button' tabindex='0' t-attf-aid="{{author.id}}"
+                                                                        class="btn btn-danger" onclick='deleteAuthor(this);'>
+                                                                        <span class="fa fa-trash"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="form-group">
+                                        <label for="cauthor">Select corresponding author <span class="required-field">*</span> </label>
+                                        <select class="form-control" name="corresponding_author" id="cauthor" required="true">
+                                            <t t-foreach="submission.author_ids" t-as="author">
+                                                <t t-if="author.id == submission.corresponding_author.id">
+                                                    <option t-att-value="author.id" selected="selected">
+                                                        <t t-esc="author.name"/>
+                                                    </option>
+                                                </t>
+                                                <t t-else="">
+                                                    <option t-att-value="author.id">
+                                                        <t t-esc="author.name"/>
+                                                    </option>
+                                                </t>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Funding Information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='highlights'>
+                                        Funding details
+                                        <!-- <span class="required-field">*</span> -->
+                                    </label>
+                                    <textarea id="funding" name="funding_details">
+                                        <t t-raw="submission.funding_details" />
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div id="manuscript-data-part" class="content"
+                            role="tabpanel"
+                            aria-labelledby="manuscript-data-part-trigger">
+                            <!-- content here -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Title</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='article_full_title'>Full title<span
+                                            class="required-field">*</span></label>
+                                    <textarea id="article_full_title" name="article_full_title">
+                                        
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Abstract</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label for='article_abstract'>Abstract <span
+                                            class="required-field">*</span></label>
+                                    <textarea id="article_abstract" name="article_abstract">
+
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Keywords</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="keywords">Provide keywords separated by
+                                            semi-columns (;) <span class="required-field">*</span></label>
+                                        <textarea class="form-control" rows="3" cols="8"
+                                            id="keywords" name="keywords" required="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Authors</h3>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-default"
+                                        data-toggle="modal" data-target="#modal-add-author">
+                                        Add author
+                                    </button>
+                                    <div>
+                                        <table class="table table-striped mt-3" id="file_table">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th></th>
+                                            </tr>
+                                            <t t-if="submission">
+                                                <t t-foreach="submission.author_ids" t-as="author">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="author.title" />
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="author.name" />
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="author.email" />
+                                                        </td>
+                                                        <td>
+                                                            <button t-attf-id="fd_{{author.id}}"
+                                                                class="btn btn-secondary">
+                                                                <span class="fa fa-edit"></span>
+                                                            </button>
+                                                            <button t-attf-id="fd_{{author.id}}"
+                                                                class="btn btn-primary">
+                                                                <span class="fa fa-trash"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Funding Information</h3>
+                                </div>
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

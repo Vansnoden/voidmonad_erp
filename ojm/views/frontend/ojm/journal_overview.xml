@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_journal_overview" name="OJM Portal Journal overview">
+        <t t-set="jo_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation'/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div><!--
+                            /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Home</li>
+                                </ol>
+                            </div><!--
+                            /.col -->
+                        </div><!--
+                        /.row -->
+                    </div><!--
+                    /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12 col-xs-12 p-3">
+                            <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16" id="ms">
+                                    <!-- <h1 class="text-primary" data-anchor="true">Mission &amp; Scope</h1> -->
+                                    <t t-raw="journal.mission_scope"/>
+                                </section>
+                            </t>
+                            <!-- <section class="pb16 text-justify" id="eab">
+                                <h1 data-anchor="true" class="text-primary text-capitalize">Editors &amp; advisory board</h1>
+                                <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                    <t t-raw="journal.editor_ad_board"/>
+                                </t>
+                                <t t-if="journal.editor_ids">
+                                    <section>
+                                        <div class="row d-flex flex-row justify-content-center align-items-center flex-wrap"  style="gap:1em;   flex-basis:0;max-width: 100%; margin: auto;">
+                                            <t t-if="journal.editor_ids">
+                                                <t t-foreach="journal.editor_ids" t-as="editor">
+                                                    <div class="editor-item border">
+                                                        <img t-attf-data-src="data:;base64,{{editor.editor_id.image}}" class="img-fluid lazy" alt="photo"/>
+                                                        <div>
+                                                            <b>
+                                                                <t t-esc="editor.editor_id.name"/>
+                                                            </b>
+                                                            <div class="eaff" t-if="editor.editor_id.affiliation_ids">
+                                                                <hr/>
+                                                                <t t-foreach="editor.editor_id.affiliation_ids" t-as="aff">
+                                                                    <small>
+                                                                        <t t-esc="aff.name"/>
+                                                                    </small><br/>
+                                                                </t>
+                                                            </div>
+                                                            <hr/>
+                                                            <span>
+                                                                <t t-esc="editor.position_id.name"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </section>
+                                </t>
+                            </section>   -->
+                            <!-- <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16 text-justify" id="ep">
+                                    <h1 class="text-primary" data-anchor="true">Editorial policies</h1>
+                                    <t t-raw="journal.editorial_policies"/>
+                                </section>
+                            </t> -->
+                            <!-- <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16 text-justify" id="ifa">
+                                    <h1 data-anchor="true">Information for authors</h1>
+                                    <t t-raw="journal.inff_author"/>
+                                </section>
+                            </t>
+                            <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16 text-justify" id="ifr">
+                                    <h1 data-anchor="true">Information for reviewers</h1>
+                                    <t t-raw="journal.inff_reviewer"/>
+                                </section>
+                            </t> -->
+                            <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16" id="jm">
+                                    <h1 class="text-primary" data-anchor="true">Journal metrics</h1>
+                                    <t t-raw="journal.journal_metrics"/>
+                                </section>
+                            </t>
+                            <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16" id="contact">
+                                    <h1 class="text-primary" data-anchor="true">Contact</h1>
+                                    <t t-raw="journal.journal_contact"/>
+                                </section>
+                            </t>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 border-left p-3">
+                            <h3 class="text-primary">Quick links help</h3><br/>
+                            <p class="">
+                                Sayans requires an ORCID iD for all corresponding authors and encourages 
+                                all users to have one. To register for an ORCID iD and/or link it to 
+                                your Editorial Manager account, click on your name in the upper right-hand 
+                                corner of the navigation bar, and then click on Update My Information from 
+                                the pop-out. Watch our quick video tutorial.
+                            </p>
+
+                            Questions? Email <t t-esc="company.email"/> <br/><br/>
+                            <div>
+                                <h5>New submissions</h5>
+                                <ul>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/criteria-for-publication"> Criteria for publication</a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/submissionguide"> Getting started guide </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/style-and-format"> Style &amp; format guidelines </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/tables-figures-guides"> Figure guidelines </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a href="#"> Table guidelines </a>
+                                    </li> -->
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/review-process"> Overview of the peer review process </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a href="#"> Editorial and publishing policies </a>
+                                    </li> -->
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/preprint-policy">  Preprints </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                </section>
+                <!-- /.content -->
+
+                <div id="modals-section">
+                    <div>
+                        <div class="modal fade" id="modal-default">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Default Modal</h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="fas fa-close"></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>One fine body&amp;hellip;</p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content-wrapper -->
+            <t t-call='ojm.portal_footer'/>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="journal_about" name="Journal About">
+        <t t-call="website.layout">
+            <xpath expr="//header/nav" position="inside">
+                <!-- custom header here -->
+                <div class="journal_menu shadow-sm msticky">
+                    <div class="navbar navbar-expand-lg stick_bellow widget js-sticky-widget navbar-light o_colored_level o_cc" id="journal_nav">
+                        <div class="container">
+                            <a class="navbar-brand" t-attf-href="/journal/{{slug(journal)}}">
+                                <t t-if="journal.logo">
+                                    <img class="journal_logo lazy" t-attf-data-src="data:image/*;base64,{{journal.logo}}" alt="logo"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="journal_logo lazy" data-src="/ojm/static/src/img/library/sayans_clean.png" alt="logo"/>
+                                </t>
+                            </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}">
+                                            <span class="fa fa-home"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/current_issue">
+                                            Current issue
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/archive">
+                                            Archive
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            About
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about">Mission &amp; scope</a>
+                                            </t>
+                                            <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#eab">Editorial board</a>
+                                            </t>
+                                            <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#ep">Editorial policies</a>
+                                            </t>
+                                            <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifa">
+                                                    <span class="text-capitalize">Information</span> 
+                                                    for 
+                                                    <span class="text-capitalize">authors</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifr">
+                                                    <span class="text-capitalize">Information</span>
+                                                    for 
+                                                    <span class="text-capitalize">reviewers</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#jm">Journal metrics</a>
+                                            </t>
+                                            <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#contact">Contact us</a>
+                                            </t>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a t-attf-href="/ojm/{{journal.id}}/ahome" target="_blank" class="btn btn-primary text-capitalize">
+                                    Submit manuscript
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <div class="journal_details">
+                <div class="container">
+                    <nav aria-label="breadcrumb" class="mt-2">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a t-attf-href="/journal/{{slug(journal)}}">
+                                    <t t-esc="journal.name"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                About
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="row px-4">
+                        <section class="s_table_of_content pt24 pb24 o_cc o_cc1">
+                            <div class="container">
+                                <div class="row s_nb_column_fixed">
+                                    <div class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky 
+                                        s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable o_cc o_cc1" data-name="Navbar">
+                                        <div class="s_table_of_content_navbar list-group o_no_link_popover" style="top: 20px;">
+                                            <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#ms" class="text-capitalize table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0 active">
+                                                    Mission &amp; Scope
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#eab" class="text-capitalize table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Editorial board
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#ep" class="text-capitalize table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Editorial policies
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#ifa" class="table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Information for Authors
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#ifr" class="table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Information for Reviewers
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#jm" class="text-capitalize table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Journal metrics
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a href="#contact" class="text-capitalize table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                    Contact us
+                                                </a>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 s_table_of_content_main oe_structure oe_empty" data-name="Content">
+                                        <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="ms">
+                                                <h1 data-anchor="true" class="text-primary">Mission &amp; Scope</h1>
+                                                <t t-raw="journal.mission_scope"/>
+                                            </section>
+                                        </t>
+                                        <section class="pb16 " id="eab">
+                                            <h1 data-anchor="true" class="text-primary">Editorial Board</h1>
+                                            <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <t t-raw="journal.editor_ad_board"/>
+                                            </t>
+                                            <t t-if="journal.editor_ids">
+                                                <section>
+                                                    <div class="row d-flex flex-row justify-content-center align-items-center flex-wrap"  style="gap:1em;   flex-basis:0;max-width: 100%; margin: auto;">
+                                                        <t t-if="journal.editor_ids">
+                                                            <t t-foreach="journal.editor_ids" t-as="editor">
+                                                                <div class="editor-item border card">
+                                                                    <img t-attf-data-src="data:;base64,{{editor.editor_id.image}}" class="img-fluid lazy" alt="photo"/>
+                                                                    <div>
+                                                                        <b>
+                                                                            <t t-esc="editor.editor_id.name"/>
+                                                                        </b><br/>
+                                                                        <!-- <div class="eaff" t-if="editor.editor_id.affiliation_ids">
+                                                                            <hr/>
+                                                                            <t t-foreach="editor.editor_id.affiliation_ids" t-as="aff">
+                                                                                <small>
+                                                                                    <t t-esc="aff.name"/>
+                                                                                </small><br/>
+                                                                            </t>
+                                                                        </div> -->
+                                                                        <hr/>
+                                                                        <span>
+                                                                            <t t-esc="editor.position_id.name"/>
+                                                                        </span>
+                                                                        <a  class="stretched-link" data-toggle="modal" t-attf-data-target="#modal-editor-{{editor.editor_id.id}}"/>
+                                                                        <!-- <a t-if="editor.editor_id.orcid_link and not editor.editor_id.has_bio_text()" t-att-href="editor.editor_id.orcid_link" target="_blank" class="stretched-link"/> -->
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" t-attf-id="modal-editor-{{editor.editor_id.id}}" tabindex="-1" role="dialog" aria-labelledby="editorModalLabel" aria-hidden="true">
+                                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editorModalLabel">
+                                                                            <b><t t-esc="editor.position_id.name"/></b>
+                                                                        </h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                          <span aria-hidden="true" class="fa fa-times"></span>
+                                                                        </button>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4 col-sm-12">
+                                                                                <img t-attf-data-src="data:;base64,{{editor.editor_id.image}}" class="img-fluid lazy" alt="photo"/>
+                                                                                <div class="mt-3">
+                                                                                    <b>
+                                                                                        <t t-esc="editor.editor_id.name"/>
+                                                                                    </b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-8 col-sm-12">
+                                                                                <t t-out="editor.editor_id.bio"/>
+                                                                            </div>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="modal-footer border-top">
+                                                                        <div class="d-flex flex-row justify-content-start align-items-right" style="gap:2em">
+                                                                            <span>Learn more here:</span>
+                                                                            <a t-att-href="editor.editor_id.orcid_link" target="_blank">
+                                                                                <span class="orcid" t-if="editor.editor_id.orcid">
+                                                                                    <img class="icon" src="/ojm/static/src/img/orcid_2.svg"/>
+                                                                                    <span class="ml-2" t-esc="editor.editor_id.orcid"/>
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                            </t>
+                                                        </t>
+                                                    </div>
+                                                </section>
+                                            </t>
+                                        </section>
+                                        <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="ep">
+                                                <h1 data-anchor="true" class="text-primary">Editorial policies</h1>
+                                                <t t-raw="journal.editorial_policies"/>
+                                            </section>
+                                        </t>
+                                        <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="ifa">
+                                                <h1 data-anchor="true" class="text-primary">Information for Authors</h1>
+                                                <t t-raw="journal.inff_author"/>
+                                            </section>
+                                        </t>
+                                        <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="ifr">
+                                                <h1 data-anchor="true" class="text-primary">Information for Reviewers</h1>
+                                                <t t-raw="journal.inff_reviewer"/>
+                                            </section>
+                                        </t>
+                                        <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="jm">
+                                                <h1 data-anchor="true" class="text-primary">Journal metrics</h1>
+                                                <t t-raw="journal.journal_metrics"/>
+                                            </section>
+                                        </t>
+                                        <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                            <section class="pb16 " id="contact">
+                                                <h1 data-anchor="true" class="text-primary">Contact</h1>
+                                                <t t-raw="journal.journal_contact"/>
+                                            </section>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

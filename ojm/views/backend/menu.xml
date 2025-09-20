@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="jm_menu_root"
+        name="Journals"
+        sequence="10"
+        web_icon="ojm,static/description/icon.png"/>
+
+    <menuitem
+        id="jm_article_menu"
+        name="Submissions"
+        action="ojm_article_action"
+        parent="jm_menu_root"
+        sequence="1"/>
+
+    <menuitem
+        id="jm_article_revisions_menu"
+        name="Revisions"
+        action="ojm_article_revision_action"
+        parent="jm_menu_root"
+        sequence="2"/>
+    
+    <menuitem
+        id="jmm_menu"
+        name="Journal Management"
+        parent="jm_menu_root"
+        sequence="3"/>   
+        
+    <menuitem
+        id="conf_menu"
+        name="Configurations"
+        parent="jm_menu_root"
+        sequence="3"/>
+
+    <menuitem
+        id="jm_journals_menu"
+        name="Journals"
+        action="ojm_journal_action"
+        parent="jmm_menu"
+        sequence="1"/>
+
+    <menuitem
+        id="jm_journal_volume_menu"
+        name="Volumes"
+        action="ojm_journal_volume_action"
+        parent="jmm_menu"
+        sequence="2"/> 
+
+    <menuitem
+        id="jm_article_types_menu"
+        name="Article types"
+        action="ojm_article_type_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="3"/> 
+
+    
+    <menuitem
+        id="jm_article_file_types_menu"
+        name="Article file types"
+        action="ojm_article_file_type_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="4"/> 
+
+
+    <menuitem
+        id="jm_journal_section_menu"
+        name="Journal sections"
+        action="ojm_journal_section_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="5"/> 
+
+    <menuitem
+        id="ojm_submission_rule_menu"
+        name="Submission rules"
+        action="ojm_submission_rule_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="6"/>  
+    
+
+    <!-- <menuitem
+        id="jm_author_menu"
+        name="Authors"
+        action="ojm_article_author_action"
+        parent="jmm_menu"
+        sequence="7"/> -->
+
+
+    <menuitem
+        id="jm_editor_menu"
+        name="Editors"
+        action="ojm_editor_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="8"/>
+
+    <menuitem
+        id="jm_editor_position_menu"
+        name="Editor Positions"
+        action="ojm_editor_position_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="8"/>
+
+    
+   <!--  <menuitem
+        id="jm_reviewers_menu"
+        name="Suggested Reviewers"
+        action="ojm_article_sreviewer_action"
+        parent="jmm_menu"
+        sequence="9"/> -->
+
+        
+    <menuitem
+        id="jm_reviewer_invitation_menu"
+        name="Reviewers Invitations"
+        action="ojm_reviewer_invitation_action"
+        parent="jmm_menu"
+        sequence="9"/>
+
+
+    <menuitem
+        id="jm_reviewer_assignement_menu"
+        name="Reviewers Assignments"
+        action="ojm_reviewer_assignment_action"
+        parent="jmm_menu"
+        sequence="9"/>
+
+        
+    <menuitem
+        id="jm_category_menu"
+        name="Journal categories"
+        action="ojm_journal_category_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="10"/>
+
+    
+    <menuitem
+        id="jm_author_declaration_menu"
+        name="Author declarations"
+        action="ojm_author_declaration_view_action"
+        parent="jmm_menu"
+        groups="ojm.group_ojm_admin"
+        sequence="11"/>
+        
+    
+    <!-- <menuitem
+        id="ojm_orcid_token_menu"
+        name="Orcid Token"
+        action="orcid_token_action"
+        groups="ojm.group_ojm_admin"
+        parent="conf_menu"
+        sequence="1"/> -->
+
+</odoo>

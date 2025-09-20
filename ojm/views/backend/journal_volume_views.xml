@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_journal_volume_view_form" model="ir.ui.view">
+        <field name="name">ojm.journal.volume.view.form</field>
+        <field name="model">ojm.journal.volume</field>
+        <field name="arch" type="xml">
+            <form string="Journal volume">
+                <header>
+                    <button string="Publish" name="action_publish" type="object" class="oe_highlight" attrs="{'invisible':[('is_published','!=',False)]}"/>
+                    <button string="Unpublish" name="action_unpublish" type="object" class="oe_highlight" attrs="{'invisible':[('is_published','=',False)]}"/>
+                </header>
+                <sheet>
+                    <field name="code" readonly="1"></field>
+                    <group>
+                        <group>
+                            <field name="journal_id" required="1"></field>
+                            <field name="name" readonly="1"></field>
+                            <field name="issue_number" readonly="1"></field>
+                            <field name="is_published" readonly="1"></field>
+                        </group>
+                        <group>
+                            <field name="cover" widget="image" height="297" width="210" required="1"></field>
+                            <field name="sequence"></field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description"></field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow the process to automatically track the events associated to tasks and volumes of this volume." groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_journal_volume_view_tree" model="ir.ui.view">
+        <field name="name">ojm.journal.volume.view.tree</field>
+        <field name="model">ojm.journal.volume</field>
+        <field name="arch" type="xml">
+            <tree string="Journal volumes">
+                <field name="code"></field>
+                <field name="name"></field>
+                <field name="issue_number"></field>
+                <field name="is_published"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_journal_volume_action" model="ir.actions.act_window">
+        <field name="name">Volumes</field>
+        <field name="res_model">ojm.journal.volume</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', ('journal_id.editor_ids.editor_id.user_id', '=', uid), ('journal_id.create_uid', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

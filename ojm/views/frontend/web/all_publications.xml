@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="all_pub" name="All publications">
+        <t t-call="website.layout">
+            <section>
+                <div class="container allpub_banner">
+
+                    <div class="content">
+                        <h1>Explore Our Recent Insights</h1>
+                        <div>
+                            <form method="post" action="#" class="form-inline mb-2">
+                                <input type='hidden' name='csrf_token' t-att-value='request.csrf_token()' />
+                                <input class="col-6 mr-2" 
+                                    placeholder="search by: title, author, journal, year, doi, ..." 
+                                    type="text" name="search_text" t-att-value="search"/>
+                                <button class="btn btn-primary">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- <p>
+                        Dive into the forefront of academic and scientific discovery with our latest publications. 
+                        Each piece embodies our commitment to advancing knowledge, presenting meticulously researched 
+                        findings and innovative perspectives across various disciplines. Stay informed with the most 
+                        recent contributions from leading experts and emerging voices in the field, all curated for your 
+                        intellectual enrichment. Engage with our newest works and join the conversation shaping the 
+                        future of research.
+                    </p>
+                    <div class="h-line"/> -->
+                </div>
+            </section>
+            <section>
+                <div class="journal_details">
+                    <div class="container">
+                        <div class="">
+
+                            <div class="row">
+                                <div class="col-md-9 col-sm-12">
+                                    <t t-foreach="articles" t-as="article">
+                                        <div class="m-2 article-sum-item">
+                                            <a t-attf-href="/journal/{{slug(article.journal_id)}}" class="mb-2">
+                                                <span t-esc="article.journal_id.name"/>
+                                            </a>
+                                            <a class="unlink" t-attf-href="/journal/{{slug(article.journal_id)}}/article/{{slug(article)}}">
+                                                <span t-raw="article.name"/>
+                                            </a>
+                                            <div class="mt-2 mb-3 d-flex flex-row align-items-center justify-content-start" style="gap:0.5em">
+                                                <span class="author-names" t-raw="article.author_names"/>
+                                                <t t-if="article.doi">
+                                                    <span>|</span>
+                                                    <a t-att-href="article.doi">
+                                                        <span t-raw="article.doi"/>
+                                                    </a>
+                                                </t>
+                                            </div>
+
+                                            <div class="brief-description mb-3" t-raw="article.abstract"/>
+
+                                            <div class="d-flex flex-row justify-content-start align-items-center text-grey" style="gap:1em">
+                                                <span t-raw="article.type_id.name" class="article_type"/>
+                                                <span style="font-size:8px" class="fa fa-circle"/>
+                                                <span> Updated
+                                                    <span class="ml-1" t-raw="article.write_date.strftime('%B %d, %Y')"/>
+                                                </span>
+                                                <span style="font-size:8px" class="fa fa-circle"/>
+                                                <span>
+                                                Versions: Html<span class="" t-if="article.typesetted_document">, PDF</span>
+                                                </span>
+                                            </div>
+                                            <div class="h-line" style="width:96%"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="not articles">
+                                        <p class="p-none-found">
+                                            Sorry no matching document found.
+                                        </p>
+                                    </t>
+                                </div>
+                                <div class="col-md-3 col-sm-12">
+                                     <!-- <p>
+                                        Dive into the forefront of academic and scientific discovery with our latest publications. 
+                                        Each piece embodies our commitment to advancing knowledge, presenting meticulously researched 
+                                        findings and innovative perspectives across various disciplines. Stay informed with the most 
+                                        recent contributions from leading experts and emerging voices in the field, all curated for your 
+                                        intellectual enrichment. Engage with our newest works and join the conversation shaping the 
+                                        future of research.
+                                    </p> -->
+                                </div>
+                            </div>
+
+                            <t t-call="ojm.journal_pagination"/>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+</odoo>

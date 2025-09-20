@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+
+    <record id="demo_journal_categ_1" model="ojm.journal.category">
+      <field name="name">Theoritical Science</field>
+      <field name="description">
+        This category includes science that focus on theory first.
+      </field>
+      <field name="sequence">1</field>
+    </record>
+
+    <record id="demo_journal_categ_2" model="ojm.journal.category">
+      <field name="name">Pratical Science</field>
+      <field name="description">
+        This category includes science that focus on application/practice first.
+      </field>
+      <field name="sequence">2</field>
+    </record>      
+
+    <record id="demo_journal_1" model="ojm.journal">
+      <field name="name">Natural Mathematics</field>
+      <field name="logo" type="base64" file="ojm/static/src/img/demo/journal_logo.png"/>
+      <field name="cover" type="base64" file="ojm/static/src/img/demo/journal_cover.png"/>
+      <field name="description">
+        <![CDATA[
+          <p>
+            Natural Mathematics is an international, peer-reviewed open-access journal 
+            dedicated to exploring the profound connections between mathematics and the 
+            natural world. The journal provides a platform for original research, reviews, 
+            and methodological advances that highlight how mathematical theory, modeling, 
+            and computation contribute to understanding natural phenomena.
+          </p>
+          <p>
+            The scope of Natural Mathematics includes, but is not limited to:
+            <ul>
+              <li>Mathematical biology and ecology</li>
+              <li>Dynamical systems in physics and chemistry</li>
+              <li>Biostatistics and epidemiological modeling</li>
+              <li>Mathematical approaches to earth and environmental sciences</li>
+              <li>Computational and data-driven methods for natural processes</li>
+              <li>Applied mathematics for sustainability and climate change</li>
+            </ul>
+          </p>
+          <p>
+            By fostering interdisciplinary dialogue, the journal seeks to bridge the gap between 
+            abstract mathematics and real-world applications, promoting discoveries that advance 
+            both theoretical insight and practical solutions.
+          </p>
+          <p>
+            Published quarterly, Natural Mathematics welcomes contributions from mathematicians, 
+            scientists, and practitioners worldwide who are committed to expanding the role of 
+            mathematics in interpreting and solving natural challenges.
+          </p>
+        ]]>
+      </field>
+      <field name="brief_description">
+        Natural Mathematics is an international, peer-reviewed journal exploring the interplay 
+        between mathematics and the natural world. It publishes original research, reviews, and 
+        methodological advances in areas such as mathematical biology, ecology, physics, and 
+        environmental sciences. The journal emphasizes the use of mathematical models, computation, 
+        and data-driven methods to explain natural phenomena. By fostering interdisciplinary dialogue, 
+        it bridges abstract mathematics with real-world applications. Natural Mathematics is published 
+        quarterly and welcomes contributions from researchers worldwide.
+      </field>
+      <field name="mission_scope" >
+        <![CDATA[
+          <h2>Mission</h2>
+          <p>
+            The mission of Natural Mathematics is to advance understanding of the natural world 
+            through the power of mathematics. The journal strives to provide a platform where 
+            theoretical innovation meets practical application, fostering research that bridges 
+            pure mathematics with real-world scientific challenges. By encouraging interdisciplinary 
+            collaboration, it seeks to inspire solutions that contribute to scientific progress 
+            and societal well-being.
+          </p>
+          <h2>Scope</h2>
+          <p>
+            Natural Mathematics welcomes high-quality contributions in areas where mathematics 
+            illuminates natural processes, including but not limited to:
+            <ul>
+              <li>Mathematical biology, ecology, and epidemiology</li>
+              <li>Dynamical systems in physics, chemistry, and earth sciences</li>
+              <li>Computational models and data-driven approaches</li>
+              <li>Climate change, sustainability, and environmental modeling</li>
+              <li>Applied statistics and quantitative methodologies in natural sciences</li>
+            </ul>
+          </p>
+          <p>
+            The journal is committed to publishing work that demonstrates both mathematical rigor 
+            and relevance to pressing natural and scientific questions.
+          </p>
+        ]]>
+      </field>
+      <field name="editorial_policies" >
+        <![CDATA[
+          <h2>Editorial Policies</h2>
+          <h3>Peer Review</h3>
+          <p>
+          All manuscripts submitted to Natural Mathematics undergo a rigorous peer-review process. 
+          Submissions are first evaluated by the editorial team for scope, originality, and quality. 
+          Suitable manuscripts are then reviewed by at least two independent experts to ensure 
+          scientific validity, clarity, and relevance.
+          </p>
+          <h3>Open Access</h3>
+          <p>
+          The journal is committed to open access, ensuring that published research is freely available 
+          to the global community without subscription or access barriers.
+          </p>
+          <h3>Ethical Standards</h3>
+          <p>
+          Authors must adhere to the highest standards of academic integrity. Plagiarism, data 
+          fabrication, and duplicate submissions are strictly prohibited. The journal follows 
+          internationally recognized ethical guidelines, including COPE (Committee on Publication 
+          Ethics) principles.
+          </p>
+          <h3>Authorship & Contributions</h3>
+          <p>
+          All listed authors must have made a significant contribution to the research and approved 
+          the final version of the manuscript. Any conflicts of interest must be disclosed at submission.
+          </p>
+          <h3>Data & Transparency</h3>
+          <p>
+          Authors are encouraged to share data, models, and code to support reproducibility and transparency. 
+          Supplementary materials may be published alongside articles when appropriate.
+          </p>
+          <h3>Corrections & Retractions</h3>
+          <p>
+          In cases of major errors or ethical breaches, the journal reserves the right to issue corrections, 
+          expressions of concern, or retractions in line with best publishing practices.
+          </p>
+        ]]>
+      </field>
+      <field name="inff_author" >
+        <![CDATA[
+          <h2>Information for Authors</h2>
+          <h3>Manuscript Submission</h3>
+          <p>
+          Authors are invited to submit original research articles, reviews, or methodological papers relevant 
+          to the journal’s scope. Submissions must be made electronically through the online submission system.
+          </p>
+          <h3>Formatting Guidelines</h3>
+          <p>
+          Manuscripts should be written in clear English. <br/>
+          Use standard structure: Title, Abstract, Keywords, Introduction, Methods, Results, Discussion, References.<br/>
+          Figures and tables must be high quality and properly labeled.<br/>
+          References should follow a consistent citation style (APA, IEEE, or as specified in the submission portal).<br/>
+          <h3>Open Access Policy</h3>
+          <p>
+          All articles are published under open access, ensuring free and permanent availability to the global research community.
+          </p>
+          <h3>Ethical Requirements</h3>
+          <p>
+          Authors must ensure originality of their work, cite relevant sources, and avoid plagiarism. 
+          Studies involving human or animal subjects must include ethical approval statements.
+          </p>
+          <h3>Review Process</h3>
+          <p>
+          Each manuscript will undergo an initial editorial screening followed by double-blind peer review. 
+          Decisions (accept, revise, reject) will be communicated promptly.
+          </p>
+          <h3>Article Charges</h3>
+          <p>
+          As an open-access journal, publication may involve article processing charges (APCs). 
+          Waivers or discounts may be available for authors from low- and middle-income countries.
+          </p>
+          <h3>Copyright & Licensing</h3>
+          <p>
+          Authors retain copyright under a Creative Commons license, allowing wide dissemination 
+          and reuse with proper attribution.
+          </p>
+          <h3>Contact</h3>
+          <p>
+          For inquiries regarding submission, formatting, or policies, authors may contact the 
+          editorial office at: editor@naturalmathjournal.org
+          </p>
+        ]]>
+      </field>
+      <field name="inff_reviewer" >
+        <![CDATA[
+          <h2>Information for Reviewers</h2>
+          <h3>Role of Reviewers</h3>
+          <p>
+          Reviewers play a critical role in maintaining the quality, integrity, and credibility 
+          of Natural Mathematics. Their evaluations ensure that published manuscripts meet the 
+          highest standards of originality, clarity, and scientific rigor.
+          </p>
+          <h3>Review Process</h3>
+          <p>
+          Reviews are conducted under a double-blind policy: both authors and reviewers remain anonymous.
+          Reviewers are expected to provide constructive, objective, and timely feedback.
+          The typical review period is 2–4 weeks from the date of invitation.
+          </p>
+          <h3>Evaluation Criteria</h3>
+          <p>
+          Reviewers should assess:
+          <ul>
+            <li>Relevance of the manuscript to the journal’s scope.</li>
+            <li>Originality and significance of the contribution.</li>
+            <li>Soundness of methodology and analysis.</li>
+            <li>Clarity of presentation and structure.</li>
+            <li>Proper referencing of prior work.</li>
+            <li>Ethical Responsibilities</li>
+            <li>Maintain confidentiality of all submitted material.</li>
+            <li>Declare any conflicts of interest before accepting a review.</li>
+            <li>Avoid using or sharing unpublished data for personal advantage.</li>
+          </ul>
+          </p>
+          <h3>Recognition</h3>
+          <p>
+          Reviewers’ contributions are acknowledged through annual certificates of service, and exceptional 
+          reviewers may be highlighted by the editorial board.
+          </p>
+          <h3>Support</h3>
+          <p>
+          Guidelines and reviewer resources are available on the journal’s website. For questions, 
+          contact: review@naturalmathjournal.org
+          </p>
+        ]]>
+      </field>
+      <!-- <field name="journal_metrics"></field>
+      <field name="journal_contact"></field> -->
+      <field name="active">1</field>
+      <field name="is_published">1</field>
+      <field name="sequence">1</field>
+      <field name="category_id" ref="ojm.demo_journal_categ_1"/>
+    </record>
+
+    <record id="editor_position_1" model="ojm.editor.position">
+      <field name="name">Chief Editor</field>
+    </record>
+
+    <record id="editor_position_2" model="ojm.editor.position">
+      <field name="name">Associate Editor</field>
+    </record>
+
+  </data>
+
+</odoo>

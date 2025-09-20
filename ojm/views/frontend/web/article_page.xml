@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="articles_index" name="Article Navigation">
+        <t t-call="website.layout">
+            <div id="wrap" class="js_blog website_article">
+                <t t-out="0"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="article_page" name="Article page">
+        <t t-call="ojm.articles_index">
+            <div class="container pt-4">
+                <div class="row">
+                    <div class="col-md-9 col-sm-12">
+                        <div class="article-header">
+
+                            <div class="mb-3" style="font-weight:bold">
+                                <a t-attf-href="/journal/{{slug(article.journal_id)}}">
+                                    <span t-raw="article.journal_id.name"/>
+                                </a>
+                            </div>
+
+                            <span t-raw="article.name" class="mb-3"/>
+
+
+                            <ul class="nav mb-3">
+                                <t t-if="len(article.get_authors()) > 1">
+                                    <t t-foreach="article.get_authors()[:-1]" t-as="author">
+                                        <t t-if="author.id != article.corresponding_author.id">
+                                            <li class="titled_author">
+                                                <span t-esc="author.name" class="author_name" t-attf-data-id="author{{author.id}}"/>
+                                                <span style="font-size:5px" class="fa fa-circle ml-2 mr-2"/>
+                                                <div t-attf-id="author{{author.id}}" class="details d-none">
+                                                    <b t-esc="author.name"/>
+                                                    <span class="orcid" t-if="author.orcid">
+                                                        <img class="icon" src="/ojm/static/src/img/orcid_2.svg"/>
+                                                        <span class="ml-2" t-esc="author.orcid"/>
+                                                    </span>
+                                                    <span t-raw="author.get_affiliation_summary(article.id)"/>
+                                                </div>
+                                            </li>
+                                        </t>
+                                        <t t-else="">
+                                            <li class="titled_author">
+                                                <span class="author_name" t-esc="author.name" t-attf-data-id="author{{author.id}}"/>
+                                                <a t-attf-href="mailto:{{author.email}}">
+                                                    <span class="ml-1 fa fa-envelope"></span>
+                                                </a>
+                                                <span style="font-size:5px" class="fa fa-circle ml-2 mr-2"/>
+                                                <div t-attf-id="author{{author.id}}" class="details d-none">
+                                                    <b t-esc="author.name"/>
+                                                    <span class="orcid" t-if="author.orcid">
+                                                        <img class="icon" src="/ojm/static/src/img/orcid_2.svg"/>
+                                                        <span class="ml-2" t-esc="author.orcid"/>
+                                                    </span>
+                                                    <span t-raw="author.get_affiliation_summary(article.id)"/>
+                                                </div>
+                                            </li>
+                                        </t>
+                                    </t>
+                                    <li class="titled_author">
+                                        <t t-if="article.get_authors()[len(article.get_authors()) - 1].id != article.corresponding_author.id">
+                                            <span class="author_name" t-attf-data-id="author{{article.get_authors()[len(article.get_authors()) - 1].id}}">
+                                                <t t-esc="article.get_authors()[len(article.get_authors()) - 1].name"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="author_name" t-attf-data-id="author{{article.get_authors()[len(article.get_authors()) - 1].id}}">
+                                                <t t-esc="article.get_authors()[len(article.get_authors()) - 1].name"/>
+                                            </span>
+                                            <a t-attf-href="mailto:{{article.get_authors()[len(article.get_authors()) - 1].email}}">
+                                                <span class="ml-1 fa fa-envelope"></span>
+                                            </a>
+                                        </t>
+                                        <div t-attf-id="author{{article.get_authors()[len(article.get_authors()) - 1].id}}" class="details d-none">
+                                            <b t-esc="article.get_authors()[len(article.get_authors()) - 1].name"/>
+                                            <span class="orcid" t-if="article.get_authors()[len(article.get_authors()) - 1].orcid">
+                                                <img class="icon" src="/ojm/static/src/img/orcid_2.svg"/>
+                                                <span class="ml-2" t-esc="article.get_authors()[len(article.get_authors()) - 1].orcid"/>
+                                            </span>
+                                            <span t-raw="article.get_authors()[len(article.get_authors()) - 1].get_affiliation_summary(article.id)"/>
+                                        </div>
+                                    </li>
+                                </t>
+
+                                <li t-else="" class="titled_author">
+                                    <span class="mr-1 author_name" t-attf-data-id="author{{article.get_authors()[0].id}}">
+                                        <t t-esc="article.get_authors()[0].name"/>
+                                    </span>
+                                    <a t-attf-href="mailto:{{article.get_authors()[0].email}}">
+                                        <span class="ml-1 fa fa-envelope"></span>
+                                    </a>
+                                    <div t-attf-id="author{{article.get_authors()[0].id}}" class="details d-none">
+                                        <b t-esc="article.get_authors()[0].name"/>
+                                        <span class="orcid" t-if="article.get_authors()[0].orcid">
+                                            <img class="icon" src="/ojm/static/src/img/orcid_2.svg"/>
+                                            <span class="ml-2" t-esc="article.get_authors()[0].orcid"/>
+                                        </span>
+                                        <span t-raw="article.get_authors()[0].get_affiliation_summary(article.id)"/>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <p class="mb-3" t-esc="article.get_affiliations()" style="font-size:0.85rem"/>
+
+                            <div class="d-flex align-items-center mb-3" style="gap:0.8em; color:rgb(120,120,120)!important">
+                                <a t-att-href="article.doi" t-if="article.doi" target="_blank" style="color:rgb(120,120,120)!important;">
+                                    <t t-esc="article.doi"/>
+                                </a>
+                                <img class="img-fluid" style="width:15px;height:auto" 
+                                    src="/ojm/static/src/img/open_access.svg" t-if="article.is_open"/>
+                            </div>
+                        </div>
+
+                        <!-- <div class="mt-2 py-2 article-share-view">
+                            <ul class="nav d-flex flex-row align-items-right" style="gap:1em">
+                                <li class="nav-item" t-if="article.is_open">
+                                    <a t-attf-href="/journal/{{slug(article.journal_id)}}/read/{{slug(article)}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        <span class="mr-2">PDF</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#">
+                                        <i class="fa fa-share" aria-hidden="true"></i>
+                                        <span class="mr-2">Share</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div> -->
+
+                        <div class="article-content">
+                            <ul class="nav nav-tabs mtabs sticky-top bg-white" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="snap-tab" data-toggle="tab" href="#snapshot" role="tab" aria-controls="snapshot" aria-selected="true">
+                                        Snapshot
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">
+                                        Full article
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="media" aria-selected="false">
+                                        Image &amp; Data
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="references-tab" data-toggle="tab" href="#references" role="tab" aria-controls="references" aria-selected="false">
+                                        References
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myArticleContent">
+
+                                <div class="tab-pane fade py-3" id="snapshot" role="tabpanel" aria-labelledby="snap-tab">
+                                    <!-- <div class="oe_structure"/> -->
+                                    <div t-raw="article.snapshot"/>
+                                </div>
+
+                                <div class="tab-pane fade show active py-3" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <!-- <div class="oe_structure"/> -->
+
+                                    <div t-raw="article.content"/>
+                                </div>
+
+                                <div class="tab-pane fade py-3" id="media" role="tabpanel" aria-labelledby="media-tab">
+                                    <div class="d-flex flex-row flex-wrap jutify-content-between align-items-center col-12 m-auto">
+                                        <section class="s_table_of_content pt24 pb24 o_cc o_cc1">
+                                            <div class="container">
+                                                <div class="row s_nb_column_fixed">
+                                                    <!-- Table of content -->
+                                                    <div class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky
+                                                            s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable o_cc o_cc1" data-name="Navbar">
+                                                        <div class="s_table_of_content_navbar list-group o_no_link_popover" style="top: 20px;">
+                                                            <a href="#images" class="text-capitalize list-group-item list-group-item-action py-2 border-0 rounded-0 active">
+                                                                Images
+                                                            </a>
+                                                            <a t-if="article.has_non_image_doc()" href="#data" class="text-capitalize list-group-item list-group-item-action py-2 border-0 rounded-0">
+                                                                Additionnal data
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- article content -->
+                                                    <div class="col-lg-9 s_table_of_content_main oe_structure oe_empty" data-name="Content">
+                                                        <section class="pb16 text-justify" id="images">
+                                                            <h1>Figures</h1>
+                                                            <t t-foreach="article.get_documents()" t-as="doc">
+                                                                <t t-if="doc.name.startswith('Image')">
+                                                                    <div class="image-item">
+                                                                        <div class="a-img-container">
+                                                                            <div class="header">
+                                                                                <span class="title">
+                                                                                    <t t-esc="doc.web_title"/>
+                                                                                </span>
+                                                                                <div class="">
+                                                                                    <a t-attf-href="/web/content/{{doc.id}}?download=true" target="_blank" class="mr-2">
+                                                                                        <i class="fa fa-download icon"></i>
+                                                                                    </a>
+                                                                                    <a t-attf-href="/web/content/{{doc.id}}" target="_blank">
+                                                                                        <i class="fa fa-external-link icon"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <img t-attf-data-src="data:;base64,{{doc.datas}}" class="img-fluid lazy" style="height:auto;width:100%; margin:0" />
+                                                                            <div class="caption">
+                                                                                <p class="mini" t-raw="doc.formatted_description"/>
+                                                                            </div>
+                                                                            <div class="slider_desc_toogler">
+                                                                                <i class="fa fa-chevron-down"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </t>
+                                                            </t>
+                                                        </section>
+
+                                                        <section class="pb16 text-justify" id="data" t-if="article.has_non_image_doc()">
+                                                            <h1>Additional data</h1>
+                                                            <t t-foreach="article.get_documents()" t-as="doc">
+                                                                <t t-if="not doc.name.startswith('Image')">
+                                                                    <div class="doc-item">
+                                                                        <div class="doc-item-container">
+                                                                            <div class="header">
+                                                                                <span class="title">
+                                                                                    <t t-esc="doc.web_title"/>
+                                                                                </span>
+                                                                                <div class="">
+                                                                                    <a t-attf-href="/web/content/{{doc.id}}?download=true" target="_blank" class="mr-2">
+                                                                                        <i class="fa fa-download icon"></i>
+                                                                                    </a>
+                                                                                    <a t-attf-href="/web/content/{{doc.id}}" target="_blank">
+                                                                                        <i class="fa fa-external-link icon"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row justify-content-center align-items-center">
+                                                                                <span class="fa fa-file" style="font-size: 2rem"/>
+                                                                            </div>
+                                                                            <div class="caption">
+                                                                                <p class="mini" t-raw="doc.formatted_description"/>
+                                                                            </div>
+                                                                            <div class="slider_desc_toogler">
+                                                                                <i class="fa fa-chevron-down"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </t>
+                                                            </t>
+                                                        </section>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade py-3" id="references" role="tabpanel" aria-labelledby="reference-tab">
+                                    <!-- <div class="oe_structure"/> -->
+                                    <div t-raw="article.references"/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 py-3">
+                        <div class="sticky-top asido">
+                            <div class="aaside-item">
+                                <div class="py-3">
+                                    <h4>
+                                        <b>License</b>
+                                        <span class="ml-1 fa fa-creative-commons"/>
+                                    </h4>
+                                    <span>
+                                        This article is distributed under the 
+                                        <a href="https://creativecommons.org" target="_blank">
+                                            <i>Creative Commons</i>
+                                        </a>
+                                        Attribution 4.0 International License (CC BY 4.0).
+                                    </span>
+
+                                </div>
+                                <div class="d-flex flex-wrap" style="gap:1em">
+                                    <div class="dropdown" t-if="article.typesetted_document">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-download mr-2"/>
+                                            <span>Download</span>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" t-attf-href="/web/content/{{article.typesetted_document.id}}?download=true">
+                                                Article PDF
+                                            </a>
+                                            <!-- <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a> -->
+                                        </div>
+                                    </div>
+                                    <t t-if="article.citation_string or article.citation_bib or article.citation_ris">
+                                        <button class="btn btn-default" data-toggle="modal" data-target="#citationModal">
+                                            <i class="fa fa-quote-left mr-2"/>
+                                        Cite
+                                        </button>
+                                    </t>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-share mr-2"/>
+                                        Share
+                                    </button>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-comment mr-2"/>
+                                        Comment
+                                    </button>
+                                </div>
+                                <div class="mt-3 mb-3 py-3">
+                                    <span><t t-raw="article.view_count"/> views</span>
+                                </div>
+                            </div>
+                            <!-- modal -->
+                            <div t-if="article.citation_string" class="modal fade" id="citationModal" tabindex="-1" role="dialog" aria-labelledby="citationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="citationModalLabel">Cite this article</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">
+                                                    <i class="fa fa-times"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <span t-if="article.citation_string" id="myCitation">
+                                                <t t-esc="article.citation_string"/>
+                                            </span>
+                                            <br/>
+                                            <br/>
+                                            <a t-att-href="article.doi" t-if="article.doi">
+                                                <span style="color:rgb(110,110,110)">
+                                                    <t t-esc="article.doi"/>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="d-flex flex-row justify-content-around align-items-center flex-wrap" style="gap:1em">
+                                                <div t-if="article.citation_string">
+                                                    <button id="ccBtn" class="btn btn-secondary" onclick="myCCFunction()" title="Copy citation">Copy to clipboard</button>
+                                                </div>
+                                                <div t-if="article.citation_bib">
+                                                    <a t-attf-href="/web/binary/download_document?model=ojm.article&amp;filename={{article.code}}.bib&amp;field=citation_bib&amp;id={{ article.id }}" class="btn btn-secondary">
+                                                        Download Bibtex
+                                                    </a>
+                                                </div>
+                                                <div t-if="article.citation_ris">
+                                                    <a t-attf-href="/web/binary/download_document?model=ojm.article&amp;field=citation_ris&amp;filename={{article.code}}.ris&amp;id={{ article.id }}" class="btn btn-secondary">
+                                                        Download .ris
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="aside-item border">
+                                <!-- publication history will go here -->
+                            </div>
+
+                            <div class="aaside-item">
+                                <div class="ai-content">
+                                    <div t-if="article.volume_id">
+                                        <b class="mr-2">Related Issue</b>
+                                        <a t-attf-href="/journal/{{slug(article.journal_id)}}/issue/{{article.volume_id.id}}" class="nav-link m-0 p-0" style="fonr-size:0.8rem">
+                                            <span>
+                                                <t t-esc="article.volume_id.name"/>
+                                            </span>
+                                            <br/>
+                                            <img t-attf-data-src="data:;base64,{{article.volume_id.cover}}" alt="volume cover" class="img-fluid lazy" style="height:auto;width:100%"/>
+                                        </a>
+                                    </div>
+                                    <!-- <ul class="list-group">
+                                        <li class="list-group-item p-0">
+                                            <div class="ai-header">
+                                                Related Issue
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item p-0">
+                                            <a t-attf-href="/journal/{{slug(article.journal_id)}}/issue/{{article.volume_id.id}}" class="nav-link">
+                                                <img t-attf-src="data:;base64,{{article.volume_id.cover}}" alt="volume cover" class="img-fluid" style="height:auto;width:100%"/>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item p-0">
+                                            <a t-attf-href="/journal/{{slug(article.journal_id)}}/issue/{{article.volume_id.id}}" class="nav-link">
+                                                <t t-esc="article.volume_id.name"/>
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                                </div>
+                            </div>
+
+                            <div class="aaside-item pt-3 border-top">
+                                <div class="ai-content">
+                                    <div class="d-flex flex-column flex-wrap text-bold" style="gap:0.5em">
+                                        <p t-if="article.publish_date">
+                                            <b>Published</b>
+                                            <br/>
+                                            <span t-raw="article.publish_date.strftime('%B %d, %Y')"/>
+                                        </p>
+                                        <p t-if="article.online_first_date">
+                                            <b>Online First</b>
+                                            <br/>
+                                            <span t-raw="article.online_first_date.strftime('%B %d, %Y')"/>
+                                        </p>
+                                        <p t-if="article.type_setting_end_date">
+                                            <b>Accepted</b>
+                                            <br/>
+                                            <span t-raw="article.type_setting_end_date.strftime('%B %d, %Y')"/>
+                                        </p>
+                                        <p t-if="article.type_setting_start_date">
+                                            <b>Reviewed</b>
+                                            <br/>
+                                            <span t-raw="article.type_setting_start_date.strftime('%B %d, %Y')"/>
+                                        </p>
+                                        <p t-if="article.submission_date">
+                                            <b>Received</b>
+                                            <br/>
+                                            <span t-raw="article.submission_date.strftime('%B %d, %Y')"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="aaside-item">
+                                <div class="ai-content">
+                                    <ul class="list-group">
+                                        <li class="list-group-item p-0">
+                                            <div class="ai-header">
+                                                General information
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item p-2" style="font-size:0.8rem">
+                                            <div class="info-row">
+                                                <span class="label">
+                                                    DOI
+                                                </span>
+                                                <span class="value">
+                                                    <a t-attf-href="article.doi">
+                                                        <t t-esc="article.doi"/>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item p-2" style="font-size:0.8rem">
+                                            <div class="info-row">
+                                                <span class="label">
+                                                    ISSN
+                                                </span>
+                                                <span class="value">
+                                                    <a t-attf-href="article.issn">
+                                                        <t t-esc="article.issn"/>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

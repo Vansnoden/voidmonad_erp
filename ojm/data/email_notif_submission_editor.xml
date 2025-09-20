@@ -1,0 +1,45 @@
+<odoo>
+    <data noupdate="0">
+        <record id="submission_notif_editor_email_template" model="mail.template">
+            <field name="name">New submission</field>
+            <field name="model_id" ref="ojm.model_ojm_article"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.journal_id.get_editor_in_chief().email}}</field>
+            <field name="subject">New Manuscript Submission - Sayans Publishers LLP</field>
+            <field name="body_html" type="html">
+                <div>
+                    <hr/>
+                        <span>Dear</span> 
+                        <t t-out="object.journal_id.get_editor_in_chief().name"/>
+                        <span>,</span>
+                        <br/>
+                    <hr/>
+                    <p>
+                        A new manuscript has been submitted to <t t-out="object.journal_id.name"/>.
+                    </p>
+                    <br/>
+                    <br/>
+                    Submission Number: <t t-out="object.code"/>
+                    <br/>
+                    Title: <t t-out="object.name"/>
+                    <br/>
+                    Corresponding author(s): <t t-out="object.corresponding_author.name"/>
+                    <br/>
+                    Abstract:
+                    <t t-out="object.abstract"/>
+                
+                    <hr style="margin-top:3em"/>
+
+                    <p style="font-size:0.75rem">
+                        Sayans Publishers LLP  <br/>
+                        00100-Nairobi, Kenya <br/>
+                        BN: 2RCYZLDL<br/>
+                        Contact: sayanspublishers@sayansi.org<br/>
+                        <a href="www.sayansi.org">www.sayansi.org</a>
+                        <!-- Follow us on [Social Media Links] for updates and more<br/> -->
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

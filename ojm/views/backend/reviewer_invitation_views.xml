@@ -1,0 +1,50 @@
+<odoo>
+
+	<record id="ojm_reviewer_invitation_view_form" model="ir.ui.view">
+        <field name="name">ojm_reviewer_invitation.view.form</field>
+        <field name="model">ojm.reviewer.invitation</field>
+        <field name="arch" type="xml">
+            <form string="">
+            	<header>
+            		<button string="Send Invitation" 
+                        name="action_invite" 
+                        type="object" 
+                        attrs = "{'invisible':[('state', '=', 'accepted')]}"
+                        class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,accepted,declined"/>
+            	</header>
+                <sheet>
+                    <group>
+                        <field name="email"></field>
+                        <field name="name"/>
+                        <field name="article_id"></field>
+                        <!-- <field name="reviewer_id" readonly='1'></field> -->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_reviewer_invitation_view_tree" model="ir.ui.view">
+        <field name="name">ojm.reviewer.invitation.view.tree</field>
+        <field name="model">ojm.reviewer.invitation</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="article_id"></field>
+                <field name="email"></field>
+                <field name="state"></field>
+                <field name="create_date"></field>
+                <field name="write_date"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_reviewer_invitation_action" model="ir.actions.act_window">
+        <field name="name">Reviewers Invitations</field>
+        <field name="res_model">ojm.reviewer.invitation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', ('journal_id.editor_ids.editor_id.user_id', '=', uid), ('journal_id.create_uid', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

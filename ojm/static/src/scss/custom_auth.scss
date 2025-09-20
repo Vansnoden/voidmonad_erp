@@ -1,0 +1,83 @@
+// // div:has(div > form) { 
+// //     /* styles to apply to the li tag */ 
+// //     background-color: yellow!important;
+// // }
+
+// :root {
+//     --mtheme-primary: #DF4C2E;
+//     --mtheme-primary-dark: #5f2215;
+//     --mtheme-secondary: #DF4C2E;
+//     --mtheme-secondary-dark: #5f2215;
+//     --mtheme-accent: #ff6d50;
+// }
+
+// @mixin nav-bg($parent, $active, $sel) {
+//     @at-root #{$parent} {
+//         &#{$active $sel} {
+//             @content;
+//         }
+//     }
+// }
+
+// // .card{
+// //     opacity: 0.85;
+// // }
+
+// // #wrapwrap{ 
+// //     // background-image: url(/backend_login/static/src/img/law_firm.jpg)!important;
+// //     // background-size: cover;
+// //     // background-repeat: no-repeat;
+// //     // background-position: center; 
+// //     // a{
+// //     //     color: var(--mtheme-primary)!important;
+// //     // }
+// //     // .btn-link{
+// //     //     color: var(--mtheme-primary)!important;
+// //     // }
+// // }
+
+// div:has(.oe_login_form) {
+//     a {
+//         color: var(--mtheme-primary) !important;
+//     }
+// }
+
+// .oe_login_form {
+//     background-color: #fff;
+//     border-radius: 10px;
+//     padding: 2em;
+
+//     .btn {
+//         outline: none !important;
+//         border: none !important;
+//     }
+
+//     .form-control:focus {
+//         border-color: var(--mtheme-primary);
+//         box-shadow: 0 0 0 0.2rem rgba(var(--mtheme-primary), 0.25);
+//     }
+
+//     .btn-primary {
+//         background-color: var(--mtheme-primary) !important;
+//         transition: 500ms ease-in-out;
+//         outline-color: var(--mtheme-primary) !important;
+
+//         &:hover {
+//             background-color: var(--mtheme-primary-dark) !important;
+//         }
+//     }
+
+//     @include nav-bg(main, '', '') {
+//         // background-image: url('../images/buttons/menu-materials.png');
+//         // background-color: yellow;
+//         background: var(--mtheme-primary);
+//         /* fallback for old browsers */
+//         background: linear-gradient(rgb(255, 255, 255), rgba(255, 216, 208, 0.788)), url(/ojm/static/src/img/auth_bg.jpg);
+//         /* Chrome 10-25, Safari 5.1-6 */
+//         // background: linear-gradient(rgba(72,0,72,0.8), rgba(95, 34, 21,0.8)), url(/ojm/static/src/img/auth_bg.jpg); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+//         background-size: cover;
+//         background-repeat: no-repeat;
+//         background-position: right;
+//     }
+
+// }

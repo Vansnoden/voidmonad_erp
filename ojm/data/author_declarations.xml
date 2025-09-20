@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+    
+        <record id="author_dec_1" model="ojm.author.declaration">
+            <field name="name">Conflict of Interest Declaration</field>
+            <field name="description">I/We declare that there are no conflicts of interest that could be perceived as influencing the research presented in this manuscript.</field>
+        </record>
+
+        <record id="author_dec_2" model="ojm.author.declaration">
+            <field name="name">Authorship Contribution Declaration</field>
+            <field name="description">I/We confirm that each author has made a significant contribution to the research and manuscript preparation.</field>
+        </record>
+
+        <record id="author_dec_3" model="ojm.author.declaration">
+            <field name="name">Funding Sources and Acknowledgments</field>
+            <field name="description">I/We have acknowledged all funding sources and significant non-author contributions to this research.</field>
+        </record>
+
+        <record id="author_dec_4" model="ojm.author.declaration">
+            <field name="name">Ethical Approval Declaration (if applicable)</field>
+            <field name="description">I/We declare that for research involving human or animal subjects, ethical approval has been obtained and is documented in the manuscript.</field>
+        </record>
+
+        <record id="author_dec_5" model="ojm.author.declaration">
+            <field name="name">Data Availability Statement</field>
+            <field name="description">I/We have provided a statement regarding the availability of data supporting the findings of the study.</field>
+        </record>
+
+        <record id="author_dec_6" model="ojm.author.declaration">
+            <field name="name">Originality and Publication Declaration</field>
+            <field name="description">I/We affirm that this manuscript is original, has not been published previously, and is not under consideration for publication elsewhere.</field>
+        </record>
+
+        <record id="author_dec_7" model="ojm.author.declaration">
+            <field name="name">Consent for Publication (if applicable)</field>
+            <field name="description">I/We confirm that consent for publication has been obtained from all individuals involved in the study or from their legal guardians.</field>
+        </record>
+
+        <record id="author_dec_8" model="ojm.author.declaration">
+            <field name="name">Compliance with Reporting Guidelines (if applicable)</field>
+            <field name="description">I/We have complied with recognized reporting guidelines relevant to this research and have included this information in the manuscript.</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

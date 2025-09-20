@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_article_type_view_form" model="ir.ui.view">
+        <field name="name">ojm_article_type.view.form</field>
+        <field name="model">ojm.article.type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" required="1"></field>
+                        <field name="sequence" required="1"></field>
+                        <field name="is_published" required="1"></field>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <group>
+                                <field name="description"></field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_article_type_view_tree" model="ir.ui.view">
+        <field name="name">ojm_article_type.view.tree</field>
+        <field name="model">ojm.article.type</field>
+        <field name="arch" type="xml">
+            <tree string="article_type">
+                <field name="name"></field>
+                <field name="sequence"></field>
+                <field name="is_published"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_article_type_action" model="ir.actions.act_window">
+        <field name="name">Article types</field>
+        <field name="res_model">ojm.article.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

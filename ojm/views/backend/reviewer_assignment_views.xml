@@ -1,0 +1,67 @@
+<odoo>
+
+	<record id="ojm_reviewer_assignment_view_form" model="ir.ui.view">
+        <field name="name">ojm_reviewer_assignment.view.form</field>
+        <field name="model">ojm.reviewer.assignment</field>
+        <field name="arch" type="xml">
+            <form string="">
+            	<header>
+                    <button string="Notify Author" 
+                        name="notify_author" 
+                        type="object" 
+                        class="oe_highlight"/>
+                    <field name="decision" widget="statusbar"/>
+            	</header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="invitation_id"></field>
+                            <field name="article_id" readonly="1"/>
+                            <field name="initial_manuscript"></field>
+                            <field name="reviewed_manuscript"></field>
+                            <field name="allow_me_to_author"/>
+                            <field name="english_flow"/>
+                            <field name="statistic"/>
+                        </group>
+                        <group>
+                            <field name="scientific_rigor"/>
+                            <field name="impact_relevance"/>
+                            <field name="structure_and_content"/>
+                            <field name="references"/>
+                            <field name="comment_severity"/>
+                            <field name="decision"></field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="comment" string="General Comment">
+                            <field name="general_comment"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_reviewer_assignment_view_tree" model="ir.ui.view">
+        <field name="name">ojm.reviewer.assignment.view.tree</field>
+        <field name="model">ojm.reviewer.assignment</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="invitation_id"></field>
+                <field name="reviewer_email"></field>
+                <field name="decision"></field>
+                <field name="create_date"></field>
+                <field name="write_date"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_reviewer_assignment_action" model="ir.actions.act_window">
+        <field name="name">Reviewer Assignments</field>
+        <field name="res_model">ojm.reviewer.assignment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', ('journal_id.editor_ids.editor_id.user_id', '=', uid), ('journal_id.create_uid', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

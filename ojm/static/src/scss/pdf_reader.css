@@ -1,0 +1,101 @@
+:root {
+    --primary: rgb(223, 76, 46);
+    --primary-light: rgb(253, 70, 38);
+    --primary-dark: rgb(181, 61, 39);
+    --secondary: rgb(46, 46, 46);
+    --secondary-dark: rgb(8, 3, 4);
+    --secondary-light: rgb(184, 184, 184);
+    --accent: rgb(255,255,255);
+    --default: rgb(211, 211, 212);
+}
+
+.mtable{
+    border: none!important;
+    background-color: transparent!important;
+}
+
+.mtable th{
+    border: none!important;
+}
+
+.mtable tr{
+    border: none!important;
+}
+
+.mtable td{
+    border: none!important;
+}
+
+.nav-item, .btn, .form-control, .nav-link, .nav-tabs{
+    border-radius: 0px!important;
+}
+
+.nav-link{
+    text-decoration: none!important;
+    font-weight: bolder;
+    color: var(--primary);
+}
+
+.nav-link:hover{
+    color: var(--primary);  
+}
+
+.pdf-ctn{
+    .header{
+        background: var(--primary)!important;
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: #fff;
+    }
+}
+
+.mrounded {
+    border-radius: 20px !important;
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+    margin: 0.5em;
+}
+
+.btn-default{
+    background-color: var(--default);
+}
+
+.short-des{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 9;
+    line-clamp: 9;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    padding-right:1em;
+}
+
+.headerSlider{
+    /* position: absolute; */
+    /* top: 0em; */
+    /* left: 0em; */
+    /* z-index: 12000!important; */
+    background-color: var(--primary);
+    /* width: 15vw; */
+    color: #fff;
+    font-weight: bolder;
+}
+
+.reader-wrapper{
+    position: relative;
+}
+
+#custom_menu{
+    /* position: absolute; */
+    /* left: 0; */
+    /* z-index: 120000; */
+    box-shadow: 10px 0 10px  0 grey;
+    /* background-color: var(--secondary); */
+    /* color: #fff; */
+    /* height: 100vh; */
+    /* top:2em; */
+}
+
+.bg-default{
+    background-color: var(--default);
+}

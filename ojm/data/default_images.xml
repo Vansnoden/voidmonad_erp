@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="ojm.library_image_1" model="ir.attachment">
+            <field name="public" eval="True"/>
+            <field name="name">journal_default_cover.jpg</field>
+            <field name="res_model">ir.ui.view</field>
+            <field name="type">url</field>
+            <field name="url">/ojm/static/src/img/library/journal_default_cover.jpg</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

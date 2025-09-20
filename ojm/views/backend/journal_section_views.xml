@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ojm_journal_section_view_form" model="ir.ui.view">
+        <field name="name">ojm_journal_section.view.form</field>
+        <field name="model">ojm.journal.section</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="journal_id" required="1"></field>
+                        <field name="name" required="1"></field>
+                        <field name="sequence" required="1"></field>
+                        <field name="is_published"></field>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description"></field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ojm_journal_section_view_tree" model="ir.ui.view">
+        <field name="name">ojm_journal_section.view.tree</field>
+        <field name="model">ojm.journal.section</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"></field>
+                <field name="sequence"></field>
+                <field name="is_published"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_journal_section_action" model="ir.actions.act_window">
+        <field name="name">Journal sections</field>
+        <field name="res_model">ojm.journal.section</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', ('journal_id.editor_ids.editor_id.user_id', '=', uid), ('journal_id.create_uid', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

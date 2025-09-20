@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_saved_submission" name="OJM Portal in saved submission">
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div><!--
+                            /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Submissions saved for later</li>
+                                </ol>
+                            </div><!--
+                            /.col -->
+                        </div><!--
+                        /.row -->
+                    </div><!--
+                    /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <section class="content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Submissions saved for later</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach='submissions' t-as='submission'>
+                                        <tr>
+                                            <td>
+                                                <t t-esc='submission.code'/>
+                                            </td>
+                                            <td>
+                                                <t t-esc='submission.short_title'/>
+                                            </td>
+                                            <td>
+                                                <span t-field='submission.state'/>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href='/ojm/{{journal.id}}/preview/{{submission.id}}' class="btn btn-primary mr-3">
+                                                    <span class="fa fa-eye"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </section>
+            </div>
+            <t t-call='ojm.portal_footer' />
+            <aside class="control-sidebar control-sidebar-dark"></aside>
+        </t>
+    </template>
+
+</odoo>

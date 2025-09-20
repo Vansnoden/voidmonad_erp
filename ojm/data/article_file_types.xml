@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+    
+        <!-- <record id="article_file_type_1" model="ojm.article.file.type">
+            <field name="name">Manuscript</field>
+            <field name="description">Main document</field>
+            <field name="sequence">1</field>
+            <field name="is_published">True</field>
+        </record> -->
+
+        <record id="article_file_type_2" model="ojm.article.file.type">
+            <field name="name">Cover Letter</field>
+            <field name="description">Cover letter</field>
+            <field name="sextensions">.doc,.docx,.pdf</field>
+            <field name="sequence">2</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_file_type_3" model="ojm.article.file.type">
+            <field name="name">Image</field>
+            <field name="description">Image in the manuscript</field>
+            <field name="sextensions">.jpeg,.jpg,.png,.gif,.tif,.tiff</field>
+            <field name="sequence">3</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_file_type_4" model="ojm.article.file.type">
+            <field name="name">Data</field>
+            <field name="description">Manuscript data file</field>
+            <field name="sextensions">.xlsx,.xls,.zip</field>
+            <field name="sequence">4</field>
+            <field name="is_published">True</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

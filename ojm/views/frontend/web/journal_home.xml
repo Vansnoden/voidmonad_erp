@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="journal_details" name="Journal Details">
+        <t t-call="website.layout">
+            <xpath expr="//header/nav" position="inside">
+                <!-- custom header here -->
+                <div class="journal_menu shadow-sm msticky">
+                    <div class="navbar navbar-expand-lg stick_bellow widget js-sticky-widget navbar-light o_colored_level o_cc" id="journal_nav">
+                        <div class="container m-auto">
+                            <a class="navbar-brand" t-attf-href="/journal/{{slug(journal)}}">
+                                <t t-if="journal.logo">
+                                    <img class="journal_logo lazy" t-attf-data-src="data:image/*;base64,{{journal.logo}}" alt="logo"/>
+                                </t>
+                                <t t-else="">
+                                    <img class="journal_logo lazy" t-attf-data-src="/ojm/static/src/img/library/sayans_clean.png" alt="logo"/>
+                                </t>
+                            </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" t-attf-href="/journal/{{slug(journal)}}">
+                                            <span class="fa fa-home"/>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/current_issue">
+                                            Current issue
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-capitalize" t-attf-href="/journal/{{slug(journal)}}/archive">
+                                            Archive
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            About
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <t t-if="journal.mission_scope != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about">Mission &amp; scope</a>
+                                            </t>
+                                            <t t-if="journal.editor_ad_board != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#eab">Editorial board</a>
+                                            </t>
+                                            <t t-if="journal.editorial_policies != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#ep">Editorial policies</a>
+                                            </t>
+                                            <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifa">
+                                                    <span class="text-capitalize">Information</span> 
+                                                    for 
+                                                    <span class="text-capitalize">authors</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.inff_reviewer != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item" t-attf-href="/journal/{{slug(journal)}}/about#ifr">
+                                                    <span class="text-capitalize">Information</span>
+                                                    for 
+                                                    <span class="text-capitalize">reviewers</span>
+                                                </a>
+                                            </t>
+                                            <t t-if="journal.journal_metrics != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#jm">Journal metrics</a>
+                                            </t>
+                                            <t t-if="journal.journal_contact != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'" class="text-capitalize">
+                                                <a class="dropdown-item text-capitalize" t-attf-href="/journal/{{slug(journal)}}/about#contact">Contact us</a>
+                                            </t>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a t-attf-href="/ojm/{{journal.id}}/ahome" target="_blank" class="btn btn-primary text-capitalize">
+                                    Submit manuscript
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            <div class="journal_details">
+                <!-- cover -->
+                <section class="s_cover parallax s_parallax_is_fixed bg-black-50 pt96 pb96" data-scroll-background-ratio="1">
+                    <t t-if="not journal.cover">
+                        <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/ojm.library_image_1'); background-position: 50% 0;"/>
+                    </t>
+                    <t t-else="">
+                        <span class="s_parallax_bg oe_img_bg" t-attf-style="background-image: url(data:image/*;base64,{{journal.cover}}); background-position: 50% 0;"/>
+                    </t>
+                    <div class="o_we_bg_filter bg-black-50"/>
+                    <div class="container s_allow_columns">
+                        <h1 style="text-align: center;">
+                            <font style="font-size: 62px; font-weight: bold;">
+                                <t t-esc="journal.name"/>
+                            </font>
+                        </h1>
+                        <p class="lead" style="text-align: center;">
+                            <t t-esc="journal.brief_description"/>
+                        </p>
+                        <!-- <p style="text-align: center;">
+                            <a t-att-href="cta_btn_href" class="btn btn-primary mb-2"><t t-esc="cta_btn_text">Contact us</t></a>
+                        </p> -->
+                    </div>
+                    <!-- <div class="jnumber">
+                        <ul class="jnumber-list row">
+                            <li class="lefto col-md col-sm-6">
+                                <span class="jntitle">
+                                    <t t-esc="journal.impact"/>
+                                </span>
+                                <br/>
+                                <span class="jnstitle text-capitalize">
+                                    Impact factor
+                                </span>
+                            </li>
+                            <li class="col-md col-sm-6">
+                                <span class="jntitle">
+                                    <t t-esc="journal.citescore"/>
+                                </span>
+                                <br/>
+                                <span class="jnstitle text-capitalize">
+                                    Cite <br/>
+                                    <span>score</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div> -->
+                </section>
+                <div class="container p-0">
+
+                    <nav aria-label="breadcrumb m-auto px-2 rounded-none" class="mt-0">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/journals">Journals</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <t t-esc="journal.name"/>
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <div class="px-3 row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <section class="py-2">
+                                <div class="row px-2">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 px-0 py-4">
+                                        <t t-if="journal.latest_issue">
+                                            <h3 class="home-issue-title">
+                                                <span>
+                                                    Latest issue: 
+                                                </span>
+                                                <span>
+                                                    <t t-esc="journal.latest_issue.name"/>
+                                                </span>
+                                            </h3>
+                                            <div class="h-line"/>
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="l_issue_in">
+                                                        <img class="img-fluid lazy" t-attf-data-src="data:image/*;base64,{{journal.latest_issue.cover}}" alt="cover"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                                    <div class="content">
+                                                        <div class="hline-white mb-2"></div>
+                                                        <div class="text-issue">
+                                                            <div class="description">
+                                                                <!-- <span t-raw="journal.latest_issue.description"/> -->
+                                                                <t t-foreach="journal.latest_issue.article_ids[:6]" t-as="article">
+                                                                    <div class="border-bottom article-list-item" t-if="article.state == 'published'">
+                                                                        <div class="aheader d-flex flex-row justify-content-start align-items-center">
+                                                                            <span class="atype">
+                                                                                <t t-raw="article.type_id.name"/>
+                                                                            </span>
+                                                                            <span class="mr-1 ml-1">|</span>
+                                                                            <span class="mr-2">BY:</span>
+                                                                            <span class="aauthors">
+                                                                                <t t-raw="article.author_names"/>
+                                                                            </span>
+                                                                        </div>
+
+                                                                        <a t-attf-href="/journal/{{slug(journal)}}/article/{{slug(article)}}" class="atitle">
+                                                                            <t t-raw="article.name"/>
+                                                                        </a>
+                                                                    </div>
+                                                                </t>
+                                                            </div>
+                                                        </div>
+                                                        <div class="py-2">
+                                                            <a t-attf-href="/journal/{{slug(journal)}}/current_issue" class="btn btn-primary">
+                                                                <span>See more</span>
+                                                                <span class="ml-2 fa fa-arrow-right"></span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+
+                                        </t>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="h-line"/>
+                            <section class="py-2">
+                                <h4 style="text-align: center;" class="text-capitalize">
+                                    <font style="font-size: 30px;!important">Other Issues</font>
+                                </h4>
+                                <div class="h-line"/>
+                                <div class="issues-carousel m-auto px-0 row d-flex flex-row justify-content-start align-items-center">
+                                    <t t-foreach="other_issues[:6]" t-as="issue">
+                                        <div class="col-md-2  col-sm-12 even-column">
+                                            <div class="card m-card card-default bg-white m-0">
+                                                <div>
+                                                    <t t-if="issue.cover">
+                                                        <img class="img-fluid lazy" t-attf-data-src="data:image/*;base64,{{issue.cover}}" alt="cover"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <img class="img-fluid lazy" data-src="/web/image/ojm.library_image_1" alt="cover"/>
+                                                    </t>
+                                                </div>
+                                                <!-- <div class="card-body">
+                                                <b class="card-title">
+                                                    <t t-esc="issue.name"/>
+                                                </b>
+                                            </div> -->
+                                                <a t-attf-href="/journal/{{slug(journal)}}/issue/{{issue.id}}" class="stretched-link"></a>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <t t-if="not (len(journal.volumes_ids.ids) > 1)">
+                                    <div class="no-journal">
+                                        <center>
+                                            <h3>Sorry! no other issue available yet ...</h3>
+                                        </center>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="py-4 d-flex flex-row justify-content-end align-items-center">
+                                        <a t-attf-href="/journal/{{slug(journal)}}/archive" class="btn btn-outline-primary">
+                                            <span>Consult Archive for more</span>
+                                            <span class="ml-2 text-primary fa fa-arrow-right"></span>
+                                        </a>
+                                    </div>
+                                </t>
+                            </section>
+                        </div>
+                        <!-- <div class="col-md-3 col-sm-12 col-xs-12 shadow-lg py-3">
+                        <div class="aside-item">
+                            <div class="ai-header">
+                                    for authors
+                            </div>
+                            <div class="ai-content">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="#" class="nav-link">Guide for Authors</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="nav-link">Benefits for Authors</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="nav-link">Article processing charges</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="aside-item">
+                            <div class="ai-header">
+                                    for reviewers
+                            </div>
+                            <div class="ai-content">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="#" class="nav-link">Guide for Reviewers</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="#" class="nav-link">Benefits for Reviewers</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="aside-item">
+                            <div class="ai-header">
+                                    editor in chief
+                            </div>
+                            <div class="ai-content">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a role='button' class="nav-link text-center">
+                                            <strong t-field="journal.editor_in_chief_id"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="aside-item">
+                            <div class="ai-header">
+                                    advertisment
+                            </div>
+                            <div class="ai-content">
+                            </div>
+                        </div>
+                    </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

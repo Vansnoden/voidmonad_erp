@@ -1,0 +1,78 @@
+<odoo>
+
+	<data noupdate="0">
+
+		<record id="reviewer_invitation_email_template" model="mail.template">
+            <field name="name">Invitation for scientific review</field>
+            <field name="model_id" ref="ojm.model_ojm_reviewer_invitation"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.email}}</field>
+            <field name="subject">Invitation for scientific review - Sayans Publishers LLP</field>
+            <field name="body_html" type="html">
+            	<div>
+            		Dear <t t-out="object.name"/>,<br/>
+
+            		In view of your expertise I would be very grateful if you could review the following manuscript which has been submitted to <a t-attf-href="/journal/{{slug(object.article_id.journal_id)}}">
+                    <t t-out="object.article_id.journal_id.name"/></a>.
+                    <br/>
+                    <br/>
+                    Manuscript Number: <t t-out="object.article_id.code"/>
+                    <br/>
+                    <br/>
+            		Title: <span style="font-size:13px"><t t-out="object.article_id.short_title"/></span>
+            		<br/>
+                    <br/>
+
+                    Abstract: <br/>
+                    <t t-out="object.article_id.unformated_abstract"/>
+            		<br/>
+                    <br/>
+
+            		<p>
+            			In case you accept to review this submission please click on this link:
+                        <a t-attf-href="/ojm/reviewer/invite/{{object.id}}/accept">
+                            Accept invitation for review
+                        </a>
+            		</p>
+                    <p>
+                        If you do not have time to do this, or do not feel qualified, please click on this link:
+                        <a t-attf-href="/ojm/reviewer/invite/{{object.id}}/decline">Decline invitation</a>
+                    </p>
+                    <p>
+                        We hope you are willing to review the manuscript. If so, would you be so kind as to return your review to us within 14 days of agreeing to review? Thank you.
+                    </p>
+                    <p>
+                        You are requested to submit your review online by using the Editorial Manager system which can be found <a t-attf-href="/ojm/{{object.article_id.journal_id.id}}/rassignments">here</a>
+                    </p>
+
+                    <p style="font-size:0.75rem">
+                        Regards,
+                        <br/>
+                        <br/>
+                        <t t-if="object.article_id.journal_id.get_editor_in_chief()">
+                            <t t-out="object.article_id.journal_id.get_editor_in_chief().name"/><br/>
+                        </t>
+                        Chief Editor<br/>
+                        <t t-out="object.article_id.journal_id.name"/><br/>
+                        Sayans Publishers LLP  <br/>
+                        00100-Nairobi, Kenya <br/>
+                        BN: 2RCYZLDL<br/>
+                        Contact: sayanspublishers@sayansi.org<br/>
+                        <a href="www.sayansi.org">www.sayansi.org</a>
+                        <!-- Follow us on [Social Media Links] for updates and more<br/> -->
+                    </p>
+
+                    <p style="font-size:11px">
+                        This communication is strictly for the intended recipient and contains confidential information; unauthorized duplication is forbidden. The content may reflect the sender's personal opinions, which do not necessarily align with those of Sayans Publishers, LLP. Consequently, Sayans Publishers cannot be held responsible for any damages resulting from the accuracy of the information provided, unless explicitly stated otherwise. If this message has reached you by mistake, please inform us at once and delete the original message.
+
+                        <br/>
+                        For questions or assistance, contact the IT Helpdesk via email at asalvador@sayansi.org.
+                    </p>
+
+            	</div>
+            </field>
+        </record>
+
+	</data>
+
+</odoo>

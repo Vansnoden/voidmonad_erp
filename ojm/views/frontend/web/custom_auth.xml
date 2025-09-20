@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sayans_login" name="Sayans Sign In" inherit_id='website.login_layout'>
+        <xpath expr="t" position="replace">
+            <t t-call="website.layout">
+
+                <t t-set="html_data" t-value="{'style': 'height: 100%;'}"/>
+                <t t-set="body_classname" t-value="'bg-100 fullbody'"/>
+                <!-- <t t-set="no_header" t-value="True"/> -->
+                <t t-set="no_footer" t-value="True"/>
+
+                <video autoplay="true" muted="true" loop="true" id="myVideo">
+                    <source src="/ojm/static/src/img/bg_login_video.mp4" type="video/mp4"/>
+                </video>
+                
+                <div class="oe_website_login_container" t-out="0"/>
+
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

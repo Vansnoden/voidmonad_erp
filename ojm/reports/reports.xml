@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="submission_review_report" model="ir.actions.report">
+        <field name="name">Submission Review Report</field>
+        <field name="model">ojm.article</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ojm.submission_review_template</field>
+        <field name="report_file">ojm.submission_review_template</field>
+        <!-- <field name="paperformat_id" ref="custom_report_page"/> -->
+        <field name="binding_model_id" ref="ojm.model_ojm_article"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="reviewers_comment_report" model="ir.actions.report">
+        <field name="name">Reviewer Comments Report</field>
+        <field name="model">ojm.article</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ojm.review_comments_template</field>
+        <field name="report_file">ojm.review_comments_template</field>
+        <!-- <field name="paperformat_id" ref="custom_report_page"/> -->
+        <field name="binding_model_id" ref="ojm.model_ojm_article"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

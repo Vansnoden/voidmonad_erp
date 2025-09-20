@@ -1,0 +1,236 @@
+<!-- ojm_reviewer_comments -->
+
+<odoo>
+	<template id="ojm_reviewer_comments" name="Reviewer Comments Page">
+		<t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+            <div class="content-wrapper" style="height:inherit">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Reviewers Comment</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="content">
+					<div class="px-1" t-if="submission.state == 'reviewed'">
+						<div class="mb-3 alert alert-info" role='alert'>
+							<h4 class="alert-heading">From The Editor</h4>
+							<p>
+								<b>Final decision:</b> <span t-field="submission.decision"/><br/>
+							</p>
+							<p t-raw="submission.editorial_decision_rationale"/>
+						</div>
+					</div>
+                	<div class="row">
+                		<div class="col-md-8 col-sm-12">
+                			<t t-foreach="submission.assignments_ids" t-as="rev">
+		                		<div class="card mb-2">
+		                			<div class="card-header">
+		                				By:
+		                				<t t-if="rev.allow_me_to_author">
+		                					<span>rev.reviewer_id.name</span>
+		                				</t>
+		                				<t t-else="">
+		                					Reviewer <t t-esc="rev_index + 1"/>
+		                				</t>
+		                			</div>
+		                			<div class="card-body">
+		                				<span>Decision : <b><t t-esc="rev.decision"/></b></span>
+		                                <br/>
+		                                <span>Changes : <b><t t-esc="rev.comment_severity"/></b></span>
+		                                <br/>
+		                                <div>
+		                                    <b>General comment:</b><br/>
+		                                    <p>
+		                                        <t t-esc="rev.article_id.html_to_text(rev.general_comment)"/>
+		                                    </p>
+		                                </div>
+		                                <div class="marks">
+		                                    <b>Marks:</b>
+		                                    <table class="table  mtablex">
+		                                        <tr>
+		                                            <th>
+		                                                <label>English flow</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.english_flow"/>
+		                                            </td>
+		                                        </tr>
+		                                        <tr>
+		                                            <th>
+		                                                <label>Statistic</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.statistic"/>
+		                                            </td>
+		                                        </tr>
+		                                        <tr>
+		                                            <th>
+		                                                <label>Scientific rigor</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.scientific_rigor"/>
+		                                            </td>
+		                                        </tr>
+		                                        <tr>
+		                                            <th>
+		                                                <label>Impact and relevance</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.impact_relevance"/>
+		                                            </td>
+		                                        </tr>
+		                                        <tr>
+		                                            <th>
+		                                                <label>Structure &amp; content</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.structure_and_content"/>
+		                                            </td>
+		                                        </tr>
+		                                        <tr>
+		                                            <th>
+		                                                <label>References</label>
+		                                            </th>
+		                                            <td>
+		                                                <span t-out="rev.references"/>
+		                                            </td>
+		                                        </tr>
+		                                	</table>
+		                                            	</div>
+		                				<a t-if='rev.reviewed_manuscript' t-attf-href="/web/content/{{rev.reviewed_manuscript.id}}?download=true" class="text-primary">
+		                                    Click to download reviewed manuscript
+		                                </a>
+		                			</div>
+		                			<!-- <div class="card-footer">
+		                			</div> -->
+		                		</div>
+		                	</t>
+                		</div>
+                		<div class="col-md-4 col-sm-12">
+                			<div style="height:80vh; overflow-y:scroll">
+	                			<div>
+	                                <div class="row p-0">
+	                                    <div class="col-md-4 col-sm-12">
+	                                        <h4 class="text-primary">
+	                                            <strong>About marks</strong>
+	                                        </h4>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="p-0">
+	                                <div class="m-auto">
+	                                    <p>
+	                                        <b>English flow</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Clarity and Coherence (0-20): How logically structured and coherent is the narrative?
+	                                            </li>
+	                                            <li>
+	                                                Grammar and Syntax (0-20): Are there grammatical or syntactical errors?
+	                                            </li>
+	                                            <li>
+	                                                Vocabulary and Style (0-30): Is the vocabulary appropriate and the style consistent?
+	                                            </li>
+	                                            <li>
+	                                                Vocabulary and Style (0-30): Is the vocabulary appropriate and the style consistent? 
+	                                            </li>
+	                                            <li>
+	                                                Engagement and Readability (0-30): Is the manuscript engaging and well-paced?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                    <p>
+	                                        <b>Statistic</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Relevance and Appropriateness (0-25): Are the statistical methods suitable for the research question?
+	                                            </li>
+	                                            <li>
+	                                                Accuracy and Precision (0-25): Are the statistical calculations correct and precise?
+	                                            </li>
+	                                            <li>
+	                                                Data Presentation (0-25): Are the data and findings presented clearly and accurately?
+	                                            </li>
+	                                            <li>
+	                                                Interpretation and Discussion (0-25): Are the statistical results interpreted correctly and discussed appropriately?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                    <p>
+	                                        <b>Scientific rigor</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Originality (0-25): Does the manuscript contribute new insights or findings?
+	                                            </li>
+	                                            <li>
+	                                                Methodology (0-25): Is the research design and methodology robust and well-explained?
+	                                            </li>
+	                                            <li>
+	                                                Validity (0-25): Is the study design sound and free from biases?
+	                                            </li>
+	                                            <li>
+	                                                Ethical Considerations (0-25): Are there any ethical issues, and are they addressed?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                    <p>
+	                                        <b>Impact and relevance</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Significance (0-50): What is the potential impact of the findings on the field?
+	                                            </li>
+	                                            <li>
+	                                                Audience (0-50): Is the manuscript of interest to the journal's readership?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                    <p>
+	                                        <b>Structure &amp; content</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Abstract and Keywords (0-20): Are the abstract and keywords effective and accurate?
+	                                            </li>
+	                                            <li>
+	                                                Introduction (0-20): Is the problem statement and study's significance clear?
+	                                            </li>
+	                                            <li>
+	                                                Results (0-30): Are the results presented clearly and supported by data? 
+	                                            </li>
+	                                            <li>
+	                                                Discussion and Conclusion (0-30): Do the discussion and conclusion effectively interpret the results and summarize the findings?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                    <p>
+	                                        <b>References</b><br/>
+	                                        <ul>
+	                                            <li>
+	                                                Accuracy and Currency (0-50): Are the references accurate, relevant, and up-to-date?
+	                                            </li>
+	                                            <li>
+	                                                Comprehensiveness (0-50): Does the reference list comprehensively cover related work?
+	                                            </li>
+	                                        </ul>
+	                                    </p>
+	                                </div>
+	                            </div>
+	                        </div>
+                		</div>
+                	</div>
+                </section>
+            </div>
+        </t>
+	</template>
+</odoo>

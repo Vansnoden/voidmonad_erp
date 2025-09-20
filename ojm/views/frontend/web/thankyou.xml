@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ojm_thankyou" name="Thankyou">
+        <t t-call="website.layout">
+            <div class="container">
+                <img src="/ojm/static/src/img/library/mySayans.svg" class="img-fluid img-responsive"/>
+                <section class="mt-3 text-justify p-4">
+                    <center>
+                        <h1>Congratulations!</h1>
+                    </center>
+                    <p>
+                        Congratulations on successfully completing your manuscript submission
+                        through mySayans! Your contribution is an important step towards advancing
+                        research and knowledge in your field.
+                        Our editorial team will now begin the process of reviewing your submission.
+                        You will receive a confirmation email shortly with a summary of your
+                        submission details, along with the attached PDF document for your records. If
+                        you need to make any updates or have further inquiries, please refer to the
+                        email for instructions or contact our editorial team.
+                        We appreciate your dedication to scholarly work and thank you for choosing
+                        Sayans Publishers Inc. for your manuscript submission. We're excited to
+                        engage with your research and look forward to the possibility of sharing it
+                        with the wider academic community.
+                        If you have any questions or require assistance at any point in the review
+                        process, please feel free to reach out to our team.
+                        Thank you once again, and best wishes on your research journey!
+                    </p>
+                    <div class="mt-2 d-flex flex-row justify-content-center align-items-center">
+                        <a class="btn btn-primary p-2" href="/my">
+                            Continue to mySayans
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+</odoo>

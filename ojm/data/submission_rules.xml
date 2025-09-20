@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="submission_rule_1" model="ojm.submission.rule">
+            <field name="name">Originality</field>
+            <field name="description">The work is original and has not been published elsewhere.</field>
+            <field name="sequence">1</field>
+            <field name="is_published">True</field>
+        </record> 
+
+        <record id="submission_rule_2" model="ojm.submission.rule">
+            <field name="name">Ethical Compliance</field>
+            <field name="description">You have complied with ethical standards and provided necessary disclosures.</field>
+            <field name="sequence">2</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_3" model="ojm.submission.rule">
+            <field name="name">Author Approval</field>
+            <field name="description">All authors have reviewed and approved the manuscript.</field>
+            <field name="sequence">3</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_4" model="ojm.submission.rule">
+            <field name="name">Title</field>
+            <field name="description">The title accurately represents the content of the manuscript.</field>
+            <field name="sequence">4</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_6" model="ojm.submission.rule">
+            <field name="name">Abstract</field>
+            <field name="description">An abstract is provided, summarizing the manuscript's key points.</field>
+            <field name="sequence">6</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_7" model="ojm.submission.rule">
+            <field name="name">Keywords</field>
+            <field name="description">Relevant keywords have been included for indexing purposes.</field>
+            <field name="sequence">7</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_8" model="ojm.submission.rule">
+            <field name="name">Manuscript File</field>
+            <field name="description">The manuscript has been uploaded in DOCX or PDF format.</field>
+            <field name="sequence">8</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_9" model="ojm.submission.rule">
+            <field name="name">Cover Letter</field>
+            <field name="description">A cover letter, if included, provides additional relevant information.</field>
+            <field name="sequence">9</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_10" model="ojm.submission.rule">
+            <field name="name">Ethical Considerations</field>
+            <field name="description">Ethical considerations (human/animal subjects, conflicts of interest, data manipulation) have been indicated if applicable.</field>
+            <field name="sequence">10</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_11" model="ojm.submission.rule">
+            <field name="name">Manuscript Type</field>
+            <field name="description">The appropriate manuscript type has been selected.</field>
+            <field name="sequence">11</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_12" model="ojm.submission.rule">
+            <field name="name">Funding Information</field>
+            <field name="description">Funding sources and grant numbers have been provided if applicable.</field>
+            <field name="sequence">12</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_13" model="ojm.submission.rule">
+            <field name="name">Author Contributions</field>
+            <field name="description">Author contributions have been outlined.</field>
+            <field name="sequence">13</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_14" model="ojm.submission.rule">
+            <field name="name">Data Availability</field>
+            <field name="description">Data availability status has been indicated</field>
+            <field name="sequence">14</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_15" model="ojm.submission.rule">
+            <field name="name">Supporting Documents</field>
+            <field name="description">Supplementary materials, figures, tables, or other relevant files have been attached.</field>
+            <field name="sequence">15</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_16" model="ojm.submission.rule">
+            <field name="name">Reviewers Suggestions</field>
+            <field name="description">Reviewer suggestions have been provided, along with any conflicts of interest.</field>
+            <field name="sequence">16</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="submission_rule_16" model="ojm.submission.rule">
+            <field name="name">Declaration</field>
+            <field name="description">You affirm the accuracy of the provided information and adherence to guidelines.</field>
+            <field name="sequence">16</field>
+            <field name="is_published">True</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

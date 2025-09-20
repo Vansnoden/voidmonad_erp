@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id='journal_item' name='Journal Item'>
+        <div class="col-lg-4 s_col_no_bgcolor pt16 pb16 journal_item">
+            <div class="card bg-white h-100">
+                <!-- <div class="img-ctn">
+                    <t t-if="journal.latest_issue">
+                        <img class="card-img-top" t-attf-src="data:image/*;base64,{{journal.latest_issue.cover}}" alt="cover" />
+                    </t>
+                    <t t-else="">
+                        <t t-if="journal.cover">
+                            <img class="card-img-top" t-attf-src="data:image/*;base64,{{journal.cover}}" alt="cover" />
+                        </t>
+                        <t t-else="">
+                            <img class="card-img-top" src="/web/image/ojm.library_image_1" alt="cover" />
+                        </t>
+                    </t>
+                </div> -->
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <t t-esc="journal.name" />
+                    </h3>
+                    <p class="card-text">
+                        <t t-esc="journal.brief_description" />
+                    </p>
+                </div>
+                <a t-attf-href="/ojm/{{journal.id}}/home" class="stretched-link" />
+            </div>
+        </div>
+    </template>
+
+    <template id="journal_search" name="Journal Search">
+        <div class="container m-auto p-3 rounded">
+            <!-- bg-light border -->
+            <form class="form-inline" method="post" action="#">
+                <input type='hidden' name='csrf_token' t-att-value='request.csrf_token()' />
+                <div class="form-group d-flex align-items-center justify-content-start">
+                    <input type="text" class="mr-3 form-control" name="search_text" 
+                        placeholder="Enter journal name ..." id="search_text" t-att-value='search' />
+                    <button class="ml-2 btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="journal_pagination" name="Journal Pagination">
+        <div t-if="pages" class="container m-auto p-3 rounded d-flex align-items-center justify-content-center py-3">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" t-attf-href="#?search_text={{search}}&amp;page={{previous_page}}" id="previous">
+                        Previous
+                    </a>
+                </li>
+                <t t-if="len(pages) > 10">
+                    <li class="page-item">
+                        <t t-if="pages[0] == active_page">
+                            <a class="page-link bg-primary" t-attf-href="#?search_text={{search}}&amp;page={{pages[0]}}">
+                                <t t-esc="pages[0]" />
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <a class="page-link" t-attf-href="#?search_text={{search}}&amp;page={{pages[0]}}">
+                                <t t-esc="pages[0]" />
+                            </a>
+                        </t>
+                    </li>
+                    <li class="page-item">
+                        ...
+                    </li>
+                    <t t-foreach="pages[1:len(pages) - 2]" t-as="i">
+                        <t t-if="i == active_page">
+                            <li class="page-item">
+                                <a class="page-link bg-primary" t-attf-href="#?search_text={{search}}&amp;page={{i}}">
+                                    <t t-esc="i" />
+                                </a>
+                            </li>
+                        </t>
+                    </t>
+                    <li class="page-item">
+                        ...
+                    </li>
+                    <li class="page-item">
+                        <t t-if="pages[len(pages) - 1] == active_page">
+                            <a class="page-link bg-primary" t-attf-href="#?search_text={{search}}&amp;page={{pages[len(pages) - 1]}}">
+                                <t t-esc="pages[len(pages) - 1]" />
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <a class="page-link" t-attf-href="#?search_text={{search}}&amp;page={{pages[len(pages) - 1]}}">
+                                <t t-esc="pages[len(pages) - 1]" />
+                            </a>
+                        </t>
+                    </li>
+                </t>
+                <t t-else="">
+                    <t t-foreach="pages" t-as="i">
+                        <li class="page-item">
+                            <t t-if="i == active_page">
+                                <a class="page-link bg-primary" t-attf-href="#?search_text={{search}}&amp;page={{i}}">
+                                    <t t-esc="i" />
+                                </a>
+                            </t>
+                            <t t-else="">
+                                <a class="page-link" t-attf-href="#?search_text={{search}}&amp;page={{i}}">
+                                    <t t-esc="i" />
+                                </a>
+                            </t>
+                        </li>
+                    </t>
+                </t>
+                <li class="page-item">
+                    <a class="page-link" t-attf-href="#?search_text={{search}}&amp;page={{next_page}}">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </template>
+
+    <template id="journals" name="Journals">
+        <t t-call="website.layout">
+            <div class=" m-auto p-0 journal_page">
+
+                <section class="banner d-flex flex-column justify-content-between align-items-center py-2 text-white" style="background-image: url(/ojm/static/src/img/library/bgsayans.jpg);background-repeat:no-repeat; min-height:40vh;background-size:cover">
+
+                    <h1 class="mt-4" style="text-align: center; color:#fff!important">
+                        Search for journals in our library
+                    </h1>
+
+                    <div>
+                        <t t-call="ojm.journal_search" />
+                    </div>
+
+                    <div class="banner-footer container row m-auto border">
+                        <div class="col-md-4 col-sm-12 border p-2">
+                            <span class="mr-2">
+                                <t t-esc="journals_count" />
+                            </span>
+                            Journals 
+                        </div>
+                        <div class="col-md-4 col-sm-12 border p-2">
+                            <span class="mr-2">
+                                <t t-esc="total_views"/>
+                            </span> Article views and downloads </div>
+                        <div class="col-md-4 col-sm-12 border p-2">
+                            <span class="mr-2">00</span> Online Books </div>
+                    </div>
+                </section>
+                <section class="pb-4 oe_structure">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md col-sm-12">
+                                <h3 class="mt-3 text-primary text-capitalize m-title">
+                                    Explore Our Subjects
+                                </h3>
+                                <!-- <div class="h-line"/> -->
+                                <div class="row">
+                                    <div class="accordion m-0 col-md-6 col-sm-12" id="accordionJournals">
+                                        <t t-foreach="first_category" t-as="category">
+                                            <div class="card mm-card">
+                                                <div class="card-header" t-att-id="'heading%s'%category.id">
+                                                    <div class="">
+                                                        <button class="btn-journal btn btn-link btn-block 
+                                                            text-left text-white d-flex flex-row justify-content-start 
+                                                            align-items-center" type="button" data-toggle="collapse" 
+                                                            t-att-data-target="'#collapse%s'%category.id" 
+                                                            t-att-aria-expanded="true" 
+                                                            t-att-aria-controls="'collapse%s'%category.id">
+                                                            <b class="plusBtn bg-secondary mr-3" style="font-size:1.1rem">
+                                                                <i class="fa fa-bars"></i>
+                                                            </b>
+                                                            <b>
+                                                                <t t-esc="category.name" />
+                                                            </b>
+                                                            <!-- <b class="plusBtn d-none bg-secondary" style="font-size:1.5rem">+</b> -->
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div t-att-id="'collapse%s'%category.id" class="collapse" 
+                                                    t-att-aria-labelledby="'heading%s'%category.id" 
+                                                    data-parent="#accordionJournals">
+                                                    <div class="card-body" style="margin:0;">
+                                                        <ul class="">
+                                                            <!-- d-flex flex-row flex-wrap justify-content-around align-items-center -->
+                                                            <t t-foreach="category_value" t-as="journal">
+                                                                <li class="">
+                                                                    <!--nav nav-item nav-link bg-secondary rounded -->
+                                                                    <a class="" t-attf-href="/journal/{{slug(journal)}}">
+                                                                        <t t-esc="journal.name" />
+                                                                    </a>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+
+                                        <t t-foreach="merged_data" t-as="category">
+                                            <div class="card mm-card">
+                                                <div class="card-header" t-att-id="'heading%s'%category.id">
+                                                    <div class="">
+                                                        <button class="btn-journal btn btn-link btn-block 
+                                                            text-left text-white d-flex flex-row justify-content-start 
+                                                            align-items-center" type="button" data-toggle="collapse" 
+                                                            t-att-data-target="'#collapse%s'%category.id" 
+                                                            t-att-aria-expanded="true" t-att-aria-controls="'collapse%s'%category.id">
+                                                            <b class="plusBtn bg-secondary mr-3" style="font-size:1.1rem">
+                                                                <i class="fa fa-bars"></i>
+                                                            </b>
+                                                            <b>
+                                                                <t t-esc="category.name" />
+                                                            </b>
+                                                            <!-- <b class="plusBtn d-none bg-secondary" style="font-size:1.5rem">-</b> -->
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div t-att-id="'collapse%s'%category.id" class="collapse" 
+                                                    t-att-aria-labelledby="'heading%s'%category.id" 
+                                                    data-parent="#accordionJournals">
+                                                    <div class="card-body" style="margin:0;">
+                                                        <ul class="">
+                                                            <!-- d-flex flex-row flex-wrap justify-content-around align-items-center -->
+                                                            <t t-foreach="category_value" t-as="journal">
+                                                                <li class="">
+                                                                    <!--nav nav-item nav-link bg-secondary rounded -->
+                                                                    <a class="" t-attf-href="/journal/{{slug(journal)}}">
+                                                                        <t t-esc="journal.name" />
+                                                                    </a>
+                                                                </li>
+                                                            </t>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="accordion m-0 col-md-6 col-sm-12 video-ctn">
+                                        <!-- <video autoplay="true" muted="true" loop="true" id="myVideo2">
+                                            <source src="/ojm/static/src/img/journal_page.mp4" type="video/mp4"/>
+                                        </video> -->
+                                        <!-- TODO: put a placeholder hre for images. -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6 col-sm-12">
+                                <h3 class="mt-3 m-title">
+                                    Most cited Journals
+                                </h3>
+                                <div class="row ml-2 m-0 p-0 mcjournals">
+                                    <t t-foreach="most_cited[:4]" t-as="volume">
+                                        <div class="m-0 p-0 mcjournal">
+                                            <a t-attf-href="/journal/{{volume.journal_id}}">
+                                                <img class="img-fluid" t-attf-src="data:;base64,{{volume.cover}}" />
+                                            </a>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div> -->
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="oe_structure oe-structure"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

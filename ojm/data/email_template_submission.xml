@@ -1,0 +1,88 @@
+<odoo>
+    <data noupdate="0">
+        <record id="submission_completion_email_template" model="mail.template">
+            <field name="name">Submission confirmation</field>
+            <field name="model_id" ref="ojm.model_ojm_article"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.corresponding_author.email}}</field>
+            <field name="subject">Manuscript Submission Confirmation - Sayans Publishers LLP</field>
+            <field name="report_template" ref="ojm.submission_review_report"/>
+            <field name="report_name">Submission summary PDF</field>
+            <field name="body_html" type="html">
+                <div>
+                    <hr/>
+                        <span>Dear</span> 
+                        <t t-out="object.corresponding_author.name"/>
+                        <span>,</span>
+                        <br/>
+                    <hr/>
+                    <p>
+                        Greetings from Sayans Publishers LLP! Your submission has been received.<br/><br/>
+                        Submission Number: <t t-out="object.code"/><br/> 
+                        Title: <t t-out="object.name"/><br/>
+                        Corresponding author(s): <t t-out="object.corresponding_author.name"/><br/>
+                    </p>
+                    
+                    <p>
+                        We are pleased to acknowledge the receipt of your manuscript titled 
+                        "<b><i><t t-out="object.short_title"/></i></b>" submitted through our online platform, mySayans. 
+                        We genuinely appreciate your interest in publishing with us and are 
+                        thrilled to have the opportunity to review your work.
+                    </p>
+                    <p>
+                        Your manuscript has been assigned a unique identification number: 
+                        <b><t t-out="object.code"/></b>. Please refer to this number in all future correspondence 
+                        related to your submission.
+                    </p>
+                    <p>
+                        Here's what happens next:
+                        <ol>
+                            <li>
+                                Initial Assessment: Your manuscript will undergo an initial screening to ensure it meets 
+                                our publishing standards and scope. This process typically takes 2-10 days.
+                            </li>
+                            <li>
+                                Peer Review: If your manuscript passes the initial assessment, it will be sent for peer review.
+                                The review process can take several weeks, depending on the availability of suitable reviewers 
+                                and the level of revision required.
+                            </li>
+                            <li>
+                                Decision and Feedback: Once the review process is complete, we will communicate our decision 
+                                (accept, minor revisions, major revisions, or reject) along with the reviewers' feedback.
+                            </li>
+                        </ol>
+                    </p>
+                    <t t-if="object.journal_id.get_editor_in_chief()">
+                        <p>
+                            We are committed to a fair and constructive review process and aim to support our authors 
+                            throughout. Please feel free to reach out to us at <b><t t-out="object.journal_id.get_editor_in_chief().email"/></b> should you have 
+                            any questions or require further assistance.
+                        </p>
+                    </t>
+                    <p>
+                        Thank you for choosing Sayans Publishers LLP as the platform to share your research and insights. 
+                        We look forward to engaging with your manuscript and will be in touch with updates as we progress 
+                        through the review stages.
+                    </p>
+
+                    <hr style="margin-top:3em"/>
+
+                    <p style="font-size:0.75rem">
+                        Regards,<br/>
+                        <t t-if="object.journal_id.get_editor_in_chief()">
+                            <b><t t-out="object.journal_id.get_editor_in_chief().name"/></b><br/>
+                        </t>
+                        Chief Editor<br/>
+                        <b><t t-out="object.journal_id.name"/></b>  <br/>
+                        Sayans Publishers LLP  <br/>
+                        00100-Nairobi, Kenya <br/>
+                        BN: 2RCYZLDL<br/>
+                        Contact: sayanspublishers@sayansi.org<br/>
+                        <a href="www.sayansi.org">www.sayansi.org</a>
+                        <!-- Follow us on [Social Media Links] for updates and more<br/> -->
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

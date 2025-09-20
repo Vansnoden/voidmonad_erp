@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_author_in" name="OJM Portal Author instruction">
+        <t t-set="ifa_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation'/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0"></h1>
+                            </div><!--
+                            /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="#"></a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Home</li>
+                                </ol>
+                            </div><!--
+                            /.col -->
+                        </div><!--
+                        /.row -->
+                    </div><!--
+                    /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12 col-xs-12 p-3">
+                            <t t-if="journal.inff_author != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                                <section class="pb16 text-justify" id="ifa">
+                                    <h1 data-anchor="true" class="text-primary">Information for authors</h1>
+                                    <t t-raw="journal.inff_author"/>
+                                </section>
+                            </t>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 border-left p-3">
+                            <h3 class="text-primary">Quick links help</h3><br/>
+                            <p class="text-justify">
+                                Sayans requires an ORCID iD for all corresponding authors and encourages 
+                                all users to have one. To register for an ORCID iD and/or link it to 
+                                your Editorial Manager account, click on your name in the upper right-hand 
+                                corner of the navigation bar, and then click on Update My Information from 
+                                the pop-out. Watch our quick video tutorial.
+                            </p>
+
+                            Questions? Email <t t-esc="company.email"/> <br/><br/>
+                            <div>
+                                <h5>New submissions</h5>
+                                <ul>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/criteria-for-publication"> Criteria for publication</a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/submissionguide"> Getting started guide </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/style-and-format"> Style &amp; format guidelines </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/tables-figures-guides"> Figure guidelines </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a href="#"> Table guidelines </a>
+                                    </li> -->
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/review-process"> Overview of the peer review process </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a href="#"> Editorial and publishing policies </a>
+                                    </li> -->
+                                    <li>
+                                        <a class="text-primary" href="https://sayansi.org/preprint-policy">  Preprints </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                </section>
+                <!-- /.content -->
+
+                <div id="modals-section">
+                    <div>
+                        <div class="modal fade" id="modal-default">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Default Modal</h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="fas fa-close"></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>One fine body&amp;hellip;</p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.content-wrapper -->
+            <t t-call='ojm.portal_footer'/>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+        </t>
+    </template>
+
+</odoo>

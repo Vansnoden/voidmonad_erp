@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <template id="sayans_header" name="saysans_header" inherit_id="website.navbar_nav">
+        <xpath expr="//ul[@id='top_menu']" position="">
+            <li class="nav-item"> 
+                <a class="btn btn-primary" href="#">
+                    test
+                </a>
+            </li>
+        </xpath>
+    </template> -->
+
+    <template id="custom_call_to_action" name="call to action custom" inherit_id="website.header_call_to_action">
+        <xpath expr="//a[hasclass('btn_cta')]" position="replace">
+            <!-- <a href="/journals" class="btn btn-primary btn_cta">Submit manuscript</a> -->
+        </xpath>
+    </template>
+
+</odoo>

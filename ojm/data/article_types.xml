@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="article_type_1" model="ojm.article.type">
+            <field name="name">Research Article</field>
+            <field name="description">Research articles present original and significant research findings in a specific field.
+            They typically include sections such as Introduction, Methods, Results, and Discussion, and contribute to
+            the advancement of knowledge in the given area.</field>
+            <field name="sequence">1</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_2" model="ojm.article.type">
+            <field name="name">Review Article</field>
+            <field name="description">Review articles provide a comprehensive overview of existing research literature on a
+            specific topic. They summarize, analyze, and synthesize information from multiple sources to present a
+            balanced and thorough understanding of the subject.</field>
+            <field name="sequence">2</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_3" model="ojm.article.type">
+            <field name="name">Case Study</field>
+            <field name="description">Case studies offer an in-depth analysis of a particular instance, situation, or event. 
+            They often explore real-world scenarios, providing insights, lessons learned, and implications for a broader context.</field>
+            <field name="sequence">3</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_4" model="ojm.article.type">
+            <field name="name">Opinion Pieces</field>
+            <field name="description">Opinion pieces allow authors to express their viewpoints, perspectives, or 
+            insights on a particular topic. While they may be based on personal experiences or observations, 
+            they should still be well-argued and informed.</field>
+            <field name="sequence">4</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_5" model="ojm.article.type">
+            <field name="name">Letter to the Editor</field>
+            <field name="description">Letters to the Editor are brief communications that comment on, critique, or discuss
+            content previously published in the journal. They provide an opportunity for scholarly discourse and
+            reader engagement</field>
+            <field name="sequence">5</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_6" model="ojm.article.type">
+            <field name="name">Collection Review &amp; Overview</field>
+            <field name="description">This type involves reviewing and providing an overview of a collection of
+            research articles or works related to a specific theme or subject advertised by the journal you are
+            submitting your manuscript to. Please do not select this option unless you have been instructed to do so
+            by the journal.</field>
+            <field name="sequence">6</field>
+            <field name="is_published">True</field>
+        </record>
+
+        <record id="article_type_7" model="ojm.article.type">
+            <field name="name">Others</field>
+            <field name="description">If your manuscript does not fit into the predefined categories, please select this option.
+            However, ensure that you provide a clear description of the article type in the relevant fields. Select the most 
+            suitable option that aligns with your manuscript's content. Make sure your submission follows the guidelines 
+            outlined for the chosen article type. Should you have any inquiries or require further clarification, 
+            please consult our guidelines or reach out to our editorial team for assistance.</field>
+            <field name="sequence">7</field>
+            <field name="is_published">True</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="reviewer_invitations" name="OJM Reviewer invitations">
+        <t t-set="rev_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <section class="content">
+                    <div class="container-fluid">
+                        invitations
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

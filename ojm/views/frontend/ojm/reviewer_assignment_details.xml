@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="reviewer_assignment_details" name="OJM Reviewer assignment details">
+        <t t-set="rev_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation'/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <section class="content">
+                    <div class="col-md-12">
+                        <div class="card container p-0">
+                            <div class="card-header py-0">
+                                <div class="row p-0 d-flex flex-row justify-content-between align-items-center">
+                                    <div class="p-3 col-md-4 col-sm-12">
+                                        <a class="text-primary" t-attf-href="/ojm/{{journal.id}}/rassignments"><span
+                                                class="fa fa-chevron-left mr-2"/>back to assignments
+                                        </a>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center"
+                                         style="gap:1em">
+                                        <a role="button" class="btn btn-primary others-reviewer-toggler"
+                                           href="#others-reviews">
+                                            View collaborators reviews
+                                        </a>
+                                        <a role="button" class="btn btn-primary"
+                                           data-toggle="modal" data-target="#modal-review-sub">
+                                            Submit Review
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="row m-auto py-3">
+                                    <div class="table-responsive">
+                                        <table class="table preview_table">
+                                            <tr>
+                                                <th>
+                                                    <label>Journal</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="journal.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label>Journal Section</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="submission.section_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label>Article type</label>
+                                                </th>
+                                                <td>
+                                                    <t t-esc="submission.type_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <h5 class="text-primary">
+                                            <strong>Manuscript data</strong>
+                                        </h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table  preview_table">
+                                                <tr>
+                                                    <th>
+                                                        <label>Title</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Abstract</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.abstract"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Keywords</label>
+                                                    </th>
+                                                    <td>
+                                                        <t t-foreach="submission.keyword_ids" t-as="keyword">
+                                                            <t t-esc="keyword.name"/>,
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <label>Highlights</label>
+                                                    </th>
+                                                    <td>
+                                                        <span t-raw="submission.highlights"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <h5 class="text-primary">
+                                                <strong>Authors</strong>
+                                            </h5>
+
+                                            <div class="table-responsive">
+                                                <table class="table  preview_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Email</th>
+                                                            <th>Title</th>
+                                                            <th>First name</th>
+                                                            <th>Middle name</th>
+                                                            <th>Last name</th>
+                                                            <th>Affiliations</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="submission.author_ids" t-as="author">
+                                                            <tr>
+                                                                <td>
+                                                                    <t t-esc="author.email"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="author.title"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.fname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.mname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-esc="author.lname"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-raw="author.get_affiliation_summary(submission.id)"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Corresponding author</label>
+                                                            </th>
+                                                            <td colspan="4">
+                                                                <span t-esc="submission.corresponding_author.name"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <h5 class="text-primary">
+                                            <strong>Documents</strong>
+                                        </h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table  preview_table" id="file_table">
+                                                <tr>
+                                                    <th>
+                                                        <label>Main File (click on the link to download)</label>
+                                                    </th>
+                                                    <td colspan="4">
+                                                        <t t-if="submission.file_id">
+                                                            <a target="_blank"
+                                                               t-attf-href="/web/content/{{submission.file_id.id}}?download=true"
+                                                               t-attf-id="fd_{{submission.file_id.id}}">
+                                                                <span t-field="submission.file_id"/>
+                                                            </a>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <strong>
+                                                                ???
+                                                            </strong>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <!-- t-if="not assignment.decision" -->
+                                <a role="button" class="btn btn-primary mr-3 others-reviewer-toggler"
+                                   href="#others-reviews">
+                                    View collaborators reviews
+                                </a>
+                                <a role="button" class="btn btn-primary mr-3"
+                                   data-toggle="modal" data-target="#modal-review-sub">
+                                    Submit Review
+                                </a>
+                            </div>
+
+                        </div>
+                        <div id="others-reviews" class="d-none mt-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex flex-row justify-content-end align-items-center">
+                                        <span class="fa fa-close" id="others-reviews-close"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12">
+                                    <t t-foreach="submission.assignments_ids" t-as="rev">
+                                        <div class="card mb-2">
+                                            <div class="card-header">
+                                                By:
+                                                <t t-if="rev.allow_me_to_author">
+                                                    <span>rev.reviewer_id.name</span>
+                                                </t>
+                                                <t t-else="">
+                                                    Reviewer
+                                                    <t t-esc="rev_index + 1"/>
+                                                </t>
+                                            </div>
+                                            <div class="card-body">
+                                                <span>Decision :
+                                                    <b>
+                                                        <t t-esc="rev.decision"/>
+                                                    </b>
+                                                </span>
+                                                <br/>
+                                                <span>Changes :
+                                                    <b>
+                                                        <t t-esc="rev.comment_severity"/>
+                                                    </b>
+                                                </span>
+                                                <br/>
+                                                <div>
+                                                    <b>General comment:</b>
+                                                    <br/>
+                                                    <p>
+                                                        <t t-esc="rev.article_id.html_to_text(rev.general_comment)"/>
+                                                    </p>
+                                                </div>
+                                                <div class="marks">
+                                                    <b>Marks:</b>
+                                                    <table class="table  mtablex">
+                                                        <tr>
+                                                            <th>
+                                                                <label>English flow</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.english_flow"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Statistic</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.statistic"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Scientific rigor</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.scientific_rigor"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Impact and relevance</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.impact_relevance"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <label>Structure &amp; content</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.structure_and_content"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>
+                                                                <label>References</label>
+                                                            </th>
+                                                            <td>
+                                                                <span t-out="rev.references"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <a t-if='rev.reviewed_manuscript'
+                                                   t-attf-href="/web/content/{{rev.reviewed_manuscript.id}}?download=true"
+                                                   class="text-primary">
+                                                    Click to download reviewed manuscript
+                                                </a>
+                                            </div>
+                                            <!-- <div class="card-footer">
+                                            </div> -->
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div>
+                    <!-- modals -->
+                    <div class="modal fade" id="modal-review-sub">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content container">
+                                <form t-attf-action="/ojm/{{journal.id}}/review/asg/{{assignment.id}}" method="post"
+                                      enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" id="journal_id" name="journal_id" t-att-value="journal.id"/>
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Review submission</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true" class="fa fa-close"></span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="rufile">Reviewed Document</label>
+                                            <input class="form-control" type="file" name="rufile" id="rufile"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="allow_author">
+                                                Allow author to see my name
+                                                <input type="checkbox" name="allow_me_to_author" id="allow_author"/>
+                                            </label>
+                                        </div>
+
+                                        <div>
+                                            <h5>Marks</h5>
+                                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="english-flow">
+                                                            English flow (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Clarity and Coherence (0-20): How logically
+                                                                            structured and coherent is the narrative?
+                                                                        </li>
+                                                                        <li>
+                                                                            Grammar and Syntax (0-20): Are there
+                                                                            grammatical or syntactical errors?
+                                                                        </li>
+                                                                        <li>
+                                                                            Vocabulary and Style (0-30): Is the
+                                                                            vocabulary appropriate and the style
+                                                                            consistent?
+                                                                        </li>
+                                                                        <li>
+                                                                            Vocabulary and Style (0-30): Is the
+                                                                            vocabulary appropriate and the style
+                                                                            consistent?
+                                                                        </li>
+                                                                        <li>
+                                                                            Engagement and Readability (0-30): Is the
+                                                                            manuscript engaging and well-paced?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" name="english_flow" type="number"
+                                                               min="0" max="100"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="english-flow">
+                                                            Statistics (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Relevance and Appropriateness (0-25): Are
+                                                                            the statistical methods suitable for the
+                                                                            research question?
+                                                                        </li>
+                                                                        <li>
+                                                                            Accuracy and Precision (0-25): Are the
+                                                                            statistical calculations correct and
+                                                                            precise?
+                                                                        </li>
+                                                                        <li>
+                                                                            Data Presentation (0-25): Are the data and
+                                                                            findings presented clearly and accurately?
+                                                                        </li>
+                                                                        <li>
+                                                                            Interpretation and Discussion (0-25): Are
+                                                                            the statistical results interpreted
+                                                                            correctly and discussed appropriately?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" type="number" name="statistics"
+                                                               min="0" max="100"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="scientific_rigor">
+                                                            Scientific rigor and novelty (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Originality (0-25): Does the manuscript
+                                                                            contribute new insights or findings?
+                                                                        </li>
+                                                                        <li>
+                                                                            Methodology (0-25): Is the research design
+                                                                            and methodology robust and well-explained?
+                                                                        </li>
+                                                                        <li>
+                                                                            Validity (0-25): Is the study design sound
+                                                                            and free from biases?
+                                                                        </li>
+                                                                        <li>
+                                                                            Ethical Considerations (0-25): Are there any
+                                                                            ethical issues, and are they addressed?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" type="number"
+                                                               name="scientific_rigor" min="0" max="100"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label for="impact_relevance">
+                                                            Impact and relevance (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Significance (0-50): What is the potential
+                                                                            impact of the findings on the field?
+                                                                        </li>
+                                                                        <li>
+                                                                            Audience (0-50): Is the manuscript of
+                                                                            interest to the journal's readership?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" type="number"
+                                                               name="impact_relevance" min="0" max="100"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="structure_and_content">
+                                                            Structure and content (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Abstract and Keywords (0-20): Are the
+                                                                            abstract and keywords effective and
+                                                                            accurate?
+                                                                        </li>
+                                                                        <li>
+                                                                            Introduction (0-20): Is the problem
+                                                                            statement and study's significance clear?
+                                                                        </li>
+                                                                        <li>
+                                                                            Results (0-30): Are the results presented
+                                                                            clearly and supported by data?
+                                                                        </li>
+                                                                        <li>
+                                                                            Discussion and Conclusion (0-30): Do the
+                                                                            discussion and conclusion effectively
+                                                                            interpret the results and summarize the
+                                                                            findings?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" type="number"
+                                                               name="structure_and_content" min="0" max="100"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="references">
+                                                            References (0-100)
+                                                            <span class="mpopup">&#128712;
+                                                                <div class="mpopuptext large">
+                                                                    <ul>
+                                                                        <li>
+                                                                            Accuracy and Currency (0-50): Are the
+                                                                            references accurate, relevant, and
+                                                                            up-to-date?
+                                                                        </li>
+                                                                        <li>
+                                                                            Comprehensiveness (0-50): Does the reference
+                                                                            list comprehensively cover related work?
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input class="form-control" type="number" name="references"
+                                                               min="0" max="100"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="rcomment">Comment</label>
+                                            <textarea id="rcomment" name="rcomment" class="" rows="3" cols="5"
+                                                      required="true">
+
+                                            </textarea>
+                                        </div>
+
+                                        <div class="d-flex flex-row justify-content-between align-items-center">
+                                            <div class="form-group col-6">
+                                                <label style="text-transform:none">Comment Severity</label>
+                                                <select class="form-control" name="comment_severity" required="true">
+                                                    <option selected="selected">--</option>
+                                                    <option value="minor">Minor</option>
+                                                    <option value="major">Major</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <label style="text-transform:none">Final Decision</label>
+                                                <select class="form-control" name="decision" required="true">
+                                                    <option selected="selected">--</option>
+                                                    <option value="reject">Reject</option>
+                                                    <option value="accept">Accept</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="reset" class="btn btn-danger mr-3" data-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                        <button class="btn btn-primary" type="submit" id="submit_review">
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <iframe name="frame" id="hidden_frame"></iframe>
+        </t>
+    </template>
+</odoo>

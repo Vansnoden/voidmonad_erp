@@ -1,0 +1,64 @@
+<odoo>
+    <data noupdate="0">
+        <record id="remind_reviewer_email_template" model="mail.template">
+            <field name="name">Email: Remind Reviewer</field>
+            <field name="model_id" ref="ojm.model_ojm_reviewer_assignment"/>
+            <field name="email_from"></field>
+            <field name="email_to">{{object.reviewer_email}}</field>
+            <field name="subject">Sayans Gentle Reminder: Review Invitation for Manuscript {{object.article_id.code}}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>
+                        Dear <t t-out="object.reviewer_id.name"/>,
+                    </p>
+
+                    <p>
+                        We hope this email finds you well. We are writing to gently remind you about
+                        the pending review of the manuscript titled "<t t-out="object.article_id.short_title"/>"
+                        for <t t-out="object.article_id.journal_id.name"/>.
+                        Thank you once again for accepting our invitation to review this submission.
+                    </p>
+                    <p>
+                        As you know, your expertise is invaluable to ensuring the quality
+                        and credibility of the peer review process. Your insights and feedback are eagerly
+                        anticipated by both the authors and the editorial team.
+                    </p>
+                    <p>
+                        If you have already begun the review process, we sincerely appreciate your efforts
+                        and encourage you to submit your feedback at your earliest convenience. If you have
+                        not yet had the opportunity to commence the review, we kindly ask you to prioritize
+                        it in your schedule.
+                    </p>
+                    <p>
+                        We understand the demands on your time and are grateful for your commitment
+                        to advancing scholarly discourse in our field. Your thorough and thoughtful
+                        evaluation will significantly contribute to the enhancement of the manuscript
+                        and the overall quality of our publication.
+                    </p>
+                    <p>
+                        If you foresee any challenges or delays in completing the review by the agreed-upon deadline,
+                        please do not hesitate to inform us as soon as possible. We are more than willing to accommodate
+                        reasonable extensions to ensure a comprehensive and fair assessment.
+                    </p>
+                    <p>
+                        Thank you once again for your dedication to scholarly peer review. Your continued support
+                        is instrumental in maintaining the high standards of excellence associated with
+                        <t t-out="object.article_id.journal_id.name"/>.
+                    </p>
+
+                    <hr style="margin-top:3em"/>
+
+                    <p style="font-size:0.75rem">
+                        Warm regards,<br/>
+                        <b><t t-out="object.article_id.journal_id.name"/></b>  <br/>
+                        Sayans Publishers LLP  <br/>
+                        00100-Nairobi, Kenya <br/>
+                        BN: 2RCYZLDL<br/>
+                        Contact: sayanspublishers@sayansi.org<br/>
+                        <a href="www.sayansi.org">www.sayansi.org</a>
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

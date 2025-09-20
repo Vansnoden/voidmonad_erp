@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="reviewer_assignments" name="OJM Reviewer assignments">
+        <t t-set="rev_active" t-value="1"/>
+        <t t-call="ojm.ojm_base">
+            <t t-call='ojm.navigation' />
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" style="height:inherit">
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Pending assignments</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Decision</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach='assignments' t-as='assignment'>
+                                            <tr>
+                                                <td>
+                                                    <t t-esc='assignment.invitation_id.article_id.short_title'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field='assignment.decision'/>
+                                                </td>
+                                                
+                                                <td>
+                                                    <a t-attf-href='/ojm/{{journal.id}}/rassignments/{{assignment.id}}' class="btn btn-primary mr-3">
+                                                        <span class="fa fa-external-link"></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

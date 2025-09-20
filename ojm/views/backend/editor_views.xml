@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="ojm_editor_view_form" model="ir.ui.view">
+        <field name="name">ojm.editor.view.form</field>
+        <field name="model">ojm.editor</field>
+        <field name="arch" type="xml">
+            <form string="Editor">
+            	<header>
+                    <button string="Create Account" 
+                        name="action_create_user" 
+                        type="object" 
+                        attrs = "{'invisible':[('user_id', '!=', False)]}"
+                        class="oe_highlight"/>
+                </header>
+
+            	<sheet>
+            		<group>
+	            		<group>
+	            			<field name="name"/>
+	            			<field name="email"/>
+	            			<field name="user_id"/> <!--readonly="1" removed for integration purposes on the online version-->
+	            			<field name="sequence"/>
+	            		</group>
+	            		<group>
+	            			<field name="image" widget="image" height="100" width="100"/>
+                            <field name="orcid"/>
+                            <field name="orcid_link"/>
+	            		</group>
+	            	</group>
+            		<notebook>
+            			<page name="affiliations" string="Affiliations">
+            				<field name="affiliation_ids"/>
+            			</page>
+                        <page name="bio" string="Biography">
+                            <field name="bio"/>
+                        </page>
+            		</notebook>
+            	</sheet>
+            </form>
+        </field>
+    </record>    
+
+    <record id="ojm_editor_view_tree" model="ir.ui.view">
+        <field name="name">ojm.editor.view.tree</field>
+        <field name="model">ojm.editor</field>
+        <field name="arch" type="xml">
+            <tree string="Editor" default_order="name asc">
+                <field name="name"></field>
+                <field name="email"></field>
+                <field name="orcid"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ojm_editor_action" model="ir.actions.act_window">
+        <field name="name">Editors</field>
+        <field name="res_model">ojm.editor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>
